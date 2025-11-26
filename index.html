@@ -1,0 +1,710 @@
+<!DOCTYPE html>
+<html lang="fr" class="scroll-smooth">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rase Yassor Abdallah | Technicien spécialisé en énergies</title>
+    <meta name="description"
+        content="Portfolio de Rase Yassor Abdallah - Technicien d'études photovoltaïques & Dessinateur projeteur. Disponible pour missions freelance et outsourcing.">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+
+    <!-- Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Tailwind Config for Custom Colors -->
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Plus Jakarta Sans', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            50: '#fffbeb',
+                            100: '#fef3c7',
+                            400: '#fbbf24', // Solar Gold
+                            500: '#f59e0b',
+                            900: '#1e1b4b', // Deep Navy
+                        },
+                        dark: {
+                            bg: '#0f172a',
+                            card: '#1e293b',
+                            border: '#334155'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Custom Utilities */
+        .glass-panel {
+            background: rgba(30, 41, 59, 0.7);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .grid-bg {
+            background-color: #0f172a;
+            background-image: linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+            background-size: 30px 30px;
+        }
+
+        .blob {
+            position: absolute;
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, rgba(245, 158, 11, 0.15) 0%, rgba(0, 0, 0, 0) 70%);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 0;
+        }
+    </style>
+</head>
+
+<body class="bg-dark-bg text-slate-300 font-sans selection:bg-brand-500 selection:text-white">
+
+    <!-- Background Effect -->
+    <div class="fixed inset-0 grid-bg -z-10"></div>
+    <div class="fixed top-0 right-0 blob transform translate-x-1/2 -translate-y-1/2"></div>
+    <div class="fixed bottom-0 left-0 blob transform -translate-x-1/2 translate-y-1/2"></div>
+
+    <!-- Navigation -->
+    <nav class="fixed top-0 w-full z-50 border-b border-dark-border glass-panel">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16 items-center">
+                <div class="flex items-center gap-2">
+                    <div
+                        class="w-8 h-8 rounded-lg bg-brand-500 flex items-center justify-center text-white font-bold text-sm">
+                        RY</div>
+                    <span class="font-semibold text-white tracking-tight">R. Yassor</span>
+                </div>
+
+                <div class="hidden md:flex items-center space-x-8 text-sm font-medium">
+                    <a href="#services" class="hover:text-brand-400 transition-colors">Services</a>
+                    <a href="#stack" class="hover:text-brand-400 transition-colors">Stack</a>
+                    <a href="#projects" class="hover:text-brand-400 transition-colors">Projets</a>
+                    <a href="#experience" class="hover:text-brand-400 transition-colors">Parcours</a>
+                </div>
+
+                <a href="#contact"
+                    class="hidden md:flex items-center gap-2 px-4 py-2 bg-brand-500 hover:bg-brand-400 text-white text-sm font-medium rounded-full transition-all shadow-lg shadow-brand-500/20">
+                    <i data-lucide="calendar-check" class="w-4 h-4"></i>
+                    <span>Me recruter</span>
+                </a>
+
+                <!-- Mobile menu button -->
+                <button onclick="toggleMobileMenu()" class="md:hidden p-2 text-slate-400 hover:text-white">
+                    <i data-lucide="menu" class="w-6 h-6"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Mobile Menu Panel -->
+        <div id="mobile-menu"
+            class="hidden md:hidden border-t border-dark-border bg-dark-bg/95 backdrop-blur-xl absolute w-full left-0">
+            <div class="px-4 py-4 space-y-3">
+                <a href="#services" class="block text-slate-300 hover:text-white py-2"
+                    onclick="toggleMobileMenu()">Services</a>
+                <a href="#stack" class="block text-slate-300 hover:text-white py-2" onclick="toggleMobileMenu()">Stack
+                    Technique</a>
+                <a href="#projects" class="block text-slate-300 hover:text-white py-2"
+                    onclick="toggleMobileMenu()">Projets</a>
+                <a href="#experience" class="block text-slate-300 hover:text-white py-2"
+                    onclick="toggleMobileMenu()">Parcours</a>
+                <a href="#contact" class="block text-brand-400 font-medium py-2" onclick="toggleMobileMenu()">Me
+                    contacter</a>
+            </div>
+        </div>
+    </nav>
+
+    <main class="pt-24 pb-12">
+        <!-- Hero Section -->
+        <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-20 lg:py-24">
+            <div class="grid lg:grid-cols-2 gap-12 items-center">
+                <div class="space-y-8">
+                    <div
+                        class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand-500/10 border border-brand-500/20 text-brand-400 text-xs font-semibold uppercase tracking-wider">
+                        <span class="w-2 h-2 rounded-full bg-brand-500 animate-pulse"></span>
+                        Disponible pour missions Freelance & Remote
+                    </div>
+
+                    <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold text-white leading-tight">
+                        Bureau d'Étude Solaire & Energie <span
+                            class="text-transparent bg-clip-text bg-gradient-to-r from-brand-400 to-brand-500">Externalisé</span>
+                    </h1>
+
+                    <p class="text-lg text-slate-400 max-w-xl leading-relaxed">
+                        Je transforme vos contraintes techniques en dossiers d'exécution complets. De la simulation
+                        PVSyst, d'un aperçu 3D sur SketchUp, aux plans AutoCAD, j'offre un support d'ingénierie flexible pour bureaux d'études et
+                        installateurs.
+                    </p>
+
+                    <div class="flex flex-col sm:flex-row gap-4">
+                        <a href="#contact"
+                            class="flex items-center justify-center gap-2 px-6 py-3 bg-brand-500 hover:bg-brand-400 text-white rounded-lg font-medium transition-all hover:scale-105 shadow-lg shadow-brand-500/25">
+                            <i data-lucide="rocket" class="w-5 h-5"></i>
+                            Démarrer une mission
+                        </a>
+                        <a href="#projects"
+                            class="flex items-center justify-center gap-2 px-6 py-3 bg-dark-card border border-dark-border hover:border-brand-500/50 text-white rounded-lg font-medium transition-all">
+                            Voir mes livrables
+                            <i data-lucide="arrow-down" class="w-4 h-4"></i>
+                        </a>
+                    </div>
+
+                    <div class="pt-8 border-t border-dark-border flex items-center gap-8 text-sm text-slate-400">
+                        <div class="flex items-center gap-2">
+                            <i data-lucide="check-circle-2" class="w-5 h-5 text-brand-500"></i>
+                            <span>Master en cours</span>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <i data-lucide="check-circle-2" class="w-5 h-5 text-brand-500"></i>
+                            <span>Bilingue FR/EN</span>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <i data-lucide="check-circle-2" class="w-5 h-5 text-brand-500"></i>
+                            <span>Data-Driven</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="relative hidden lg:block">
+                    <div class="absolute inset-0 bg-brand-500/20 blur-3xl rounded-full"></div>
+                    <div class="relative glass-panel rounded-2xl p-6 border border-dark-border shadow-2xl">
+                        <!-- Code Snippet Mockup -->
+                        <div class="flex items-center gap-2 mb-4">
+                            <div class="w-3 h-3 rounded-full bg-red-500"></div>
+                            <div class="w-3 h-3 rounded-full bg-yellow-500"></div>
+                            <div class="w-3 h-3 rounded-full bg-green-500"></div>
+                            <div class="ml-2 text-xs text-slate-500 font-mono">analysis.py</div>
+                        </div>
+                        <pre class="font-mono text-sm text-slate-300 overflow-x-auto">
+<span class="text-purple-400">import</span> pandas <span class="text-purple-400">as</span> pd
+<span class="text-purple-400">import</span> numpy <span class="text-purple-400">as</span> np
+
+<span class="text-slate-500"># Calcul rapide d'autoconsommation PV</span>
+<span class="text-blue-400">def</span> <span class="text-yellow-400">self_consumption</span>(csv_load, pv):
+    df = pd.read_csv(csv_load)
+    sc = np.minimum(df[<span class="text-green-400">'load'</span>], pv)
+    ratio = <span class="text-orange-400">100</span> * sc.sum() / pv.sum()
+    <span class="text-purple-400">return</span> <span class="text-green-400">f"Autoconsommation: {ratio:.1f}%"</span>
+
+<span class="text-slate-500"># Output: Autoconsommation: 82.7%</span>
+
+                    </div>
+
+                    <!-- Floating Badge -->
+                    <div
+                        class="absolute -bottom-6 -right-6 bg-dark-card border border-dark-border p-4 rounded-xl shadow-xl flex items-center gap-3">
+                        <div class="bg-green-500/20 p-2 rounded-lg text-green-500">
+                            <i data-lucide="zap" class="w-6 h-6"></i>
+                        </div>
+                        <div>
+                            <div class="text-xs text-slate-400">Productible calculé</div>
+                            <div class="text-lg font-bold text-white">1,450 kWh/kWp</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Services Section -->
+        <section id="services" class="py-20 relative">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center mb-16">
+                    <h2 class="text-3xl font-bold text-white mb-4">Expertise Technique</h2>
+                    <p class="text-slate-400 max-w-2xl mx-auto">Je propose trois piliers de services adaptés aux besoins
+                        des bureaux d'études et développeurs de projets solaires.</p>
+                </div>
+
+                <div class="grid md:grid-cols-3 gap-8">
+                    <!-- Service 1 -->
+                    <div
+                        class="group p-6 rounded-2xl bg-dark-card border border-dark-border hover:border-brand-500/50 transition-all hover:-translate-y-1">
+                        <div
+                            class="w-12 h-12 bg-brand-500/10 rounded-lg flex items-center justify-center text-brand-500 mb-6 group-hover:bg-brand-500 group-hover:text-white transition-colors">
+                            <i data-lucide="sun" class="w-6 h-6"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-white mb-3">Ingénierie PV</h3>
+                        <p class="text-slate-400 text-sm leading-relaxed mb-4">
+                            Dimensionnement complet de systèmes (On-grid, Off-grid, Hybride). Simulation de productible
+                            P50/P90, calcul de performance ratio (PR) et choix des équipements.
+                        </p>
+                        <ul class="space-y-2 text-sm text-slate-300">
+                            <li class="flex items-center gap-2"><i data-lucide="check"
+                                    class="w-4 h-4 text-brand-500"></i> Rapports PVSyst</li>
+                            <li class="flex items-center gap-2"><i data-lucide="check"
+                                    class="w-4 h-4 text-brand-500"></i> Notes de calcul</li>
+                        </ul>
+                    </div>
+
+                    <!-- Service 2 -->
+                    <div
+                        class="group p-6 rounded-2xl bg-dark-card border border-dark-border hover:border-brand-500/50 transition-all hover:-translate-y-1">
+                        <div
+                            class="w-12 h-12 bg-blue-500/10 rounded-lg flex items-center justify-center text-blue-500 mb-6 group-hover:bg-blue-500 group-hover:text-white transition-colors">
+                            <i data-lucide="pen-tool" class="w-6 h-6"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-white mb-3">Bureau de Dessin</h3>
+                        <p class="text-slate-400 text-sm leading-relaxed mb-4">
+                            Production de plans techniques 2D et maquettes 3D. Schémas unifilaires conformes aux normes,
+                            plans d'implantation et études d'ombrage détaillées.
+                        </p>
+                        <ul class="space-y-2 text-sm text-slate-300">
+                            <li class="flex items-center gap-2"><i data-lucide="check"
+                                    class="w-4 h-4 text-blue-500"></i> Plans AutoCAD / Revit</li>
+                            <li class="flex items-center gap-2"><i data-lucide="check"
+                                    class="w-4 h-4 text-blue-500"></i> Rendus SketchUp</li>
+                        </ul>
+                    </div>
+
+                    <!-- Service 3 -->
+                    <div
+                        class="group p-6 rounded-2xl bg-dark-card border border-dark-border hover:border-brand-500/50 transition-all hover:-translate-y-1">
+                        <div
+                            class="w-12 h-12 bg-purple-500/10 rounded-lg flex items-center justify-center text-purple-500 mb-6 group-hover:bg-purple-500 group-hover:text-white transition-colors">
+                            <i data-lucide="bar-chart-3" class="w-6 h-6"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-white mb-3">Data Analysis</h3>
+                        <p class="text-slate-400 text-sm leading-relaxed mb-4">
+                            Traitement de données de consommation (Logs SCADA/PEL/Enedis). Nettoyage de données brutes et
+                            détection d'anomalies via scripts Python pour affiner les dimensionnements.
+                        </p>
+                        <ul class="space-y-2 text-sm text-slate-300">
+                            <li class="flex items-center gap-2"><i data-lucide="check"
+                                    class="w-4 h-4 text-purple-500"></i> Audit Python/Pandas</li>
+                            <li class="flex items-center gap-2"><i data-lucide="check"
+                                    class="w-4 h-4 text-purple-500"></i> Optimisation conso</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Tech Stack Section -->
+        <section id="stack" class="py-12 border-y border-dark-border bg-dark-card/30">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex flex-col md:flex-row items-center gap-8">
+                    <div class="md:w-1/3">
+                        <h3 class="text-2xl font-bold text-white mb-2">Stack Logicielle</h3>
+                        <p class="text-slate-400 text-sm">Maîtrise des standards de l'industrie pour une intégration
+                            fluide dans vos processus.</p>
+                    </div>
+                    <div class="md:w-2/3 grid grid-cols-2 md:grid-cols-4 gap-4 w-full">
+                        <div
+                            class="flex flex-col items-center justify-center p-4 rounded-xl bg-dark-bg border border-dark-border">
+                            <span class="font-bold text-white">PVSyst</span>
+                            <span class="text-xs text-slate-500 mt-1">Expertise V7 & V8</span>
+                        </div>
+                        <div
+                            class="flex flex-col items-center justify-center p-4 rounded-xl bg-dark-bg border border-dark-border">
+                            <span class="font-bold text-white">AutoCAD</span>
+                            <span class="text-xs text-slate-500 mt-1">2D & 3D Drafting</span>
+                        </div>
+                        <div
+                            class="flex flex-col items-center justify-center p-4 rounded-xl bg-dark-bg border border-dark-border">
+                            <span class="font-bold text-white">SketchUp</span>
+                            <span class="text-xs text-slate-500 mt-1">Modélisation 3D</span>
+                        </div>
+                        <div
+                            class="flex flex-col items-center justify-center p-4 rounded-xl bg-dark-bg border border-dark-border">
+                            <span class="font-bold text-white">Python & RStudio</span>
+                            <span class="text-xs text-slate-500 mt-1">Pandas/Jupyter/R</span>
+                        </div>
+                        <div class="flex flex-col items-center justify-center p-4 rounded-xl bg-dark-bg border border-dark-border">
+                            <span class="font-bold text-white">Rapid SCADA</span>
+                            <span class="text-xs text-slate-500 mt-1">Automatisation</span>
+                        </div>
+                        <div class="flex flex-col items-center justify-center p-4 rounded-xl bg-dark-bg border border-dark-border">
+                            <span class="font-bold text-white">OpenMaint</span>
+                            <span class="text-xs text-slate-500 mt-1">GMAO</span>
+                        </div>
+                        <div class="flex flex-col items-center justify-center p-4 rounded-xl bg-dark-bg border border-dark-border">
+                            <span class="font-bold text-white">MatLab</span>
+                            <span class="text-xs text-slate-500 mt-1">Simulink/Algorithms</span>
+                        </div>
+                        <div class="flex flex-col items-center justify-center p-4 rounded-xl bg-dark-bg border border-dark-border">
+                            <span class="font-bold text-white">QElectroTech</span>
+                            <span class="text-xs text-slate-500 mt-1">Schéma Electrique</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Projects / Case Studies -->
+        <section id="projects" class="py-20">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex flex-col md:flex-row justify-between items-end mb-12 gap-4">
+                    <div>
+                        <h2 class="text-3xl font-bold text-white mb-2">Projets Récents</h2>
+                        <p class="text-slate-400">Sélection de missions techniques réalisées.</p>
+                    </div>
+                    <a href="#contact"
+                        class="text-brand-400 hover:text-brand-300 text-sm font-medium flex items-center gap-1">
+                        Discuter d'un projet similaire <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                    </a>
+                </div>
+
+                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <!-- Project 1 -->
+                    <article
+                        class="bg-dark-card rounded-xl overflow-hidden border border-dark-border hover:shadow-xl transition-all group">
+                        <div class="h-48 bg-slate-800 relative overflow-hidden">
+                            <div
+                                class="absolute inset-0 bg-gradient-to-t from-dark-card to-transparent opacity-60 z-10">
+                            </div>
+                            <!-- Placeholder for project image -->
+                            <div
+                                class="w-full h-full bg-[url('./image/V1.png')] bg-cover bg-center group-hover:scale-105 transition-transform duration-500">
+                            </div>
+                            <div
+                                class="absolute top-4 left-4 z-20 bg-dark-bg/80 backdrop-blur px-3 py-1 rounded-full text-xs font-medium text-white border border-white/10">
+                                Off-grid</div>
+                        </div>
+                        <div class="p-6">
+                            <h3 class="text-lg font-bold text-white mb-2 group-hover:text-brand-400 transition-colors">
+                                Villa Autonome Isolée 67.5kWc</h3>
+                            <p class="text-slate-400 text-sm mb-4 line-clamp-2">Dimensionnement d'un système 100%
+                                autonome avec 2 jours d'autonomie batteries lithium.</p>
+                            <div class="flex flex-wrap gap-2 mb-4">
+                                <span
+                                    class="px-2 py-1 bg-dark-bg rounded text-xs text-slate-300 border border-dark-border">PVSyst</span>
+                                <span
+                                    class="px-2 py-1 bg-dark-bg rounded text-xs text-slate-300 border border-dark-border">Excel</span>
+                                <span 
+                                    class="px-2 py-1 bg-dark-bg rounded text-xs text-slate-300 border border-dark-border">SketchUp</span>
+                            </div>
+                            <div
+                                class="pt-4 border-t border-dark-border flex items-center justify-between text-xs text-slate-500">
+                                <span>Livrable: Note de calcul & Aperçu 3D</span>
+                                <i data-lucide="file-check" class="w-4 h-4"></i>
+                            </div>
+                        </div>
+                    </article>
+
+                    <!-- Project 2 -->
+                    <article
+                        class="bg-dark-card rounded-xl overflow-hidden border border-dark-border hover:shadow-xl transition-all group">
+                        <div class="h-48 bg-slate-800 relative overflow-hidden">
+                            <div
+                                class="absolute inset-0 bg-gradient-to-t from-dark-card to-transparent opacity-60 z-10">
+                            </div>
+                            <div
+                                class="w-full h-full bg-[url('./image/COP.png')] bg-cover bg-center group-hover:scale-105 transition-transform duration-500">
+                            </div>
+                            <div
+                                class="absolute top-4 left-4 z-20 bg-dark-bg/80 backdrop-blur px-3 py-1 rounded-full text-xs font-medium text-white border border-white/10">
+                                Design 3D</div>
+                        </div>
+                        <div class="p-6">
+                            <h3 class="text-lg font-bold text-white mb-2 group-hover:text-brand-400 transition-colors">
+                                Usine agro-industrielle 471.25kWc</h3>
+                            <p class="text-slate-400 text-sm mb-4 line-clamp-2">Étude d'intégration et
+                                simulation d'ombrages portés pour une installation en autoconsommation.</p>
+                            <div class="flex flex-wrap gap-2 mb-4">
+                                <span
+                                    class="px-2 py-1 bg-dark-bg rounded text-xs text-slate-300 border border-dark-border">PVSyst</span>
+                                <span
+                                    class="px-2 py-1 bg-dark-bg rounded text-xs text-slate-300 border border-dark-border">SketchUp</span>
+                                <span 
+                                    class="px-2 py-1 bg-dark-bg rounded text-xs text-slate-300 border border-dark-border">QElectroTech</span>
+                            </div>
+                            <div
+                                class="pt-4 border-t border-dark-border flex items-center justify-between text-xs text-slate-500">
+                                <span>Livrable: Note de calcul & Rendu 3D & <br> Schéma de câblage</span>
+                                <i data-lucide="image" class="w-4 h-4"></i>
+                            </div>
+                        </div>
+                    </article>
+
+                    <!-- Project 3 -->
+                    <article
+                        class="bg-dark-card rounded-xl overflow-hidden border border-dark-border hover:shadow-xl transition-all group">
+                        <div class="h-48 bg-slate-800 relative overflow-hidden">
+                            <div
+                                class="absolute inset-0 bg-gradient-to-t from-dark-card to-transparent opacity-60 z-10">
+                            </div>
+                            <div
+                                class="w-full h-full bg-[url('./image/audit.png')] bg-cover bg-center group-hover:scale-105 transition-transform duration-500">
+                            </div>
+                            <div
+                                class="absolute top-4 left-4 z-20 bg-dark-bg/80 backdrop-blur px-3 py-1 rounded-full text-xs font-medium text-white border border-white/10">
+                                Data Audit</div>
+                        </div>
+                        <div class="p-6">
+                            <h3 class="text-lg font-bold text-white mb-2 group-hover:text-brand-400 transition-colors">
+                                Audit de Profil Industriel</h3>
+                            <p class="text-slate-400 text-sm mb-4 line-clamp-2">Extraction des donnée PEL et triage  pour dimensionnement précis de l'autoconsommation.</p>
+                            <div class="flex flex-wrap gap-2 mb-4">
+                                <span
+                                    class="px-2 py-1 bg-dark-bg rounded text-xs text-slate-300 border border-dark-border">Python</span>
+                                <span
+                                    class="px-2 py-1 bg-dark-bg rounded text-xs text-slate-300 border border-dark-border">Pandas</span>
+                            </div>
+                            <div
+                                class="pt-4 border-t border-dark-border flex items-center justify-between text-xs text-slate-500">
+                                <span>Livrable: Rapport d'audit</span>
+                                <i data-lucide="bar-chart" class="w-4 h-4"></i>
+                            </div>
+                        </div>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <!-- Experience & Education -->
+        <section id="experience" class="py-20 bg-dark-card/30 border-y border-dark-border">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="grid md:grid-cols-2 gap-16">
+
+                    <!-- Experience -->
+                    <div>
+                        <h2 class="text-2xl font-bold text-white mb-8 flex items-center gap-3">
+                            <i data-lucide="briefcase" class="text-brand-500"></i> Expérience
+                        </h2>
+                        <div class="space-y-8 border-l border-dark-border pl-8 relative">
+                    
+                            <div class="relative">
+                                <div class="absolute -left-[39px] w-5 h-5 rounded-full bg-dark-bg border-2 border-slate-600">
+                                </div>
+                                <div class="text-sm text-slate-500 font-mono mb-1">FÉV 2025 - MAI 2025</div>
+                                <h3 class="text-lg font-bold text-white">Technicien d'Installation</h3>
+                                <div class="text-slate-400 text-sm mb-2">GDH Immobilier</div>
+                                <p class="text-slate-400 text-sm leading-relaxed">
+                                    Conception et mise en œuvre chantier, raccordement DC/AC et commissioning.
+                                </p>
+                            </div>
+                    
+                            <div class="relative">
+                                <div class="absolute -left-[39px] w-5 h-5 rounded-full bg-dark-bg border-2 border-slate-600">
+                                </div>
+                                <div class="text-sm text-slate-400 font-mono mb-1">MAI 2024 - JAN 2025</div>
+                                <h3 class="text-lg font-bold text-white">Technicien d'Études PV</h3>
+                                <div class="text-slate-400 text-sm mb-2">SQVISION • Diego Suarez</div>
+                                <p class="text-slate-400 text-sm leading-relaxed">
+                                    Dimensionnement et mise en service de systèmes ENR. Support technique à distance,
+                                    calibration d'équipements et monitoring de performance.
+                                </p>
+                            </div>
+                    
+                            <div class="relative">
+                                <div class="absolute -left-[39px] w-5 h-5 rounded-full bg-dark-bg border-2 border-slate-600">
+                                </div>
+                                <div class="text-sm text-slate-500 font-mono mb-1">SEP 2023 - NOV 2023 (Stage de fin d'études)</div>
+                                <h3 class="text-lg font-bold text-white">Technicien en Ingénierie des Systèmes d’Énergie</h3>
+                                <div class="text-slate-400 text-sm mb-2">ANKA Madagascar • Antsiranana</div>
+                                <p class="text-slate-400 text-sm leading-relaxed">
+                                    Déploiement d'un système SCADA et documentation technique.
+                                </p>
+                            </div>
+                    
+                            <div class="relative">
+                                <div class="absolute -left-[39px] w-5 h-5 rounded-full bg-dark-bg border-2 border-slate-600">
+                                </div>
+                                <div class="text-sm text-slate-500 font-mono mb-1">AOÛ 2022 - NOV 2022 (Stage de fin d'études)</div>
+                                <h3 class="text-lg font-bold text-white">Opérateur Journalier</h3>
+                                <div class="text-slate-400 text-sm mb-2">Enelec • Antsiranana</div>
+                                <p class="text-slate-400 text-sm leading-relaxed">
+                                    Diagnostic et maintenance d’alternateurs. <br>
+                                    Supervision des systèmes de production d’énergie électrique.
+                                </p>
+                            </div>
+                    
+                            <div class="relative">
+                                <div class="absolute -left-[39px] w-5 h-5 rounded-full bg-dark-bg border-2 border-slate-600">
+                                </div>
+                                <div class="text-sm text-slate-500 font-mono mb-1">JUIN 2021 - JUI 2021 (Stage d'ouvrier)</div>
+                                <h3 class="text-lg font-bold text-white">Opérateur Journalier</h3>
+                                <div class="text-slate-400 text-sm mb-2">Enelec • Antsiranana</div>
+                                <p class="text-slate-400 text-sm leading-relaxed">
+                                    Maintenance des équipements mécaniques. <br>
+                                    Contrôles et suivi de performance des équipements de production d’énergie.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Education -->
+                    <div>
+                        <h2 class="text-2xl font-bold text-white mb-8 flex items-center gap-3">
+                            <i data-lucide="graduation-cap" class="text-brand-500"></i> Formation
+                        </h2>
+                        <div class="space-y-6">
+                            <div class="bg-dark-card p-5 rounded-xl border border-dark-border hover:border-brand-500/30 transition-colors">
+                                <div class="flex justify-between items-start mb-2">
+                                    <h3 class="text-white font-bold">Master Spécialité Energétique</h3>
+                                    <span class="text-xs bg-brand-500/10 text-brand-500 px-2 py-1 rounded">En
+                                        cours</span>
+                                </div>
+                                <div class="text-slate-400 text-sm">CNAM Paris (Formation à distance)</div>
+                                <div class="text-xs text-slate-500 mt-2">Août 2025 - Aujourd'hui</div>
+                            </div>
+                    
+                            <div class="bg-dark-card p-5 rounded-xl border border-dark-border hover:border-brand-500/30 transition-colors">
+                                <div class="flex justify-between items-start mb-2">
+                                    <h3 class="text-white font-bold">DTSS Systèmes Énergies Renouvelables et Alternatives</h3>
+                                    <span class="text-xs bg-green-500/10 text-green-500 px-2 py-1 rounded">Validé</span>
+                                </div>
+                                <div class="text-slate-400 text-sm">Institut Supérieur de Technologie d'Antsiranana</div>
+                                <div class="text-xs text-slate-500 mt-2">Janvier 2023 - Décembre 2023</div>
+                            </div>
+                    
+                            <div class="bg-dark-card p-5 rounded-xl border border-dark-border hover:border-brand-500/30 transition-colors">
+                                <div class="flex justify-between items-start mb-2">
+                                    <h3 class="text-white font-bold">Licence Finance et Comptabilité</h3>
+                                    <span class="text-xs bg-green-500/10 text-green-500 px-2 py-1 rounded">Validé</span>
+                                </div>
+                                <div class="text-slate-400 text-sm">Université E-Media Madagascar</div>
+                                <div class="text-xs text-slate-500 mt-2">Avril 2021 - Novembre 2023</div>
+                            </div>
+                    
+                            <div class="bg-dark-card p-5 rounded-xl border border-dark-border opacity-75">
+                                <div class="flex justify-between items-start mb-2">
+                                    <h3 class="text-white font-bold">DTS Maintenance en Équipement Électromécanique</h3>
+                                    <span class="text-xs bg-green-500/10 text-green-500 px-2 py-1 rounded">Validé</span>
+                                </div>
+                                <div class="text-slate-400 text-sm">Institut Supérieur de Technologie d'Antsiranana</div>
+                                <div class="text-xs text-slate-500 mt-2">Février 2020 - Décembre 2022</div>
+                            </div>
+                    
+                            <div class="bg-dark-card p-5 rounded-xl border border-dark-border opacity-75">
+                                <div class="flex justify-between items-start mb-2">
+                                    <h3 class="text-white font-bold">Atelier de Formation | Initiation à l’IoT (Internet of Things)</h3>
+                                    <span class="text-xs bg-green-500/10 text-green-500 px-2 py-1 rounded">Validé</span>
+                                </div>
+                                <div class="text-slate-400 text-sm">Internet Society Madagascar Chapter</div>
+                                <div class="text-xs text-slate-500 mt-2">Mai 2023</div>
+                            </div>
+                        </div>
+                    </div>
+
+                        <div class="md:col-start-2 mt-6">
+                            <div class="bg-dark-card p-5 rounded-xl border border-dark-border hover:border-brand-500/30 transition-colors">
+                                <div class="flex items-center gap-4">
+                                    <div class="bg-brand-500/20 p-3 rounded-full text-brand-500">
+                                        <i data-lucide="download" class="w-6 h-6"></i>
+                                    </div>
+                                    <div>
+                                        <h4 class="text-white font-bold">CV Complet (PDF)</h4>
+                                        <p class="text-xs text-slate-400 mb-2">Détails académiques et expériences passées.</p>
+                                        <a href="./MyCV/CV_R.Yassor_Abdallah.pdf" target="_blank" rel="noopener noreferrer" class="text-brand-400 text-sm font-medium hover:text-white transition-colors">Télécharger le
+                                            document →</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <section id="legal" class="py-20">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <h2 class="text-2xl font-bold text-white mb-8 flex items-center justify-center gap-3">
+                    <i data-lucide="scale" class="text-brand-500"></i> Informations Légales
+                </h2>
+                <div class="bg-dark-card p-6 rounded-xl border border-dark-border">
+                    <h4 class="text-white font-bold mb-3" style="text-align: center;">Rase Yassor Abdallah - Entreprise Individuel</h4>
+                    <p class="text-slate-400 text-sm mb-4" style="text-align: center;">
+                        Entreprise individuelle enregistrée depuis Janvier 2024, proposant des services d'ingénierie et d'études
+                        énergétiques.
+                    </p>
+                    <dl class="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-2 text-sm" style="text-align: center;">
+                        <div>
+                            <dt class="text-slate-500">NIF (Numéro d'Identification Fiscale) :</dt>
+                            <dd class="text-white font-mono">4018405733</dd>
+                        </div>
+                        <div>
+                            <dt class="text-slate-500">Numéro Statistique :</dt>
+                            <dd class="text-white font-mono">71102 71 2024 0 00073</dd>
+                        </div>
+                    </dl>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- CTA / Contact -->
+        <section id="contact" class="py-20">
+            <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+                <h2 class="text-3xl md:text-4xl font-bold text-white mb-6">Prêt à collaborer ?</h2>
+                <p class="text-slate-400 text-lg mb-10">
+                    Basé à Madagascar, je propose des tarifs compétitifs avec une qualité d'ingénierie aux standards
+                    internationaux.
+                </p>
+
+                <div class="grid md:grid-cols-2 gap-6 max-w-2xl mx-auto">
+                    <a href="mailto:ryassor6@gmail.com"
+                        class="group flex flex-col items-center justify-center p-8 bg-dark-card rounded-2xl border border-dark-border hover:border-brand-500 hover:bg-dark-card/80 transition-all">
+                        <div
+                            class="w-12 h-12 bg-slate-800 rounded-full flex items-center justify-center text-white mb-4 group-hover:scale-110 transition-transform">
+                            <i data-lucide="mail" class="w-6 h-6"></i>
+                        </div>
+                        <span class="text-slate-400 text-sm mb-1">Email</span>
+                        <span class="text-white font-semibold text-lg">ryassor6@gmail.com</span>
+                    </a>
+
+                    <a href="https://wa.me/261328449638" target="_blank"
+                        class="group flex flex-col items-center justify-center p-8 bg-dark-card rounded-2xl border border-dark-border hover:border-green-500 hover:bg-dark-card/80 transition-all">
+                        <div
+                            class="w-12 h-12 bg-slate-800 rounded-full flex items-center justify-center text-white mb-4 group-hover:scale-110 transition-transform">
+                            <i data-lucide="message-circle" class="w-6 h-6"></i>
+                        </div>
+                        <span class="text-slate-400 text-sm mb-1">WhatsApp / Direct</span>
+                        <span class="text-white font-semibold text-lg">+261 32 84 496 38</span>
+                    </a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="border-t border-dark-border py-8 bg-dark-bg">
+        <div class="max-w-7xl mx-auto px-4 text-center">
+            <p class="text-slate-500 text-sm">
+                &copy; 2025 Rase Yassor Abdallah. Tous droits réservés. <br>
+                <span class="text-xs opacity-60">Design par R.Yassor Abdallah.</span>
+            </p>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script>
+        // Initialize Lucide Icons
+        lucide.createIcons();
+
+        // Mobile Menu Toggle
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobile-menu');
+            menu.classList.toggle('hidden');
+        }
+
+        // Smooth Scroll for Anchors
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+    </script>
+</body>
+
+</html>
