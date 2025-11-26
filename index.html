@@ -645,28 +645,84 @@
             <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
                 <h2 class="text-3xl md:text-4xl font-bold text-white mb-6">Prêt à collaborer ?</h2>
                 <p class="text-slate-400 text-lg mb-10">
-                    Basé à Madagascar, je propose des tarifs compétitifs avec une qualité d'ingénierie aux standards
-                    internationaux.
+                    Décrivez-moi votre projet en quelques lignes. Je vous recontacterai sous 24h avec une première estimation.
                 </p>
-
-                <div class="grid md:grid-cols-2 gap-6 max-w-2xl mx-auto">
+        
+                <div
+                    class="bg-dark-card p-8 md:p-10 rounded-2xl border border-dark-border shadow-2xl mx-auto max-w-2xl text-left">
+                    <form action="https://formspree.io/f/mdkvrqey" method="POST" class="space-y-6">
+        
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                                <label for="name" class="block text-sm font-medium text-slate-300 mb-2">Nom & Prénom *</label>
+                                <input type="text" id="name" name="name" required
+                                    class="w-full p-3 rounded-lg bg-dark-bg border border-dark-border focus:border-brand-500 focus:ring-brand-500 text-white placeholder-slate-500">
+                            </div>
+                            <div>
+                                <label for="email" class="block text-sm font-medium text-slate-300 mb-2">Email
+                                    Professionnel *</label>
+                                <input type="email" id="email" name="email" required
+                                    class="w-full p-3 rounded-lg bg-dark-bg border border-dark-border focus:border-brand-500 focus:ring-brand-500 text-white placeholder-slate-500">
+                            </div>
+                        </div>
+        
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                                <label for="company" class="block text-sm font-medium text-slate-300 mb-2">Nom de
+                                    l'Entreprise</label>
+                                <input type="text" id="company" name="company"
+                                    class="w-full p-3 rounded-lg bg-dark-bg border border-dark-border focus:border-brand-500 focus:ring-brand-500 text-white placeholder-slate-500">
+                            </div>
+                            <div>
+                                <label for="service_type" class="block text-sm font-medium text-slate-300 mb-2">Type de Service
+                                    Requis *</label>
+                                <select id="service_type" name="service_type" required
+                                    class="w-full p-3 rounded-lg bg-dark-bg border border-dark-border focus:border-brand-500 focus:ring-brand-500 text-white appearance-none">
+                                    <option value="" disabled selected>Sélectionner une option</option>
+                                    <option value="Ingénierie PV">Ingénierie PV (Dimensionnement, PVSyst)</option>
+                                    <option value="Dessin Technique">Plans & Dessins Techniques (AutoCAD, 3D)</option>
+                                    <option value="Analyse de Données">Analyse de Données / Audit</option>
+                                    <option value="Support Long Terme">Support Technique / Outsourcing (long terme)</option>
+                                    <option value="Autre">Autre demande</option>
+                                </select>
+                            </div>
+                        </div>
+        
+                        <div>
+                            <label for="message" class="block text-sm font-medium text-slate-300 mb-2">Décrivez votre mission /
+                                projet *</label>
+                            <textarea id="message" name="message" rows="5" required
+                                class="w-full p-3 rounded-lg bg-dark-bg border border-dark-border focus:border-brand-500 focus:ring-brand-500 text-white placeholder-slate-500"></textarea>
+                        </div>
+        
+                        <div class="text-center pt-4">
+                            <button type="submit"
+                                class="flex items-center justify-center gap-2 px-6 py-3 bg-brand-500 hover:bg-brand-400 text-white rounded-lg font-medium transition-all hover:scale-[1.02] w-full">
+                                <i data-lucide="send" class="w-5 h-5"></i>
+                                Envoyer ma demande
+                            </button>
+                            <p class="text-xs text-slate-500 mt-2">* Champs obligatoires</p>
+                        </div>
+                    </form>
+                </div>
+                <div class="grid md:grid-cols-2 gap-6 max-w-2xl mx-auto mt-10">
                     <a href="mailto:ryassor6@gmail.com"
                         class="group flex flex-col items-center justify-center p-8 bg-dark-card rounded-2xl border border-dark-border hover:border-brand-500 hover:bg-dark-card/80 transition-all">
                         <div
                             class="w-12 h-12 bg-slate-800 rounded-full flex items-center justify-center text-white mb-4 group-hover:scale-110 transition-transform">
                             <i data-lucide="mail" class="w-6 h-6"></i>
                         </div>
-                        <span class="text-slate-400 text-sm mb-1">Email</span>
+                        <span class="text-slate-400 text-sm mb-1">Contact direct</span>
                         <span class="text-white font-semibold text-lg">ryassor6@gmail.com</span>
                     </a>
-
+        
                     <a href="https://wa.me/261328449638" target="_blank"
                         class="group flex flex-col items-center justify-center p-8 bg-dark-card rounded-2xl border border-dark-border hover:border-green-500 hover:bg-dark-card/80 transition-all">
                         <div
                             class="w-12 h-12 bg-slate-800 rounded-full flex items-center justify-center text-white mb-4 group-hover:scale-110 transition-transform">
                             <i data-lucide="message-circle" class="w-6 h-6"></i>
                         </div>
-                        <span class="text-slate-400 text-sm mb-1">WhatsApp / Direct</span>
+                        <span class="text-slate-400 text-sm mb-1">Urgence / Discussion rapide</span>
                         <span class="text-white font-semibold text-lg">+261 32 84 496 38</span>
                     </a>
                 </div>
