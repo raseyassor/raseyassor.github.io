@@ -35,16 +35,48 @@
             "@type": "Organization",
             "name": "Rase Yassor Abdallah - Bureau d'étude",
             "url": "https://raseyassor.github.io/bureau-d-tude/",
-            "logo": "https://raseyassor.github.io/bureau-d-tude/image/audit.png",
+            "logo": "https://raseyassor.github.io/image/audit.png",
             "sameAs": []
         }
         </script>
 
         <!-- Fonts -->
-    <link rel="stylesheet" href="fonts.css">
-    
-    <!-- Tailwindcss -->
-    <link rel="stylesheet" href="tailwind.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+
+    <!-- Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Tailwind Config for Custom Colors -->
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Plus Jakarta Sans', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            50: '#fffbeb',
+                            100: '#fef3c7',
+                            400: '#fbbf24', // Solar Gold
+                            500: '#f59e0b',
+                            900: '#1e1b4b', // Deep Navy
+                        },
+                        dark: {
+                            bg: '#0f172a',
+                            card: '#1e293b',
+                            border: '#334155'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
 
     <style>
         /* Custom Utilities */
@@ -740,14 +772,25 @@
     </footer>
 
     <!-- Scripts -->
-    <!-- LOCAL LUCIDE -->
-    <script src="lucide.min.js"></script>
     <script>
+        // Initialize Lucide Icons
         lucide.createIcons();
 
+        // Mobile Menu Toggle
         function toggleMobileMenu() {
-            document.getElementById("mobile-menu").classList.toggle("hidden");
+            const menu = document.getElementById('mobile-menu');
+            menu.classList.toggle('hidden');
         }
+
+        // Smooth Scroll for Anchors
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
     </script>
 </body>
 
