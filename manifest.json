@@ -1,0 +1,21 @@
+{
+  "name": "Yassor Abdallah — Ingénierie Électrique, Énergie Solaire",
+  "short_name": "Yassor Abdallah",
+  "description": "Ingénieur spécialisé en systèmes photovoltaïques, énergies renouvelables, dessin technique CAO.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#0071E3",
+  "icons": [
+    {
+      "src": "favicon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    }
+  ]
+}
