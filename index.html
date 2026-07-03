@@ -1,476 +1,750 @@
 <!DOCTYPE html>
-<html lang="fr" class="scroll-smooth" data-theme="light">
-
+<html lang="fr" data-theme="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Yassor Abdallah — Ingénierie Électrique, Énergie Solaire & Solutions Web</title>
-    <meta name="description" content="Ingénieur spécialisé en systèmes photovoltaïques, énergies renouvelables, dessin technique CAO et développement web. Services d'ingénierie et solutions digitales à Madagascar.">
-    <meta name="keywords" content="ingénierie solaire, système photovoltaïque, énergies renouvelables, dessin technique CAO, développement web, web application, Madagascar">
+    <title>Yassor Abdallah — Ingénieur Solaire PV, Électromécanique & Solutions Web</title>
+    <meta name="description" content="Ingénieur indépendant à Antsiranana, Madagascar. Dimensionnement et installation de systèmes photovoltaïques, SCADA, maintenance électromécanique et applications web sur mesure. Devis gratuit.">
     <meta name="author" content="Yassor Abdallah">
-    <meta name="theme-color" content="#0071E3">
     <meta name="robots" content="index, follow">
-    
-    <!-- Canonical URL -->
-    <link rel="canonical" href="https://raseyassor.github.io//">
-    
-    <!-- Open Graph / Facebook -->
+    <link rel="canonical" href="https://raseyassor.github.io/">
     <meta property="og:type" content="website">
-    <meta property="og:url" content="https://raseyassor.github.io//">
-    <meta property="og:title" content="Yassor Abdallah — Ingénierie Électrique">
-    <meta property="og:description" content="Services d'ingénierie en énergies renouvelables, systèmes solaires et développement web. Expertise en CAO technique et gestion de projets.">
-    <meta property="og:site_name" content="Yassor Abdallah - Ingénierie">
-    <meta property="og:locale" content="fr_FR">
-    
-    <!-- Twitter Card -->
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:url" content="https://raseyassor.github.io/">
-    <meta name="twitter:title" content="Yassor Abdallah — Ingénierie Électrique">
-    <meta name="twitter:description" content="Ingénieur en systèmes photovoltaïques, CAO technique.">
-    
-    <!-- Favicon -->
-    <link rel="icon" href="favicon.svg" type="image/svg+xml">
-    <link rel="icon" href="favicon.ico" type="image/x-icon" sizes="any">
-    <link rel="apple-touch-icon" href="favicon-192.png">
+    <meta property="og:title" content="Yassor Abdallah — Ingénieur Solaire PV & Solutions Techniques">
+    <meta property="og:description" content="Dimensionnement solaire, installations électriques, SCADA et solutions web pour particuliers et entreprises à Madagascar.">
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
     <link rel="manifest" href="manifest.json">
-    
-    <!-- Schema.org Structured Data -->
     <script type="application/ld+json">
-    {
-        "@context": "https://schema.org",
-        "@type": "Person",
-        "name": "Yassor Abdallah",
-        "url": "https://raseyassor.github.io/",
-        "jobTitle": "Ingénieur Électrique",
-        "email": "ryassor6@gmail.com",
-        "description": "Spécialiste en systèmes photovoltaïques, énergies renouvelables",
-        "sameAs": [],
-    }
+    {"@context":"https://schema.org","@type":"Person","name":"Yassor Abdallah","url":"https://raseyassor.github.io/","jobTitle":"Ingénieur en Énergie & Électromécanique","email":"ryassor6@gmail.com","address":{"@type":"PostalAddress","addressLocality":"Antsiranana","addressCountry":"MG"}}
     </script>
-    
-    <link
-        href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=IBM+Plex+Mono:ital,wght@0,300;0,400;0,500;1,400&display=swap"
-        rel="stylesheet">
-    
-    <script src="https://unpkg.com/@dotlottie/player-component@latest/dist/dotlottie-player.mjs" type="module"></script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 
     <style>
+        /* ── TOKENS ── */
         :root {
-            --bg: #FFFFFF;
-            --bg2: #F5F5F7;
-            --bg3: #EBEBF0;
-            --text: #1D1D1F;
-            --text-heading: #1D1D1F;
-            --muted: #424245;
-            --accent: #0071E3;
-            --accent-light: #0077ED;
-            --border: rgba(0, 113, 227, 0.12);
+            --bg:        #0A0A0F;
+            --bg2:       #111118;
+            --bg3:       #18181F;
+            --sol:       #FF6B2B;   /* orange solaire */
+            --elec:      #3B82F6;   /* bleu électrique */
+            --grad:      linear-gradient(135deg, #FF6B2B 0%, #C84BFF 50%, #3B82F6 100%);
+            --grad-text: linear-gradient(90deg, #FF6B2B, #C84BFF, #3B82F6);
+            --txt:       #F0F0F5;
+            --txt2:      #9090A8;
+            --border:    rgba(255,255,255,0.08);
+            --border2:   rgba(255,255,255,0.14);
+            --mono:      'JetBrains Mono', monospace;
+            --sans:      'Space Grotesk', sans-serif;
+            --body:      'Inter', sans-serif;
         }
 
-        [data-theme="dark"] {
-            --bg: #0A0A0A;
-            --bg2: #1A1A1A;
-            --bg3: #242424;
-            --text: #F5F5F7;
-            --text-heading: #F5F5F7;
-            --muted: #A1A1A6;
-            --accent: #0A84FF;
-            --accent-light: #32B4FF;
-            --border: rgba(10, 132, 255, 0.2);
-        }
-
-        *,
-        *::before,
-        *::after {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-
-        html {
-            scroll-behavior: smooth;
-        }
-
+        /* ── RESET ── */
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        html { scroll-behavior: smooth; font-size: 16px; }
         body {
             background: var(--bg);
-            color: var(--text);
-            font-family: 'IBM Plex Mono', monospace;
-            font-weight: 400;
-            font-size: 15px;
-            line-height: 1.8;
+            color: var(--txt);
+            font-family: var(--body);
+            line-height: 1.6;
             overflow-x: hidden;
-            transition: background-color 0.4s ease, color 0.4s ease;
         }
 
-        /* Texture subtile */
-        body::before {
-            content: '';
-            position: fixed;
-            inset: 0;
-            background-image:
-                url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
-            pointer-events: none;
-            z-index: 0;
-            opacity: 0.8;
-        }
+        /* ── SCROLLBAR ── */
+        ::-webkit-scrollbar { width: 4px; }
+        ::-webkit-scrollbar-track { background: var(--bg); }
+        ::-webkit-scrollbar-thumb { background: var(--sol); border-radius: 2px; }
 
+        /* ── NAV ── */
         nav {
             position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
+            top: 0; left: 0; right: 0;
             z-index: 100;
-            padding: 1.2rem 3rem;
             display: flex;
+            align-items: center;
             justify-content: space-between;
-            align-items: center;
-            background: var(--bg);
-            backdrop-filter: blur(10px);
-            background-color: color-mix(in srgb, var(--bg) 90%, transparent);
+            padding: 0 3rem;
+            height: 64px;
+            background: rgba(10,10,15,0.85);
+            backdrop-filter: blur(16px);
             border-bottom: 1px solid var(--border);
-            transition: background-color 0.4s ease, border-color 0.4s ease;
         }
 
-        .nav-controls {
-            display: flex;
-            gap: 0.8rem;
-            align-items: center;
-        }
-
-        nav .nav-logo {
-            font-family: 'Cormorant Garamond', serif;
-            font-size: 1.2rem;
-            font-weight: 600;
-            letter-spacing: 0.08em;
-            color: var(--accent);
+        .nav-logo {
+            font-family: var(--sans);
+            font-size: 1.1rem;
+            font-weight: 700;
+            background: var(--grad-text);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: -0.02em;
         }
 
         nav ul {
+            display: flex;
+            gap: 2.2rem;
             list-style: none;
-            display: flex;
-            gap: 3rem;
         }
 
-        nav ul li a {
+        nav ul a {
+            font-family: var(--sans);
+            font-size: 13.5px;
+            font-weight: 500;
+            color: var(--txt2);
             text-decoration: none;
-            color: var(--muted);
-            font-size: 12px;
-            letter-spacing: 0.12em;
-            text-transform: uppercase;
-            transition: color 0.3s;
-        }
-
-        nav ul li a:hover {
-            color: var(--text-heading);
-        }
-
-        .theme-toggle,
-        .mobile-menu-toggle {
-            background: transparent;
-            border: 1px solid var(--border);
-            border-radius: 4px;
-            width: 40px;
-            height: 40px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            color: var(--muted);
-            transition: all 0.3s ease;
-        }
-
-        .theme-toggle:hover,
-        .mobile-menu-toggle:hover {
-            border-color: var(--accent);
-            color: var(--accent);
-            background: color-mix(in srgb, var(--accent) 5%, transparent);
-        }
-
-        .theme-toggle .sun-icon {
-            display: block;
-        }
-
-        .theme-toggle .moon-icon {
-            display: none;
-        }
-
-        [data-theme="dark"] .theme-toggle .sun-icon {
-            display: none;
-        }
-
-        [data-theme="dark"] .theme-toggle .moon-icon {
-            display: block;
-        }
-
-        .mobile-menu-toggle {
-            display: none;
-        }
-
-        @media (max-width: 850px) {
-            nav {
-                padding: 1rem 1.5rem;
-            }
-
-            nav ul {
-                position: fixed;
-                top: 100%;
-                left: 0;
-                right: 0;
-                background: var(--bg);
-                border-bottom: 1px solid var(--border);
-                flex-direction: column;
-                gap: 0;
-                padding: 1rem 0;
-                transform: translateY(-100%);
-                opacity: 0;
-                visibility: hidden;
-                transition: all 0.3s ease;
-            }
-
-            nav ul.open {
-                transform: translateY(0);
-                opacity: 1;
-                visibility: visible;
-            }
-
-            nav ul li {
-                width: 100%;
-                text-align: center;
-                padding: 1rem 0;
-            }
-
-            .mobile-menu-toggle {
-                display: flex;
-            }
-        }
-
-        /* LAYOUT */
-        .page {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 2.5rem;
+            letter-spacing: 0.02em;
+            transition: color 0.2s;
             position: relative;
-            z-index: 1;
         }
 
-        /* HERO SECTION */
+        nav ul a::after {
+            content: '';
+            position: absolute;
+            bottom: -4px; left: 0; right: 0;
+            height: 1.5px;
+            background: var(--grad);
+            transform: scaleX(0);
+            transition: transform 0.25s;
+        }
+
+        nav ul a:hover { color: var(--txt); }
+        nav ul a:hover::after { transform: scaleX(1); }
+
+        .nav-cta {
+            font-family: var(--sans);
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--bg);
+            background: var(--sol);
+            padding: 0.45rem 1.1rem;
+            border-radius: 6px;
+            text-decoration: none;
+            transition: opacity 0.2s, transform 0.2s;
+        }
+        .nav-cta:hover { opacity: 0.88; transform: translateY(-1px); }
+
+        .mobile-toggle {
+            display: none;
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: var(--txt);
+        }
+
+        /* ── HERO ── */
         #hero {
             min-height: 100vh;
             display: grid;
             grid-template-columns: 1fr 1fr;
-            align-items: center;
-            gap: 2rem;
-            padding: 8rem 0 4rem;
+            gap: 0;
             position: relative;
+            overflow: hidden;
+            padding-top: 64px;
         }
 
-        .hero-left {
-            position: relative;
-            z-index: 2;
-            padding-right: 2rem;
-        }
-
-        .hero-tag {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.8rem;
-            font-size: 11px;
-            letter-spacing: 0.2em;
-            text-transform: uppercase;
-            color: var(--accent);
-            margin-bottom: 1.5rem;
-            font-weight: 500;
-        }
-
-        .hero-tag::before {
-            content: '';
-            display: block;
-            width: 35px;
-            height: 1px;
-            background: var(--accent);
-        }
-
-        .hero-name {
-            font-family: 'Cormorant Garamond', serif;
-            font-size: clamp(3.5rem, 6vw, 5.5rem);
-            font-weight: 300;
-            line-height: 1.1;
-            color: var(--text-heading);
-            margin-bottom: 1rem;
-        }
-
-        .hero-name em {
-            font-style: italic;
-            font-weight: 400;
-            color: var(--accent);
-        }
-
-        .hero-title {
-            font-family: 'Cormorant Garamond', serif;
-            font-size: 1.35rem;
-            font-weight: 400;
-            color: var(--text-heading);
-            margin-bottom: 2rem;
-            border-left: 2px solid var(--accent);
-            padding-left: 1.2rem;
-            line-height: 1.5;
-        }
-
-        .hero-desc {
-            font-size: 15px;
-            color: var(--muted);
-            max-width: 480px;
-            line-height: 1.9;
-            margin-bottom: 2.5rem;
-        }
-
-        .hero-contacts {
-            display: flex;
-            flex-direction: column;
-            gap: 0.8rem;
-            margin-bottom: 3rem;
-        }
-
-        .contact-row {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            color: var(--text);
-            font-size: 14px;
-        }
-
-        .contact-row svg {
-            color: var(--accent);
-            flex-shrink: 0;
-        }
-
-        .contact-row a {
-            color: inherit;
-            text-decoration: none;
-            transition: color 0.2s;
-            border-bottom: 1px dashed transparent;
-        }
-
-        .contact-row a:hover {
-            color: var(--accent);
-            border-bottom-color: var(--accent);
-        }
-
-        .cta-btn {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.8rem;
-            font-size: 12px;
-            font-weight: 500;
-            letter-spacing: 0.15em;
-            text-transform: uppercase;
-            color: var(--bg);
-            background: var(--accent);
-            padding: 1rem 2rem;
-            text-decoration: none;
-            transition: all 0.3s;
-            border: 1px solid var(--accent);
-            border-radius: 2px;
-        }
-
-        .cta-btn:hover {
-            background: transparent;
-            color: var(--accent);
-        }
-
-        /* CONTENEUR LOTTIE */
-        .hero-right {
+        /* Grille de fond */
+        .hero-grid-bg {
             position: absolute;
-            right: 0;
-            top: 20%;
-            transform: translateY(-50%);
-            width: 55%;
-            height: 90vh;
-            display: flex;
-            align-items: center;
-            justify-content: flex-end;
-            z-index: 1;
-            opacity: 0.9;
+            inset: 0;
+            background-image:
+                linear-gradient(rgba(255,107,43,0.04) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255,107,43,0.04) 1px, transparent 1px);
+            background-size: 60px 60px;
             pointer-events: none;
         }
 
-        /* Filtre pour que l'animation reste visible en mode sombre */
-        [data-theme="dark"] dotlottie-player {
-            filter: invert(1) brightness(1.5) hue-rotate(180deg);
+        /* Blob de lumière */
+        .hero-glow {
+            position: absolute;
+            width: 700px; height: 700px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(255,107,43,0.12) 0%, rgba(59,130,246,0.06) 50%, transparent 70%);
+            top: -100px; right: -150px;
+            pointer-events: none;
+            animation: glow-drift 8s ease-in-out infinite alternate;
         }
 
-        /* SECTIONS */
-        section {
-            padding: 7rem 0;
+        @keyframes glow-drift {
+            from { transform: translate(0,0) scale(1); }
+            to   { transform: translate(-40px, 30px) scale(1.08); }
         }
 
-        .section-header {
+        .hero-left {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 5rem 4rem 5rem 5rem;
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero-eyebrow {
+            font-family: var(--mono);
+            font-size: 11.5px;
+            color: var(--sol);
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            margin-bottom: 1.8rem;
             display: flex;
             align-items: center;
-            gap: 1.5rem;
-            margin-bottom: 4rem;
+            gap: 0.8rem;
         }
 
-        .section-num {
-            font-size: 12px;
-            font-weight: 500;
-            letter-spacing: 0.15em;
-            color: var(--accent);
+        .hero-eyebrow::before {
+            content: '';
+            width: 28px; height: 1.5px;
+            background: var(--sol);
+            flex-shrink: 0;
         }
 
-        .section-title {
-            font-family: 'Cormorant Garamond', serif;
-            font-size: 2.4rem;
+        .hero-name {
+            font-family: var(--sans);
+            font-size: clamp(3.2rem, 5.5vw, 5.5rem);
+            font-weight: 700;
+            line-height: 1.0;
+            letter-spacing: -0.03em;
+            color: var(--txt);
+            margin-bottom: 0.5rem;
+        }
+
+        .hero-name span {
+            background: var(--grad-text);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-role {
+            font-family: var(--sans);
+            font-size: clamp(1rem, 1.8vw, 1.25rem);
             font-weight: 400;
-            color: var(--text-heading);
+            color: var(--txt2);
+            margin-bottom: 2rem;
+            margin-top: 0.8rem;
         }
 
-        .section-line {
-            flex: 1;
-            height: 1px;
-            background: var(--border);
+        .avail-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.55rem;
+            font-family: var(--mono);
+            font-size: 11px;
+            color: #2ECC71;
+            background: rgba(46,204,113,0.1);
+            border: 1px solid rgba(46,204,113,0.25);
+            padding: 0.4rem 0.9rem;
+            border-radius: 20px;
+            letter-spacing: 0.06em;
+            margin-bottom: 2.2rem;
+            width: fit-content;
         }
 
-        /* EXPERIENCE */
-        .exp-item {
-            display: grid;
-            grid-template-columns: 220px 1fr;
-            gap: 3rem;
-            padding: 3rem 0;
-            border-bottom: 1px solid var(--border);
+        .avail-dot {
+            width: 6px; height: 6px;
+            border-radius: 50%;
+            background: #2ECC71;
+            animation: pulse-g 2s infinite;
+        }
+
+        @keyframes pulse-g {
+            0%   { box-shadow: 0 0 0 0 rgba(46,204,113,0.5); }
+            70%  { box-shadow: 0 0 0 7px rgba(46,204,113,0); }
+            100% { box-shadow: 0 0 0 0 rgba(46,204,113,0); }
+        }
+
+        .hero-desc {
+            font-family: var(--body);
+            font-size: 15.5px;
+            color: var(--txt2);
+            line-height: 1.85;
+            max-width: 420px;
+            margin-bottom: 2.8rem;
+        }
+
+        .hero-stats {
+            display: flex;
+            gap: 2.5rem;
+            margin-bottom: 3rem;
+        }
+
+        .h-stat-num {
+            font-family: var(--sans);
+            font-size: 2.1rem;
+            font-weight: 700;
+            background: var(--grad-text);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            line-height: 1;
+        }
+
+        .h-stat-label {
+            font-family: var(--mono);
+            font-size: 10.5px;
+            color: var(--txt2);
+            letter-spacing: 0.06em;
+            margin-top: 0.35rem;
+            text-transform: uppercase;
+        }
+
+        .hero-ctas {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .btn-primary {
+            font-family: var(--sans);
+            font-size: 14px;
+            font-weight: 600;
+            color: #fff;
+            background: var(--sol);
+            padding: 0.8rem 1.8rem;
+            border-radius: 8px;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: transform 0.2s, box-shadow 0.2s;
+            box-shadow: 0 0 0 0 rgba(255,107,43,0.4);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(255,107,43,0.35);
+        }
+
+        .btn-ghost {
+            font-family: var(--sans);
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--txt);
+            border: 1px solid var(--border2);
+            padding: 0.8rem 1.8rem;
+            border-radius: 8px;
+            text-decoration: none;
+            transition: border-color 0.2s, color 0.2s;
+        }
+
+        .btn-ghost:hover { border-color: var(--sol); color: var(--sol); }
+
+        /* SVG ANIMÉ côté droit du hero */
+        .hero-right {
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1;
+        }
+
+        .hero-svg-wrap {
+            width: 100%;
+            max-width: 540px;
             position: relative;
         }
 
-        .exp-item:first-child {
-            padding-top: 0;
+        /* ── SECTIONS COMMUNES ── */
+        section:not(#hero) {
+            padding: 7rem 5rem;
+            max-width: 1280px;
+            margin: 0 auto;
         }
 
-        .exp-item:last-child {
-            border-bottom: none;
-            padding-bottom: 0;
-        }
-
-        .exp-date {
-            font-size: 13px;
-            letter-spacing: 0.1em;
-            color: var(--text);
+        .s-eyebrow {
+            font-family: var(--mono);
+            font-size: 11px;
+            color: var(--sol);
+            letter-spacing: 0.2em;
             text-transform: uppercase;
+            margin-bottom: 1rem;
+        }
+
+        .s-title {
+            font-family: var(--sans);
+            font-size: clamp(2rem, 3.5vw, 3rem);
+            font-weight: 700;
+            letter-spacing: -0.03em;
+            color: var(--txt);
+            margin-bottom: 3.5rem;
+            line-height: 1.15;
+        }
+
+        .s-title em {
+            font-style: normal;
+            background: var(--grad-text);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        /* ── SCROLL REVEAL ── */
+        .reveal {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: opacity 0.7s cubic-bezier(.22,1,.36,1), transform 0.7s cubic-bezier(.22,1,.36,1);
+        }
+        .reveal.visible { opacity: 1; transform: translateY(0); }
+        .reveal-d1 { transition-delay: 0.1s; }
+        .reveal-d2 { transition-delay: 0.2s; }
+        .reveal-d3 { transition-delay: 0.3s; }
+        .reveal-d4 { transition-delay: 0.4s; }
+
+        /* ── SERVICES ── */
+        #services { padding-top: 6rem; padding-bottom: 6rem; }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5px;
+            background: var(--border);
+            border: 1.5px solid var(--border);
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        .svc-card {
+            background: var(--bg2);
+            padding: 2.8rem 2.5rem;
+            transition: background 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .svc-card::before {
+            content: '';
+            position: absolute;
+            bottom: 0; left: 0; right: 0;
+            height: 3px;
+            background: var(--grad);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.4s cubic-bezier(.22,1,.36,1);
+        }
+
+        .svc-card:hover { background: var(--bg3); }
+        .svc-card:hover::before { transform: scaleX(1); }
+
+        .svc-num {
+            font-family: var(--mono);
+            font-size: 11px;
+            color: var(--sol);
+            letter-spacing: 0.15em;
+            margin-bottom: 2rem;
+        }
+
+        .svc-icon {
+            width: 48px; height: 48px;
+            margin-bottom: 1.5rem;
+            color: var(--txt2);
+        }
+
+        .svc-title {
+            font-family: var(--sans);
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--txt);
+            margin-bottom: 0.9rem;
+            letter-spacing: -0.02em;
+        }
+
+        .svc-desc {
+            font-size: 14px;
+            color: var(--txt2);
+            line-height: 1.75;
+            margin-bottom: 1.5rem;
+        }
+
+        .svc-list {
+            list-style: none;
+        }
+
+        .svc-list li {
+            font-family: var(--mono);
+            font-size: 12.5px;
+            color: var(--txt2);
+            padding: 0.4rem 0;
+            border-top: 1px solid var(--border);
+            display: flex;
+            gap: 0.7rem;
+        }
+
+        .svc-list li::before { content: '→'; color: var(--sol); }
+
+        /* ── RÉALISATIONS ── */
+        .proj-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+        }
+
+        .proj-card {
+            background: var(--bg2);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 2.5rem;
+            position: relative;
+            overflow: hidden;
+            transition: border-color 0.3s, transform 0.3s;
+        }
+
+        .proj-card:hover {
+            border-color: var(--border2);
+            transform: translateY(-4px);
+        }
+
+        /* Accent géométrique en fond de carte */
+        .proj-card::after {
+            content: '';
+            position: absolute;
+            top: -60px; right: -60px;
+            width: 180px; height: 180px;
+            background: radial-gradient(circle, rgba(255,107,43,0.07) 0%, transparent 70%);
+            border-radius: 50%;
+            pointer-events: none;
+        }
+
+        .proj-tag {
+            font-family: var(--mono);
+            font-size: 10.5px;
+            color: var(--sol);
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            margin-bottom: 1.2rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .proj-tag::before {
+            content: '';
+            width: 20px; height: 1.5px;
+            background: var(--sol);
+        }
+
+        .proj-title {
+            font-family: var(--sans);
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--txt);
+            letter-spacing: -0.025em;
+            margin-bottom: 0.35rem;
+            line-height: 1.25;
+        }
+
+        .proj-location {
+            font-family: var(--mono);
+            font-size: 11.5px;
+            color: var(--txt2);
+            margin-bottom: 1.8rem;
+        }
+
+        .proj-kpi-row {
+            display: flex;
+            gap: 2rem;
+            margin-bottom: 1.8rem;
+            padding-bottom: 1.8rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .kpi-num {
+            font-family: var(--sans);
+            font-size: 2rem;
+            font-weight: 700;
+            background: var(--grad-text);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            line-height: 1;
+        }
+
+        .kpi-label {
+            font-family: var(--mono);
+            font-size: 10.5px;
+            color: var(--txt2);
+            margin-top: 0.3rem;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+        }
+
+        .proj-desc {
+            font-size: 14px;
+            color: var(--txt2);
+            line-height: 1.8;
+            margin-bottom: 1.4rem;
+        }
+
+        .proj-pills {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .proj-pill {
+            font-family: var(--mono);
+            font-size: 11px;
+            color: var(--txt2);
+            background: var(--bg3);
+            border: 1px solid var(--border);
+            padding: 0.3rem 0.8rem;
+            border-radius: 4px;
+            letter-spacing: 0.04em;
+        }
+
+        /* ── POURQUOI ── */
+        .why-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1px;
+            background: var(--border);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        .why-cell {
+            background: var(--bg2);
+            padding: 2.5rem 2.8rem;
+            position: relative;
+            transition: background 0.3s;
+        }
+
+        .why-cell:hover { background: var(--bg3); }
+
+        .why-big-num {
+            font-family: var(--sans);
+            font-size: 4.5rem;
+            font-weight: 700;
+            color: rgba(255,107,43,0.08);
+            line-height: 1;
+            position: absolute;
+            top: 1.5rem; right: 2rem;
+            letter-spacing: -0.05em;
+            pointer-events: none;
+            transition: color 0.3s;
+        }
+
+        .why-cell:hover .why-big-num { color: rgba(255,107,43,0.14); }
+
+        .why-title {
+            font-family: var(--sans);
+            font-size: 1.05rem;
+            font-weight: 600;
+            color: var(--txt);
+            margin-bottom: 0.7rem;
+            letter-spacing: -0.01em;
+        }
+
+        .why-desc {
+            font-size: 14px;
+            color: var(--txt2);
+            line-height: 1.8;
+        }
+
+        /* ── PROCESS ── */
+        #process { background: var(--bg2); padding: 6rem 5rem; max-width: 100%; }
+
+        .process-inner {
+            max-width: 1280px;
+            margin: 0 auto;
+        }
+
+        .process-steps {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 0;
+            position: relative;
+            margin-top: 1rem;
+        }
+
+        .process-steps::before {
+            content: '';
+            position: absolute;
+            top: 2rem; left: 10%; right: 10%;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--border2), var(--border2), transparent);
+        }
+
+        .pstep {
+            padding: 0 2rem;
+            padding-top: 0.5rem;
+            text-align: center;
+        }
+
+        .pstep-dot {
+            width: 40px; height: 40px;
+            border-radius: 50%;
+            background: var(--bg);
+            border: 1.5px solid var(--border2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.5rem;
+            font-family: var(--mono);
+            font-size: 12px;
+            color: var(--sol);
+            position: relative;
+            z-index: 1;
+            transition: background 0.3s, border-color 0.3s;
+        }
+
+        .pstep:hover .pstep-dot {
+            background: rgba(255,107,43,0.1);
+            border-color: var(--sol);
+        }
+
+        .pstep-title {
+            font-family: var(--sans);
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--txt);
+            margin-bottom: 0.5rem;
+        }
+
+        .pstep-desc {
+            font-size: 13.5px;
+            color: var(--txt2);
+            line-height: 1.7;
+        }
+
+        /* ── EXPÉRIENCE ── */
+        .exp-list { display: flex; flex-direction: column; gap: 0; }
+
+        .exp-row {
+            display: grid;
+            grid-template-columns: 220px 1fr;
+            gap: 2.5rem;
+            padding: 2.5rem 0;
+            border-bottom: 1px solid var(--border);
+            transition: background 0.2s;
+        }
+
+        .exp-row:last-child { border-bottom: none; }
+
+        .exp-date-col {
+            font-family: var(--mono);
+            font-size: 12px;
+            color: var(--txt2);
+            padding-top: 0.2rem;
+            letter-spacing: 0.02em;
+        }
+
+        .exp-co {
+            font-size: 11.5px;
+            color: var(--sol);
+            margin-top: 0.4rem;
             font-weight: 500;
         }
 
-        .exp-company {
-            font-size: 14px;
-            color: var(--muted);
-            margin-top: 0.5rem;
-            font-style: italic;
-        }
-
         .exp-role {
-            font-family: 'Cormorant Garamond', serif;
-            font-size: 1.6rem;
+            font-family: var(--sans);
+            font-size: 1.05rem;
             font-weight: 600;
-            color: var(--text-heading);
-            margin-bottom: 1.2rem;
+            color: var(--txt);
+            margin-bottom: 0.8rem;
+            letter-spacing: -0.01em;
         }
 
         .exp-tasks {
@@ -478,116 +752,106 @@
         }
 
         .exp-tasks li {
-            font-size: 15px;
-            color: var(--muted);
-            padding: 0.4rem 0;
-            display: flex;
-            gap: 1rem;
-            align-items: flex-start;
-            line-height: 1.8;
+            font-size: 14px;
+            color: var(--txt2);
+            padding: 0.3rem 0;
+            padding-left: 1.2rem;
+            position: relative;
+            line-height: 1.6;
         }
 
         .exp-tasks li::before {
-            content: '▹';
-            color: var(--accent);
-            flex-shrink: 0;
-            font-size: 1.1em;
+            content: '·';
+            position: absolute;
+            left: 0;
+            color: var(--sol);
+            font-size: 1.2rem;
+            line-height: 1.4;
         }
 
-        /* FORMATION */
+        /* ── FORMATION ── */
         .edu-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            grid-template-columns: 1fr 1fr;
             gap: 1.5rem;
         }
 
         .edu-card {
             background: var(--bg2);
             border: 1px solid var(--border);
-            padding: 2.2rem;
-            transition: transform 0.3s, border-color 0.3s, background-color 0.4s;
-            border-radius: 4px;
+            border-radius: 10px;
+            padding: 2rem 2.2rem;
+            transition: border-color 0.3s, transform 0.3s;
         }
 
         .edu-card:hover {
-            border-color: var(--accent);
+            border-color: var(--border2);
             transform: translateY(-3px);
         }
 
         .edu-card.featured {
-            grid-column: 1 / -1;
+            grid-column: span 2;
+            background: linear-gradient(135deg, rgba(255,107,43,0.06) 0%, rgba(59,130,246,0.06) 100%);
+            border-color: rgba(255,107,43,0.2);
             display: flex;
             justify-content: space-between;
             align-items: center;
-            background: color-mix(in srgb, var(--accent) 8%, var(--bg2));
-            border-color: var(--accent);
         }
 
-        .edu-degree {
-            font-size: 11px;
-            font-weight: 500;
+        .edu-label {
+            font-family: var(--mono);
+            font-size: 10.5px;
+            color: var(--sol);
             letter-spacing: 0.15em;
             text-transform: uppercase;
-            color: var(--accent);
-            margin-bottom: 0.8rem;
-        }
-
-        .edu-name {
-            font-family: 'Cormorant Garamond', serif;
-            font-size: 1.4rem;
-            font-weight: 600;
-            color: var(--text-heading);
-            line-height: 1.3;
             margin-bottom: 0.5rem;
         }
 
+        .edu-degree {
+            font-family: var(--sans);
+            font-size: 1.15rem;
+            font-weight: 700;
+            color: var(--txt);
+            letter-spacing: -0.02em;
+            margin-bottom: 0.2rem;
+        }
+
         .edu-school {
-            font-size: 14px;
-            color: var(--muted);
+            font-size: 13.5px;
+            color: var(--txt2);
+            margin-bottom: 0.5rem;
         }
 
         .edu-year {
-            font-size: 13px;
-            color: var(--text);
-            margin-top: 1.2rem;
-            font-weight: 500;
+            font-family: var(--mono);
+            font-size: 11px;
+            color: var(--txt2);
+            letter-spacing: 0.04em;
         }
 
         .edu-badge {
+            font-family: var(--mono);
             font-size: 11px;
-            letter-spacing: 0.15em;
-            text-transform: uppercase;
+            font-weight: 500;
             color: var(--bg);
-            background: var(--accent);
+            background: var(--sol);
             padding: 0.4rem 1rem;
             border-radius: 20px;
+            letter-spacing: 0.08em;
             white-space: nowrap;
+            flex-shrink: 0;
         }
 
-        /* COMPÉTENCES */
-        .skills-layout {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 3rem;
-        }
+        /* ── COMPÉTENCES ── */
+        .skills-block { display: flex; flex-direction: column; gap: 2.5rem; }
 
-        .skill-group-title {
-            font-size: 12px;
-            font-weight: 500;
-            letter-spacing: 0.2em;
+        .skill-group-label {
+            font-family: var(--mono);
+            font-size: 11px;
+            color: var(--txt2);
+            letter-spacing: 0.15em;
             text-transform: uppercase;
-            color: var(--text-heading);
-            margin-bottom: 1.5rem;
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-        }
-
-        .skill-group-title::after {
-            content: '';
-            flex: 1;
-            height: 1px;
-            background: var(--border);
+            margin-bottom: 1rem;
         }
 
         .skill-tags {
@@ -597,422 +861,833 @@
         }
 
         .skill-tag {
-            font-size: 13px;
-            color: var(--text);
+            font-family: var(--mono);
+            font-size: 12.5px;
+            color: var(--txt2);
             background: var(--bg2);
             border: 1px solid var(--border);
-            padding: 0.5rem 1rem;
-            border-radius: 4px;
-            transition: all 0.2s;
-            cursor: default;
+            padding: 0.45rem 1rem;
+            border-radius: 6px;
+            letter-spacing: 0.02em;
+            transition: color 0.2s, border-color 0.2s;
         }
 
-        .skill-tag:hover {
-            border-color: var(--accent);
-            color: var(--accent);
-            background: var(--bg);
+        .skill-tag:hover, .skill-tag.h { color: var(--txt); border-color: var(--border2); }
+        .skill-tag.h { border-color: rgba(255,107,43,0.4); color: var(--sol); }
+
+        /* ── LOGICIELS BIENTÔT DISPONIBLE ── */
+        .software-soon {
+            background: var(--bg2);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 5rem 3rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
         }
 
-        .skill-tag.h {
-            border-color: var(--accent);
-            color: var(--accent);
+        .software-soon::before {
+            content: '';
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            width: 500px; height: 500px;
+            background: radial-gradient(circle, rgba(255,107,43,0.05) 0%, transparent 70%);
+            pointer-events: none;
+        }
+
+        .soon-icon {
+            width: 60px; height: 60px;
+            border-radius: 50%;
+            background: rgba(255,107,43,0.1);
+            border: 1px solid rgba(255,107,43,0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.8rem;
+            color: var(--sol);
+        }
+
+        .soon-badge {
+            display: inline-block;
+            font-family: var(--mono);
+            font-size: 10.5px;
             font-weight: 500;
-            background: color-mix(in srgb, var(--accent) 5%, transparent);
+            color: var(--sol);
+            border: 1px solid rgba(255,107,43,0.35);
+            padding: 0.3rem 1rem;
+            border-radius: 20px;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            margin-bottom: 1.2rem;
         }
 
-        /* ANIMATIONS */
-        .fade-in {
-            opacity: 0;
-            transform: translateY(30px);
-            transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        .soon-title {
+            font-family: var(--sans);
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: var(--txt);
+            letter-spacing: -0.025em;
+            margin-bottom: 0.8rem;
         }
 
-        .fade-in.visible {
-            opacity: 1;
-            transform: translateY(0);
+        .soon-desc {
+            font-size: 14.5px;
+            color: var(--txt2);
+            max-width: 440px;
+            margin: 0 auto;
+            line-height: 1.85;
         }
 
-        /* RESPONSIVE */
+        /* ── FOOTER / CONTACT ── */
+        #contact {
+            padding: 7rem 5rem;
+            max-width: 1280px;
+            margin: 0 auto;
+        }
+
+        .contact-inner {
+            background: var(--bg2);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 5rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .contact-inner::before {
+            content: '';
+            position: absolute;
+            top: -100px; left: 50%;
+            transform: translateX(-50%);
+            width: 600px; height: 300px;
+            background: radial-gradient(ellipse, rgba(255,107,43,0.08) 0%, rgba(59,130,246,0.04) 50%, transparent 70%);
+            pointer-events: none;
+        }
+
+        .contact-title {
+            font-family: var(--sans);
+            font-size: clamp(2rem, 4vw, 3.5rem);
+            font-weight: 700;
+            letter-spacing: -0.03em;
+            color: var(--txt);
+            margin-bottom: 1rem;
+        }
+
+        .contact-sub {
+            font-size: 15.5px;
+            color: var(--txt2);
+            max-width: 500px;
+            margin: 0 auto 3rem;
+            line-height: 1.8;
+        }
+
+        .contact-methods {
+            display: flex;
+            justify-content: center;
+            gap: 3rem;
+            flex-wrap: wrap;
+            margin-bottom: 3rem;
+        }
+
+        .c-method {
+            display: flex;
+            align-items: center;
+            gap: 0.7rem;
+            font-family: var(--mono);
+            font-size: 13px;
+            color: var(--txt2);
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        .c-method svg { color: var(--sol); flex-shrink: 0; }
+        .c-method:hover { color: var(--txt); }
+
+        .contact-ctas { display: flex; justify-content: center; gap: 1rem; flex-wrap: wrap; }
+
+        .footer-bottom {
+            text-align: center;
+            padding: 2rem 0;
+            font-family: var(--mono);
+            font-size: 12px;
+            color: var(--txt2);
+            letter-spacing: 0.05em;
+            border-top: 1px solid var(--border);
+            max-width: 1280px;
+            margin: 0 auto;
+        }
+
+        /* ── RESPONSIVE ── */
         @media (max-width: 1024px) {
-            .hero-right {
-                display: none;
-            }
+            section:not(#hero) { padding: 5rem 3rem; }
+            #process { padding: 5rem 3rem; }
+            #contact { padding: 5rem 3rem; }
+            .contact-inner { padding: 3.5rem 2.5rem; }
         }
 
         @media (max-width: 900px) {
-            #hero {
-                grid-template-columns: 1fr;
-                padding: 8rem 0 4rem;
-            }
-
-            .skills-layout {
-                grid-template-columns: 1fr;
-                gap: 2rem;
-            }
-
-            .exp-item {
-                grid-template-columns: 1fr;
-                gap: 1rem;
-            }
-
-            .edu-card.featured {
+            #hero { grid-template-columns: 1fr; }
+            .hero-right { display: none; }
+            .hero-left { padding: 5rem 2.5rem 3.5rem; }
+            nav ul { display: none; }
+            .mobile-toggle { display: flex; }
+            nav ul.open {
+                display: flex;
                 flex-direction: column;
-                align-items: flex-start;
-                gap: 1rem;
+                position: fixed;
+                top: 64px; left: 0; right: 0;
+                background: var(--bg2);
+                border-bottom: 1px solid var(--border);
+                padding: 1.5rem 2rem;
+                gap: 1.5rem;
             }
+            .services-grid { grid-template-columns: 1fr; }
+            .proj-grid { grid-template-columns: 1fr; }
+            .why-grid { grid-template-columns: 1fr; }
+            .process-steps { grid-template-columns: 1fr 1fr; }
+            .edu-grid { grid-template-columns: 1fr; }
+            .edu-card.featured { grid-column: span 1; flex-direction: column; gap: 1.2rem; }
+            .exp-row { grid-template-columns: 1fr; gap: 0.5rem; }
         }
 
         @media (max-width: 600px) {
-            .page {
-                padding: 0 1.5rem;
-            }
+            section:not(#hero) { padding: 4rem 1.5rem; }
+            #process { padding: 4rem 1.5rem; }
+            #contact { padding: 4rem 1.5rem; }
+            nav { padding: 0 1.5rem; }
+            .hero-left { padding: 4rem 1.5rem 3rem; }
+            .hero-stats { gap: 1.8rem; }
+            .process-steps { grid-template-columns: 1fr; }
+            .process-steps::before { display: none; }
+            .contact-inner { padding: 2.5rem 1.5rem; }
+        }
 
-            .hero-name {
-                font-size: clamp(2.8rem, 10vw, 3.5rem);
-            }
-
-            .section-title {
-                font-size: 2rem;
-            }
-
-            .section-header {
-                flex-direction: column;
-                align-items: flex-start;
-                gap: 0.5rem;
-            }
-
-            .section-line {
-                width: 100%;
-            }
+        @media (prefers-reduced-motion: reduce) {
+            .reveal, * { transition: none !important; animation: none !important; }
         }
     </style>
 </head>
-
 <body>
 
-    <nav>
-        <div class="nav-logo">RY.</div>
-        <ul>
-            <li><a href="#experience">Expérience</a></li>
-            <li><a href="#formation">Formation</a></li>
-            <li><a href="#competences">Compétences</a></li>
-            <li><a href="#contact">Contact</a></li>
-        </ul>
-        <div class="nav-controls">
-            <button id="theme-toggle" class="theme-toggle" aria-label="Basculer le thème">
-                <svg class="sun-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <circle cx="12" cy="12" r="5"></circle>
-                    <line x1="12" y1="1" x2="12" y2="3"></line>
-                    <line x1="12" y1="21" x2="12" y2="23"></line>
-                    <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
-                    <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
-                    <line x1="1" y1="12" x2="3" y2="12"></line>
-                    <line x1="21" y1="12" x2="23" y2="12"></line>
-                    <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
-                    <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
-                </svg>
-                <svg class="moon-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
-                </svg>
-            </button>
-            <button id="mobile-menu-toggle" class="mobile-menu-toggle" aria-label="Menu">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                    stroke-linecap="round" stroke-linejoin="round">
-                    <line x1="3" y1="12" x2="21" y2="12"></line>
-                    <line x1="3" y1="6" x2="21" y2="6"></line>
-                    <line x1="3" y1="18" x2="21" y2="18"></line>
-                </svg>
-            </button>
+<nav>
+    <div class="nav-logo">Yassor Abdallah</div>
+    <ul id="nav-menu">
+        <li><a href="#services">Services</a></li>
+        <li><a href="#realisations">Réalisations</a></li>
+        <li><a href="#experience">Expérience</a></li>
+        <li><a href="#contact">Contact</a></li>
+    </ul>
+    <div style="display:flex;align-items:center;gap:1rem;">
+        <a href="mailto:ryassor6@gmail.com?subject=Demande%20de%20devis" class="nav-cta">Demander un devis</a>
+        <button class="mobile-toggle" id="mob-toggle" aria-label="Menu">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/>
+            </svg>
+        </button>
+    </div>
+</nav>
+
+<!-- ══ HERO ══ -->
+<section id="hero">
+    <div class="hero-grid-bg"></div>
+    <div class="hero-glow"></div>
+
+    <div class="hero-left">
+        <div class="hero-eyebrow">Ingénieur Indépendant · Madagascar</div>
+        <div class="avail-pill"><span class="avail-dot"></span>Disponible pour nouveaux projets</div>
+        <h1 class="hero-name">
+            <span>Yassor</span><br>Abdallah
+        </h1>
+        <p class="hero-role">Énergie Solaire · Électromécanique · Solutions Web</p>
+        <p class="hero-desc">
+            Du dimensionnement de centrales photovoltaïques à la supervision SCADA,
+            en passant par les outils numériques sur mesure — j'accompagne vos projets
+            techniques de bout en bout, à Antsiranana et partout à Madagascar.
+        </p>
+        <div class="hero-stats">
+            <div>
+                <div class="h-stat-num">3+</div>
+                <div class="h-stat-label">Ans terrain</div>
+            </div>
+            <div>
+                <div class="h-stat-num">470 kWc</div>
+                <div class="h-stat-label">Plus gros projet</div>
+            </div>
+            <div>
+                <div class="h-stat-num">48h</div>
+                <div class="h-stat-label">Délai de devis</div>
+            </div>
         </div>
-    </nav>
-
-    <div class="page">
-
-        <section id="hero">
-            <div class="hero-left fade-in">
-                <div class="hero-tag">Ingénierie Électrique & Énergie</div>
-                <h1 class="hero-name"><em>Yassor</em><br>Abdallah</h1>
-                <p class="hero-title">Technicien Spécialisé<br>Systèmes PV · SCADA · Instrumentation</p>
-                <p class="hero-desc">
-                    Spécialiste en conception de systèmes électriques et énergies renouvelables.
-                    J'interviens sur le dimensionnement de centrales solaires industrielles,
-                    l'audit énergétique et la maintenance d'équipements électromécaniques.
-                </p>
-                <div class="hero-contacts">
-                    <div class="contact-row">
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <path
-                                d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z">
-                            </path>
-                        </svg>
-                        <a href="tel:+261328449638">+261 32 84 496 38</a>
-                    </div>
-                    <div class="contact-row">
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z">
-                            </path>
-                            <polyline points="22,6 12,13 2,6"></polyline>
-                        </svg>
-                        <a href="mailto:ryassor6@gmail.com">ryassor6@gmail.com</a>
-                    </div>
-                    <div class="contact-row">
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
-                            <circle cx="12" cy="10" r="3"></circle>
-                        </svg>
-                        <span>Antsiranana, Madagascar</span>
-                    </div>
-                </div>
-                <a href="mailto:ryassor6@gmail.com" class="cta-btn">
-                    Démarrer un projet
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                        stroke-linecap="round" stroke-linejoin="round">
-                        <line x1="5" y1="12" x2="19" y2="12"></line>
-                        <polyline points="12 5 19 12 12 19"></polyline>
-                    </svg>
-                </a>
-            </div>
-
-            <div class="hero-right fade-in">
-                <dotlottie-player 
-                    src="Ahad.lottie" 
-                    background="transparent" 
-                    speed="1" 
-                    style="width: 100%; height: 100%; max-width: 800px;" 
-                    loop 
-                    autoplay>
-                </dotlottie-player>
-            </div>
-        </section>
-
-        <section id="experience">
-            <div class="section-header fade-in">
-                <span class="section-num">01</span>
-                <h2 class="section-title">Expérience professionnelle</h2>
-                <div class="section-line"></div>
-            </div>
-
-            <div class="exp-item fade-in">
-                <div class="exp-left">
-                    <div class="exp-date">Fév. 2025 — Mai 2025</div>
-                    <div class="exp-company">GDH Immobilier, Antsiranana</div>
-                </div>
-                <div>
-                    <div class="exp-role">Technicien d'Installation</div>
-                    <ul class="exp-tasks">
-                        <li>Réalisation d'études techniques de sites pour installations électriques.</li>
-                        <li>Installation, configuration et mise en service d'équipements électroniques.</li>
-                        <li>Raccordements électriques, tests de fonctionnement et rédaction de rapports.</li>
-                    </ul>
-                </div>
-            </div>
-
-            <div class="exp-item fade-in">
-                <div class="exp-left">
-                    <div class="exp-date">Mai 2024 — Janv. 2025</div>
-                    <div class="exp-company">SQVISION, Antsiranana</div>
-                </div>
-                <div>
-                    <div class="exp-role">Technicien d'Étude et d'Installation</div>
-                    <ul class="exp-tasks">
-                        <li>Dimensionnement et installation de systèmes électroniques (vidéosurveillance, contrôle
-                            d'accès).</li>
-                        <li>Calibration, configuration et optimisation de la performance des équipements.</li>
-                        <li>Maintenance préventive et corrective avec diagnostic de pannes.</li>
-                        <li>Relation client — présentation et explication du fonctionnement des installations.</li>
-                    </ul>
-                </div>
-            </div>
-
-            <div class="exp-item fade-in">
-                <div class="exp-left">
-                    <div class="exp-date">Sept. 2023 — Nov. 2023</div>
-                    <div class="exp-company">ANKA Madagascar</div>
-                </div>
-                <div>
-                    <div class="exp-role">Technicien Systèmes de Contrôle <span
-                            style="font-weight:400; font-size:14px; color:var(--muted)">(Stage)</span></div>
-                    <ul class="exp-tasks">
-                        <li>Configuration et programmation de systèmes SCADA (Rapid SCADA).</li>
-                        <li>Rédaction de documentation technique et tutoriels d'utilisation.</li>
-                        <li>Maintenance et dépannage de systèmes de contrôle industriels.</li>
-                    </ul>
-                </div>
-            </div>
-
-            <div class="exp-item fade-in">
-                <div class="exp-left">
-                    <div class="exp-date">2021 — 2022</div>
-                    <div class="exp-company">ENELEC, Antsiranana</div>
-                </div>
-                <div>
-                    <div class="exp-role">Technicien de Maintenance <span
-                            style="font-weight:400; font-size:14px; color:var(--muted)">(Stage)</span></div>
-                    <ul class="exp-tasks">
-                        <li>Diagnostic et maintenance d'équipements électromécaniques.</li>
-                        <li>Supervision de systèmes électriques, interventions correctives et préventives.</li>
-                        <li>Contrôle de performance et tests fonctionnels.</li>
-                    </ul>
-                </div>
-            </div>
-        </section>
-
-        <section id="formation">
-            <div class="section-header fade-in">
-                <span class="section-num">02</span>
-                <h2 class="section-title">Formation académique</h2>
-                <div class="section-line"></div>
-            </div>
-            <div class="edu-grid">
-                <div class="edu-card featured fade-in">
-                    <div>
-                        <div class="edu-degree">Master · En cours</div>
-                        <div class="edu-name">Spécialité Énergétique</div>
-                        <div class="edu-school">CNAM Paris — Formation à distance</div>
-                        <div class="edu-year">Août 2025 → Présent</div>
-                    </div>
-                    <div class="edu-badge">En cours</div>
-                </div>
-                <div class="edu-card fade-in">
-                    <div class="edu-degree">DTSS · Bac+3</div>
-                    <div class="edu-name">Systèmes à Énergies Renouvelables et Alternatives</div>
-                    <div class="edu-school">IST d'Antsiranana (IST-D)</div>
-                    <div class="edu-year">Diplômé en 2023</div>
-                </div>
-                <div class="edu-card fade-in">
-                    <div class="edu-degree">Licence</div>
-                    <div class="edu-name">Finance et Comptabilité</div>
-                    <div class="edu-school">IST d'Antsiranana (IST-D)</div>
-                    <div class="edu-year">2021 — 2023</div>
-                </div>
-                <div class="edu-card fade-in">
-                    <div class="edu-degree">DTS</div>
-                    <div class="edu-name">Maintenance en Équipements ÉlectroMécaniques</div>
-                    <div class="edu-school">IST d'Antsiranana (IST-D)</div>
-                    <div class="edu-year">2020 — 2022</div>
-                </div>
-            </div>
-        </section>
-
-        <section id="competences">
-            <div class="section-header fade-in">
-                <span class="section-num">03</span>
-                <h2 class="section-title">Compétences & Outils</h2>
-                <div class="section-line"></div>
-            </div>
-            <div class="skills-layout">
-                <div class="fade-in">
-                    <div class="skill-group-title">Techniques Ingénierie</div>
-                    <div class="skill-tags">
-                        <span class="skill-tag h">Systèmes PV (Solaire)</span>
-                        <span class="skill-tag h">SCADA</span>
-                        <span class="skill-tag">Installations Électriques</span>
-                        <span class="skill-tag">Instrumentation</span>
-                        <span class="skill-tag">Audit Énergétique</span>
-                        <span class="skill-tag">Diagnostic de Pannes</span>
-                        <span class="skill-tag">Maintenance Électromécanique</span>
-                    </div>
-                </div>
-                <div class="fade-in">
-                    <div class="skill-group-title">Logiciels & Développement</div>
-                    <div class="skill-tags">
-                        <span class="skill-tag h">PVsyst</span>
-                        <span class="skill-tag h">Python</span>
-                        <span class="skill-tag h">AutoCAD</span>
-                        <span class="skill-tag">MATLAB</span>
-                        <span class="skill-tag">Rapid SCADA</span>
-                        <span class="skill-tag">SketchUp / Blender</span>
-                        <span class="skill-tag">Linux / Web Dev</span>
-                    </div>
-                </div>
-                <div class="fade-in">
-                    <div class="skill-group-title">Langues & Transversales</div>
-                    <div class="skill-tags">
-                        <span class="skill-tag h">Français (C2)</span>
-                        <span class="skill-tag">Anglais (B1)</span>
-                        <span class="skill-tag">Gestion de Projet</span>
-                        <span class="skill-tag">Rédaction Technique</span>
-                        <span class="skill-tag">Relation Client</span>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <footer id="contact"
-            style="padding: 4rem 0; border-top: 1px solid var(--border); text-align: center; margin-top: 2rem;"
-            class="fade-in">
-            <h2 class="section-title" style="font-size: 2rem; margin-bottom: 1rem;">Prêt à collaborer ?</h2>
-            <p style="color: var(--muted); max-width: 500px; margin: 0 auto 2rem; font-size: 15px;">
-                Basé à Antsiranana, je suis disponible pour des missions d'ingénierie, du dimensionnement PV ou des
-                collaborations techniques.
-            </p>
-            <div style="display: flex; justify-content: center; gap: 1.5rem; flex-wrap: wrap;">
-                <a href="mailto:ryassor6@gmail.com" class="cta-btn">Envoyer un Email</a>
-                <a href="tel:+261328449638" class="cta-btn"
-                    style="background: transparent; color: var(--text); border-color: var(--border);">WhatsApp /
-                    Appel</a>
-            </div>
-            <div style="margin-top: 4rem; font-size: 13px; color: var(--muted); letter-spacing: 0.1em;">
-                © 2026 Yassor Abdallah · Antsiranana, Madagascar
-            </div>
-        </footer>
-
+        <div class="hero-ctas">
+            <a href="mailto:ryassor6@gmail.com?subject=Demande%20de%20devis" class="btn-primary">
+                Demander un devis
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+            </a>
+            <a href="#realisations" class="btn-ghost">Voir les réalisations</a>
+        </div>
     </div>
 
-    <script>
-        // Logique de thème
-        const themeToggle = document.getElementById('theme-toggle');
-        const html = document.documentElement;
+    <div class="hero-right">
+        <!-- SVG animé : circuit / énergie -->
+        <div class="hero-svg-wrap">
+            <svg viewBox="0 0 520 520" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;">
+                <defs>
+                    <linearGradient id="g1" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" stop-color="#FF6B2B"/>
+                        <stop offset="50%" stop-color="#C84BFF"/>
+                        <stop offset="100%" stop-color="#3B82F6"/>
+                    </linearGradient>
+                    <linearGradient id="g2" x1="100%" y1="0%" x2="0%" y2="100%">
+                        <stop offset="0%" stop-color="#3B82F6"/>
+                        <stop offset="100%" stop-color="#FF6B2B"/>
+                    </linearGradient>
+                    <filter id="blur1">
+                        <feGaussianBlur stdDeviation="18"/>
+                    </filter>
+                    <filter id="blur2">
+                        <feGaussianBlur stdDeviation="8"/>
+                    </filter>
+                </defs>
 
-        const savedTheme = localStorage.getItem('theme');
-        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+                <!-- Glow orbs en fond -->
+                <circle cx="260" cy="260" r="180" fill="url(#g1)" opacity="0.04" filter="url(#blur1)"/>
+                <circle cx="340" cy="180" r="100" fill="#FF6B2B" opacity="0.06" filter="url(#blur1)"/>
+                <circle cx="180" cy="340" r="100" fill="#3B82F6" opacity="0.06" filter="url(#blur1)"/>
 
-        if (savedTheme) {
-            html.setAttribute('data-theme', savedTheme);
-        } else if (prefersDark) {
-            html.setAttribute('data-theme', 'dark');
-        } else {
-            html.setAttribute('data-theme', 'light');
-        }
+                <!-- Hexagone principal -->
+                <polygon points="260,80 350,130 350,230 260,280 170,230 170,130"
+                    stroke="url(#g1)" stroke-width="1.5" fill="none" opacity="0.5">
+                    <animateTransform attributeName="transform" type="rotate"
+                        from="0 260 180" to="360 260 180" dur="30s" repeatCount="indefinite"/>
+                </polygon>
 
-        themeToggle.addEventListener('click', () => {
-            const currentTheme = html.getAttribute('data-theme');
-            const newTheme = currentTheme === 'light' ? 'dark' : 'light';
-            html.setAttribute('data-theme', newTheme);
-            localStorage.setItem('theme', newTheme);
+                <!-- Hexagone secondaire externe -->
+                <polygon points="260,50 380,120 380,260 260,330 140,260 140,120"
+                    stroke="url(#g1)" stroke-width="0.8" fill="none" opacity="0.2">
+                    <animateTransform attributeName="transform" type="rotate"
+                        from="360 260 190" to="0 260 190" dur="45s" repeatCount="indefinite"/>
+                </polygon>
+
+                <!-- Lignes de circuit -->
+                <g opacity="0.25" stroke="#FF6B2B" stroke-width="1">
+                    <line x1="260" y1="50" x2="260" y2="10">
+                        <animate attributeName="opacity" values="0.3;0.8;0.3" dur="3s" repeatCount="indefinite"/>
+                    </line>
+                    <line x1="380" y1="120" x2="430" y2="90">
+                        <animate attributeName="opacity" values="0.3;0.7;0.3" dur="3.5s" repeatCount="indefinite"/>
+                    </line>
+                    <line x1="380" y1="260" x2="430" y2="290">
+                        <animate attributeName="opacity" values="0.2;0.6;0.2" dur="4s" repeatCount="indefinite"/>
+                    </line>
+                    <line x1="260" y1="330" x2="260" y2="380">
+                        <animate attributeName="opacity" values="0.3;0.8;0.3" dur="2.8s" repeatCount="indefinite"/>
+                    </line>
+                    <line x1="140" y1="260" x2="90" y2="290">
+                        <animate attributeName="opacity" values="0.2;0.6;0.2" dur="3.8s" repeatCount="indefinite"/>
+                    </line>
+                    <line x1="140" y1="120" x2="90" y2="90">
+                        <animate attributeName="opacity" values="0.3;0.7;0.3" dur="3.2s" repeatCount="indefinite"/>
+                    </line>
+                </g>
+
+                <!-- Cercle central rotatif -->
+                <circle cx="260" cy="190" r="55" stroke="url(#g1)" stroke-width="1.5"
+                    stroke-dasharray="8 4" fill="none" opacity="0.4">
+                    <animateTransform attributeName="transform" type="rotate"
+                        from="0 260 190" to="360 260 190" dur="12s" repeatCount="indefinite"/>
+                </circle>
+
+                <!-- Icône soleil au centre -->
+                <g transform="translate(235,165)" opacity="0.85">
+                    <circle cx="25" cy="25" r="12" fill="url(#g1)" opacity="0.9"/>
+                    <line x1="25" y1="4" x2="25" y2="0" stroke="#FF6B2B" stroke-width="2" stroke-linecap="round">
+                        <animate attributeName="opacity" values="0.6;1;0.6" dur="2s" repeatCount="indefinite"/>
+                    </line>
+                    <line x1="25" y1="50" x2="25" y2="46" stroke="#FF6B2B" stroke-width="2" stroke-linecap="round">
+                        <animate attributeName="opacity" values="0.6;1;0.6" dur="2s" begin="0.3s" repeatCount="indefinite"/>
+                    </line>
+                    <line x1="4" y1="25" x2="0" y2="25" stroke="#FF6B2B" stroke-width="2" stroke-linecap="round">
+                        <animate attributeName="opacity" values="0.6;1;0.6" dur="2s" begin="0.6s" repeatCount="indefinite"/>
+                    </line>
+                    <line x1="50" y1="25" x2="46" y2="25" stroke="#FF6B2B" stroke-width="2" stroke-linecap="round">
+                        <animate attributeName="opacity" values="0.6;1;0.6" dur="2s" begin="0.9s" repeatCount="indefinite"/>
+                    </line>
+                    <line x1="10" y1="10" x2="7" y2="7" stroke="#FF6B2B" stroke-width="2" stroke-linecap="round"/>
+                    <line x1="40" y1="10" x2="43" y2="7" stroke="#FF6B2B" stroke-width="2" stroke-linecap="round"/>
+                    <line x1="10" y1="40" x2="7" y2="43" stroke="#FF6B2B" stroke-width="2" stroke-linecap="round"/>
+                    <line x1="40" y1="40" x2="43" y2="43" stroke="#FF6B2B" stroke-width="2" stroke-linecap="round"/>
+                </g>
+
+                <!-- Nœuds de circuit — points lumineux -->
+                <g>
+                    <circle cx="260" cy="10" r="3" fill="#FF6B2B">
+                        <animate attributeName="r" values="2;4;2" dur="3s" repeatCount="indefinite"/>
+                        <animate attributeName="opacity" values="0.5;1;0.5" dur="3s" repeatCount="indefinite"/>
+                    </circle>
+                    <circle cx="430" cy="90" r="3" fill="#C84BFF">
+                        <animate attributeName="r" values="2;4;2" dur="3.5s" repeatCount="indefinite"/>
+                        <animate attributeName="opacity" values="0.5;1;0.5" dur="3.5s" repeatCount="indefinite"/>
+                    </circle>
+                    <circle cx="430" cy="290" r="3" fill="#3B82F6">
+                        <animate attributeName="r" values="2;4;2" dur="4s" repeatCount="indefinite"/>
+                        <animate attributeName="opacity" values="0.5;1;0.5" dur="4s" repeatCount="indefinite"/>
+                    </circle>
+                    <circle cx="260" cy="380" r="3" fill="#FF6B2B">
+                        <animate attributeName="r" values="2;4;2" dur="2.8s" repeatCount="indefinite"/>
+                        <animate attributeName="opacity" values="0.5;1;0.5" dur="2.8s" repeatCount="indefinite"/>
+                    </circle>
+                    <circle cx="90" cy="290" r="3" fill="#3B82F6">
+                        <animate attributeName="r" values="2;4;2" dur="3.8s" repeatCount="indefinite"/>
+                        <animate attributeName="opacity" values="0.5;1;0.5" dur="3.8s" repeatCount="indefinite"/>
+                    </circle>
+                    <circle cx="90" cy="90" r="3" fill="#C84BFF">
+                        <animate attributeName="r" values="2;4;2" dur="3.2s" repeatCount="indefinite"/>
+                        <animate attributeName="opacity" values="0.5;1;0.5" dur="3.2s" repeatCount="indefinite"/>
+                    </circle>
+                </g>
+
+                <!-- Particules orbitales -->
+                <g>
+                    <circle r="4" fill="#FF6B2B" opacity="0.7">
+                        <animateMotion dur="8s" repeatCount="indefinite" path="M260,50 L350,130 L350,230 L260,280 L170,230 L170,130 Z"/>
+                    </circle>
+                    <circle r="3" fill="#3B82F6" opacity="0.6">
+                        <animateMotion dur="12s" repeatCount="indefinite" begin="4s" path="M260,50 L350,130 L350,230 L260,280 L170,230 L170,130 Z"/>
+                    </circle>
+                </g>
+
+                <!-- Grille de fond légère -->
+                <g opacity="0.04" stroke="#FF6B2B" stroke-width="0.5">
+                    <line x1="0" y1="130" x2="520" y2="130"/>
+                    <line x1="0" y1="260" x2="520" y2="260"/>
+                    <line x1="0" y1="390" x2="520" y2="390"/>
+                    <line x1="130" y1="0" x2="130" y2="520"/>
+                    <line x1="260" y1="0" x2="260" y2="520"/>
+                    <line x1="390" y1="0" x2="390" y2="520"/>
+                </g>
+
+                <!-- Badge kWc -->
+                <g transform="translate(350,310)">
+                    <rect width="120" height="44" rx="8" fill="rgba(255,107,43,0.08)" stroke="rgba(255,107,43,0.3)" stroke-width="1"/>
+                    <text x="60" y="18" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="10" fill="#FF6B2B" letter-spacing="0.1em">DERNIER PROJET</text>
+                    <text x="60" y="34" text-anchor="middle" font-family="Space Grotesk, sans-serif" font-size="13" font-weight="700" fill="#F0F0F5">470 kWc</text>
+                </g>
+
+                <!-- Badge localisation -->
+                <g transform="translate(40,300)">
+                    <rect width="110" height="44" rx="8" fill="rgba(59,130,246,0.08)" stroke="rgba(59,130,246,0.3)" stroke-width="1"/>
+                    <text x="55" y="18" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="10" fill="#3B82F6" letter-spacing="0.1em">BASÉ À</text>
+                    <text x="55" y="34" text-anchor="middle" font-family="Space Grotesk, sans-serif" font-size="12" font-weight="700" fill="#F0F0F5">Antsiranana</text>
+                </g>
+            </svg>
+        </div>
+    </div>
+</section>
+
+<!-- ══ SERVICES ══ -->
+<section id="services">
+    <div class="s-eyebrow reveal">Ce que je fais</div>
+    <h2 class="s-title reveal reveal-d1">Mes <em>services</em></h2>
+    <div class="services-grid">
+        <div class="svc-card reveal reveal-d1">
+            <div class="svc-num">01</div>
+            <svg class="svc-icon" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="24" cy="24" r="8"/><line x1="24" y1="4" x2="24" y2="12"/><line x1="24" y1="36" x2="24" y2="44"/><line x1="4" y1="24" x2="12" y2="24"/><line x1="36" y1="24" x2="44" y2="24"/><line x1="9.4" y1="9.4" x2="15.2" y2="15.2"/><line x1="32.8" y1="32.8" x2="38.6" y2="38.6"/><line x1="9.4" y1="38.6" x2="15.2" y2="32.8"/><line x1="32.8" y1="15.2" x2="38.6" y2="9.4"/>
+            </svg>
+            <div class="svc-title">Énergie Solaire & PV</div>
+            <p class="svc-desc">Étude, dimensionnement et installation de centrales photovoltaïques, du résidentiel à l'industriel.</p>
+            <ul class="svc-list">
+                <li>Dimensionnement PVsyst</li>
+                <li>Étude de site & implantation 3D</li>
+                <li>Installation & mise en service</li>
+                <li>Audit énergétique</li>
+            </ul>
+        </div>
+        <div class="svc-card reveal reveal-d2">
+            <div class="svc-num">02</div>
+            <svg class="svc-icon" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="4" y="16" width="40" height="24" rx="2"/><line x1="14" y1="16" x2="14" y2="8"/><line x1="34" y1="16" x2="34" y2="8"/><line x1="4" y1="28" x2="44" y2="28"/><circle cx="16" cy="36" r="2"/><circle cx="32" cy="36" r="2"/>
+            </svg>
+            <div class="svc-title">Électromécanique & SCADA</div>
+            <p class="svc-desc">Installation, supervision et maintenance d'équipements électriques et industriels.</p>
+            <ul class="svc-list">
+                <li>Installations électriques IEC</li>
+                <li>Configuration systèmes SCADA</li>
+                <li>Diagnostic & dépannage</li>
+                <li>Maintenance préventive / corrective</li>
+            </ul>
+        </div>
+        <div class="svc-card reveal reveal-d3">
+            <div class="svc-num">03</div>
+            <svg class="svc-icon" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="32 36 44 24 32 12"/><polyline points="16 12 4 24 16 36"/><line x1="28" y1="8" x2="20" y2="40"/>
+            </svg>
+            <div class="svc-title">Web & Outils Digitaux</div>
+            <p class="svc-desc">Sites vitrines, outils de calcul et applications web sur mesure pour vos opérations.</p>
+            <ul class="svc-list">
+                <li>Sites web vitrines & portfolios</li>
+                <li>Outils de dimensionnement</li>
+                <li>Tableaux de bord & automatisation</li>
+                <li>Maintenance & mises à jour</li>
+            </ul>
+        </div>
+    </div>
+</section>
+
+<!-- ══ RÉALISATIONS ══ -->
+<section id="realisations">
+    <div class="s-eyebrow reveal">Projets terminés</div>
+    <h2 class="s-title reveal reveal-d1">Réalisations <em>récentes</em></h2>
+    <div class="proj-grid">
+        <div class="proj-card reveal reveal-d1">
+            <div class="proj-tag">Solaire · Autoconsommation + stockage</div>
+            <div class="proj-title">Centrale solaire — Site de concassage de pierre</div>
+            <div class="proj-location">📍 Antsiranana, Madagascar · 2026</div>
+            <div class="proj-kpi-row">
+                <div>
+                    <div class="kpi-num">118 kWc</div>
+                    <div class="kpi-label">Puissance installée</div>
+                </div>
+                <div>
+                    <div class="kpi-num">+ Batteries</div>
+                    <div class="kpi-label">Stockage inclus</div>
+                </div>
+            </div>
+            <p class="proj-desc">Dimensionnement complet d'une centrale solaire en autoconsommation avec stockage batteries pour un site industriel de concassage, incluant layout 3D et dessin 3D des machines.</p>
+            <div class="proj-pills">
+                <span class="proj-pill">PVsyst</span>
+                <span class="proj-pill">Dimensionnement PV</span>
+                <span class="proj-pill">Layout 3D</span>
+                <span class="proj-pill">SketchUp</span>
+                <span class="proj-pill">Autoconsommation</span>
+            </div>
+        </div>
+        <div class="proj-card reveal reveal-d2">
+            <div class="proj-tag">Solaire · Autoconsommation industrielle</div>
+            <div class="proj-title">Centrale solaire — Site industriel</div>
+            <div class="proj-location">📍 Tuléar, Madagascar</div>
+            <div class="proj-kpi-row">
+                <div>
+                    <div class="kpi-num">470 kWc</div>
+                    <div class="kpi-label">Puissance installée</div>
+                </div>
+                <div>
+                    <div class="kpi-num">Sans batterie</div>
+                    <div class="kpi-label">Réseau + PV</div>
+                </div>
+            </div>
+            <p class="proj-desc">Dimensionnement complet pour industrie à Tuléar, avec dessin 3D du site et schéma multifilaire complet de l'installation DC et AC.</p>
+            <div class="proj-pills">
+                <span class="proj-pill">PVsyst</span>
+                <span class="proj-pill">Dimensionnement PV</span>
+                <span class="proj-pill">SketchUp 3D</span>
+                <span class="proj-pill">Schéma multifilaire</span>
+                <span class="proj-pill">Industriel</span>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ══ POURQUOI MOI ══ -->
+<section id="pourquoi">
+    <div class="s-eyebrow reveal">Ce qui fait la différence</div>
+    <h2 class="s-title reveal reveal-d1">Pourquoi travailler <em>avec moi</em></h2>
+    <div class="why-grid">
+        <div class="why-cell reveal reveal-d1">
+            <div class="why-big-num">01</div>
+            <div class="why-title">Expérience de terrain réelle</div>
+            <p class="why-desc">3 ans d'expérience directe en installation, instrumentation et maintenance acquise chez GDH Immobilier, SQVISION, ANKA Madagascar et ENELEC.</p>
+        </div>
+        <div class="why-cell reveal reveal-d2">
+            <div class="why-big-num">02</div>
+            <div class="why-title">Formation continue au plus haut niveau</div>
+            <p class="why-desc">Master en spécialité énergétique au CNAM Paris en parallèle de l'activité terrain — les méthodes les plus récentes appliquées directement à vos projets.</p>
+        </div>
+        <div class="why-cell reveal reveal-d3">
+            <div class="why-big-num">03</div>
+            <div class="why-title">Double compétence : technique + gestion</div>
+            <p class="why-desc">Une licence en finance et comptabilité complète le profil d'ingénieur : chaque projet est cadré aussi bien techniquement que budgétairement.</p>
+        </div>
+        <div class="why-cell reveal reveal-d4">
+            <div class="why-big-num">04</div>
+            <div class="why-title">Autonomie complète du projet</div>
+            <p class="why-desc">Étude, conception 3D, installation et documentation — je prends en charge l'ensemble du cycle de projet sans dépendance à des sous-traitants.</p>
+        </div>
+    </div>
+</section>
+
+<!-- ══ PROCESS ══ -->
+<section id="process" style="padding:6rem 0; max-width:100%;">
+    <div class="process-inner">
+        <div class="s-eyebrow reveal">Simple et transparent</div>
+        <h2 class="s-title reveal reveal-d1">Comment ça <em>se passe</em></h2>
+        <div class="process-steps">
+            <div class="pstep reveal reveal-d1">
+                <div class="pstep-dot">01</div>
+                <div class="pstep-title">Premier contact</div>
+                <p class="pstep-desc">Vous décrivez votre besoin par email, téléphone ou WhatsApp — en quelques lignes c'est suffisant.</p>
+            </div>
+            <div class="pstep reveal reveal-d2">
+                <div class="pstep-dot">02</div>
+                <div class="pstep-title">Étude & devis</div>
+                <p class="pstep-desc">Analyse technique du site ou du besoin, puis devis détaillé sous 48h avec les options et les coûts.</p>
+            </div>
+            <div class="pstep reveal reveal-d3">
+                <div class="pstep-dot">03</div>
+                <div class="pstep-title">Réalisation</div>
+                <p class="pstep-desc">Mise en œuvre du projet avec suivi régulier, points d'étape et transparence totale à chaque phase.</p>
+            </div>
+            <div class="pstep reveal reveal-d4">
+                <div class="pstep-dot">04</div>
+                <div class="pstep-title">Livraison & suivi</div>
+                <p class="pstep-desc">Mise en service, documentation complète remise et disponibilité continue pour la maintenance.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ══ EXPÉRIENCE ══ -->
+<section id="experience">
+    <div class="s-eyebrow reveal">Parcours</div>
+    <h2 class="s-title reveal reveal-d1">Expérience <em>professionnelle</em></h2>
+    <div class="exp-list">
+        <div class="exp-row reveal">
+            <div class="exp-date-col">
+                Jan. 2024 — Présent
+                <div class="exp-co">SERA · Antsiranana</div>
+            </div>
+            <div>
+                <div class="exp-role">Fondateur & Ingénieur d'Études</div>
+                <ul class="exp-tasks">
+                    <li>Réalisation d'études techniques de sites et d'installations électriques.</li>
+                    <li>Conception et modélisation en dessin 3D pour l'implantation des équipements.</li>
+                </ul>
+            </div>
+        </div>
+        <div class="exp-row reveal">
+            <div class="exp-date-col">
+                Fév. — Mai 2025
+                <div class="exp-co">GDH Immobilier · Antsiranana</div>
+            </div>
+            <div>
+                <div class="exp-role">Technicien d'Installation</div>
+                <ul class="exp-tasks">
+                    <li>Conduite d'études techniques de sites pour installations électriques.</li>
+                    <li>Installation, configuration et mise en service d'équipements électroniques complexes.</li>
+                    <li>Raccordements électriques et tests de fonctionnement.</li>
+                </ul>
+            </div>
+        </div>
+        <div class="exp-row reveal">
+            <div class="exp-date-col">
+                Mai 2024 — Janv. 2025
+                <div class="exp-co">SQVISION · Antsiranana</div>
+            </div>
+            <div>
+                <div class="exp-role">Technicien d'Étude et d'Installation</div>
+                <ul class="exp-tasks">
+                    <li>Dimensionnement et déploiement de systèmes électroniques.</li>
+                    <li>Maintenance préventive et corrective avec diagnostic précis des pannes.</li>
+                    <li>Relation client — formation et présentation du fonctionnement des systèmes.</li>
+                </ul>
+            </div>
+        </div>
+        <div class="exp-row reveal">
+            <div class="exp-date-col">
+                Sept. — Nov. 2023
+                <div class="exp-co">ANKA Madagascar</div>
+            </div>
+            <div>
+                <div class="exp-role">Technicien Systèmes de Contrôle <span style="font-weight:400;color:var(--txt2);font-size:13px;">(Stage)</span></div>
+                <ul class="exp-tasks">
+                    <li>Configuration et programmation de systèmes SCADA pour le contrôle industriel.</li>
+                    <li>Maintenance et dépannage des systèmes de contrôle.</li>
+                </ul>
+            </div>
+        </div>
+        <div class="exp-row reveal">
+            <div class="exp-date-col">
+                Août — Nov. 2022
+                <div class="exp-co">ENELEC · Antsiranana</div>
+            </div>
+            <div>
+                <div class="exp-role">Opérateur Journalier <span style="font-weight:400;color:var(--txt2);font-size:13px;">(Stage)</span></div>
+                <ul class="exp-tasks">
+                    <li>Diagnostic et maintenance d'équipements électromécaniques.</li>
+                    <li>Supervision des systèmes électriques et interventions correctives/préventives.</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ══ FORMATION ══ -->
+<section id="formation">
+    <div class="s-eyebrow reveal">Académique</div>
+    <h2 class="s-title reveal reveal-d1">Formation</h2>
+    <div class="edu-grid">
+        <div class="edu-card featured reveal">
+            <div>
+                <div class="edu-label">Master · En cours</div>
+                <div class="edu-degree">Spécialité Énergétique</div>
+                <div class="edu-school">CNAM Paris — Formation à distance (FOAD)</div>
+                <div class="edu-year">Août 2025 → Présent</div>
+            </div>
+            <div class="edu-badge">En cours</div>
+        </div>
+        <div class="edu-card reveal reveal-d1">
+            <div class="edu-label">DTSS · Bac+3</div>
+            <div class="edu-degree">Systèmes à Énergies Renouvelables et Alternatives</div>
+            <div class="edu-school">IST d'Antsiranana (IST-D)</div>
+            <div class="edu-year">Janv. 2023 — Déc. 2023</div>
+        </div>
+        <div class="edu-card reveal reveal-d2">
+            <div class="edu-label">DTS</div>
+            <div class="edu-degree">Maintenance en Équipements ÉlectroMécaniques</div>
+            <div class="edu-school">IST d'Antsiranana (IST-D)</div>
+            <div class="edu-year">Fév. 2020 — Déc. 2022</div>
+        </div>
+        <div class="edu-card reveal reveal-d3">
+            <div class="edu-label">Licence</div>
+            <div class="edu-degree">Finance et Comptabilité</div>
+            <div class="edu-school">E-media Madagascar</div>
+            <div class="edu-year">Avril 2021 — Nov. 2023</div>
+        </div>
+    </div>
+</section>
+
+<!-- ══ COMPÉTENCES ══ -->
+<section id="competences">
+    <div class="s-eyebrow reveal">Stack</div>
+    <h2 class="s-title reveal reveal-d1">Compétences <em>& outils</em></h2>
+    <div class="skills-block">
+        <div class="reveal">
+            <div class="skill-group-label">Ingénierie & Énergie</div>
+            <div class="skill-tags">
+                <span class="skill-tag h">Systèmes PV Solaire</span>
+                <span class="skill-tag h">SCADA</span>
+                <span class="skill-tag">Installations Électriques</span>
+                <span class="skill-tag">Instrumentation</span>
+                <span class="skill-tag">Diagnostic de Pannes</span>
+                <span class="skill-tag">Maintenance Électromécanique</span>
+                <span class="skill-tag">Audit Énergétique</span>
+            </div>
+        </div>
+        <div class="reveal">
+            <div class="skill-group-label">Logiciels & Développement</div>
+            <div class="skill-tags">
+                <span class="skill-tag h">PVsyst</span>
+                <span class="skill-tag h">Python</span>
+                <span class="skill-tag h">AutoCAD</span>
+                <span class="skill-tag">Rapid SCADA</span>
+                <span class="skill-tag">OpenMaint</span>
+                <span class="skill-tag">SketchUp</span>
+                <span class="skill-tag">MATLAB · R · Modelica</span>
+                <span class="skill-tag">JavaScript</span>
+            </div>
+        </div>
+        <div class="reveal">
+            <div class="skill-group-label">Transversales</div>
+            <div class="skill-tags">
+                <span class="skill-tag h">Français B2</span>
+                <span class="skill-tag">Anglais B1</span>
+                <span class="skill-tag">Gestion de Projet</span>
+                <span class="skill-tag">Travail en Équipe</span>
+                <span class="skill-tag">Relation Client</span>
+                <span class="skill-tag">Autonomie</span>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ══ LOGICIELS BIENTÔT DISPONIBLE ══ -->
+<section id="logiciels">
+    <div class="s-eyebrow reveal">En développement</div>
+    <h2 class="s-title reveal reveal-d1">Logiciels <em>sur mesure</em></h2>
+    <div class="software-soon reveal reveal-d2">
+        <div class="soon-icon">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
+            </svg>
+        </div>
+        <div class="soon-badge">Bientôt disponible</div>
+        <div class="soon-title">Outils web de dimensionnement</div>
+        <p class="soon-desc">Des applications web de calcul et de dimensionnement solaire, accessibles en ligne, seront disponibles prochainement dans cette section.</p>
+    </div>
+</section>
+
+<!-- ══ CONTACT ══ -->
+<section id="contact">
+    <div class="contact-inner reveal">
+        <div class="s-eyebrow" style="justify-content:center;">Un projet en tête ?</div>
+        <h2 class="contact-title">Travaillons <em style="background:var(--grad-text);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;font-style:normal;">ensemble</em></h2>
+        <p class="contact-sub">Décrivez-moi votre besoin en quelques mots — installation solaire, dépannage électrique, SCADA ou outil web. Je réponds sous 48h avec une proposition concrète.</p>
+        <div class="contact-methods">
+            <a href="tel:+261328449638" class="c-method">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+                +261 32 84 496 38
+            </a>
+            <a href="mailto:ryassor6@gmail.com" class="c-method">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+                ryassor6@gmail.com
+            </a>
+            <span class="c-method">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                Antsiranana, Madagascar
+            </span>
+        </div>
+        <div class="contact-ctas">
+            <a href="mailto:ryassor6@gmail.com?subject=Demande%20de%20devis" class="btn-primary">
+                Demander un devis
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+            </a>
+            <a href="https://wa.me/261328449638" target="_blank" rel="noopener" class="btn-ghost">Écrire sur WhatsApp</a>
+        </div>
+    </div>
+</section>
+
+<div class="footer-bottom">
+    © 2026 Yassor Abdallah · Antsiranana, Madagascar · Ingénieur Indépendant
+</div>
+
+<script>
+    // Mobile menu
+    document.getElementById('mob-toggle').addEventListener('click', () => {
+        document.getElementById('nav-menu').classList.toggle('open');
+    });
+
+    // Scroll reveal
+    const revealEls = document.querySelectorAll('.reveal');
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('visible');
+                observer.unobserve(entry.target);
+            }
         });
+    }, { threshold: 0.08, rootMargin: '0px 0px -60px 0px' });
+    revealEls.forEach(el => observer.observe(el));
 
-        // Menu Mobile
-        const mobileMenuToggle = document.getElementById('mobile-menu-toggle');
-        const navMenu = document.querySelector('nav ul');
+    // Hero visible immédiatement
+    document.querySelectorAll('#hero .reveal, #hero .hero-left > *').forEach((el, i) => {
+        setTimeout(() => el.classList.add('visible'), i * 120);
+    });
 
-        mobileMenuToggle.addEventListener('click', () => {
-            navMenu.classList.toggle('open');
+    // Nav highlight actif au scroll
+    const sections = document.querySelectorAll('section[id]');
+    const navLinks = document.querySelectorAll('nav ul a');
+    window.addEventListener('scroll', () => {
+        let current = '';
+        sections.forEach(s => {
+            if (window.scrollY >= s.offsetTop - 120) current = s.id;
         });
+        navLinks.forEach(a => {
+            a.style.color = a.getAttribute('href') === '#' + current ? 'var(--txt)' : '';
+        });
+    }, { passive: true });
+</script>
 
-        // Animation au défilement
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('visible');
-                    observer.unobserve(entry.target);
-                }
-            });
-        }, { threshold: 0.1, rootMargin: "0px 0px -50px 0px" });
-
-        document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
-
-        setTimeout(() => {
-            document.querySelectorAll('#hero .fade-in').forEach((el, i) => {
-                setTimeout(() => el.classList.add('visible'), i * 150);
-            });
-        }, 100);
-    </script>
 </body>
-
 </html>
