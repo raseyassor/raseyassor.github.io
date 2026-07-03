@@ -331,20 +331,37 @@
 
         .btn-ghost:hover { border-color: var(--sol); color: var(--sol); }
 
-        /* SVG ANIMÉ côté droit du hero */
+        /* CANVAS hero */
         .hero-right {
             position: relative;
-            display: flex;
-            align-items: center;
-            justify-content: center;
             z-index: 1;
+            min-height: 500px;
         }
 
-        .hero-svg-wrap {
-            width: 100%;
-            max-width: 540px;
-            position: relative;
+        #hero-canvas {
+            position: absolute;
+            inset: 0;
+            width: 100% !important;
+            height: 100% !important;
         }
+
+        /* REVEAL amélioré — clip-path + translate */
+        .reveal {
+            opacity: 0;
+            transform: translateY(40px);
+            clip-path: inset(0 0 20px 0);
+            transition:
+                opacity 0.75s cubic-bezier(.22,1,.36,1),
+                transform 0.75s cubic-bezier(.22,1,.36,1),
+                clip-path 0.75s cubic-bezier(.22,1,.36,1);
+        }
+
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+            clip-path: inset(0 0 0px 0);
+        }
+
 
         /* ── SECTIONS COMMUNES ── */
         section:not(#hero) {
@@ -380,13 +397,7 @@
             background-clip: text;
         }
 
-        /* ── SCROLL REVEAL ── */
-        .reveal {
-            opacity: 0;
-            transform: translateY(40px);
-            transition: opacity 0.7s cubic-bezier(.22,1,.36,1), transform 0.7s cubic-bezier(.22,1,.36,1);
-        }
-        .reveal.visible { opacity: 1; transform: translateY(0); }
+        /* ── SCROLL REVEAL delays ── */
         .reveal-d1 { transition-delay: 0.1s; }
         .reveal-d2 { transition-delay: 0.2s; }
         .reveal-d3 { transition-delay: 0.3s; }
@@ -1130,159 +1141,7 @@
     </div>
 
     <div class="hero-right">
-        <!-- SVG animé : circuit / énergie -->
-        <div class="hero-svg-wrap">
-            <svg viewBox="0 0 520 520" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;">
-                <defs>
-                    <linearGradient id="g1" x1="0%" y1="0%" x2="100%" y2="100%">
-                        <stop offset="0%" stop-color="#FF6B2B"/>
-                        <stop offset="50%" stop-color="#C84BFF"/>
-                        <stop offset="100%" stop-color="#3B82F6"/>
-                    </linearGradient>
-                    <linearGradient id="g2" x1="100%" y1="0%" x2="0%" y2="100%">
-                        <stop offset="0%" stop-color="#3B82F6"/>
-                        <stop offset="100%" stop-color="#FF6B2B"/>
-                    </linearGradient>
-                    <filter id="blur1">
-                        <feGaussianBlur stdDeviation="18"/>
-                    </filter>
-                    <filter id="blur2">
-                        <feGaussianBlur stdDeviation="8"/>
-                    </filter>
-                </defs>
-
-                <!-- Glow orbs en fond -->
-                <circle cx="260" cy="260" r="180" fill="url(#g1)" opacity="0.04" filter="url(#blur1)"/>
-                <circle cx="340" cy="180" r="100" fill="#FF6B2B" opacity="0.06" filter="url(#blur1)"/>
-                <circle cx="180" cy="340" r="100" fill="#3B82F6" opacity="0.06" filter="url(#blur1)"/>
-
-                <!-- Hexagone principal -->
-                <polygon points="260,80 350,130 350,230 260,280 170,230 170,130"
-                    stroke="url(#g1)" stroke-width="1.5" fill="none" opacity="0.5">
-                    <animateTransform attributeName="transform" type="rotate"
-                        from="0 260 180" to="360 260 180" dur="30s" repeatCount="indefinite"/>
-                </polygon>
-
-                <!-- Hexagone secondaire externe -->
-                <polygon points="260,50 380,120 380,260 260,330 140,260 140,120"
-                    stroke="url(#g1)" stroke-width="0.8" fill="none" opacity="0.2">
-                    <animateTransform attributeName="transform" type="rotate"
-                        from="360 260 190" to="0 260 190" dur="45s" repeatCount="indefinite"/>
-                </polygon>
-
-                <!-- Lignes de circuit -->
-                <g opacity="0.25" stroke="#FF6B2B" stroke-width="1">
-                    <line x1="260" y1="50" x2="260" y2="10">
-                        <animate attributeName="opacity" values="0.3;0.8;0.3" dur="3s" repeatCount="indefinite"/>
-                    </line>
-                    <line x1="380" y1="120" x2="430" y2="90">
-                        <animate attributeName="opacity" values="0.3;0.7;0.3" dur="3.5s" repeatCount="indefinite"/>
-                    </line>
-                    <line x1="380" y1="260" x2="430" y2="290">
-                        <animate attributeName="opacity" values="0.2;0.6;0.2" dur="4s" repeatCount="indefinite"/>
-                    </line>
-                    <line x1="260" y1="330" x2="260" y2="380">
-                        <animate attributeName="opacity" values="0.3;0.8;0.3" dur="2.8s" repeatCount="indefinite"/>
-                    </line>
-                    <line x1="140" y1="260" x2="90" y2="290">
-                        <animate attributeName="opacity" values="0.2;0.6;0.2" dur="3.8s" repeatCount="indefinite"/>
-                    </line>
-                    <line x1="140" y1="120" x2="90" y2="90">
-                        <animate attributeName="opacity" values="0.3;0.7;0.3" dur="3.2s" repeatCount="indefinite"/>
-                    </line>
-                </g>
-
-                <!-- Cercle central rotatif -->
-                <circle cx="260" cy="190" r="55" stroke="url(#g1)" stroke-width="1.5"
-                    stroke-dasharray="8 4" fill="none" opacity="0.4">
-                    <animateTransform attributeName="transform" type="rotate"
-                        from="0 260 190" to="360 260 190" dur="12s" repeatCount="indefinite"/>
-                </circle>
-
-                <!-- Icône soleil au centre -->
-                <g transform="translate(235,165)" opacity="0.85">
-                    <circle cx="25" cy="25" r="12" fill="url(#g1)" opacity="0.9"/>
-                    <line x1="25" y1="4" x2="25" y2="0" stroke="#FF6B2B" stroke-width="2" stroke-linecap="round">
-                        <animate attributeName="opacity" values="0.6;1;0.6" dur="2s" repeatCount="indefinite"/>
-                    </line>
-                    <line x1="25" y1="50" x2="25" y2="46" stroke="#FF6B2B" stroke-width="2" stroke-linecap="round">
-                        <animate attributeName="opacity" values="0.6;1;0.6" dur="2s" begin="0.3s" repeatCount="indefinite"/>
-                    </line>
-                    <line x1="4" y1="25" x2="0" y2="25" stroke="#FF6B2B" stroke-width="2" stroke-linecap="round">
-                        <animate attributeName="opacity" values="0.6;1;0.6" dur="2s" begin="0.6s" repeatCount="indefinite"/>
-                    </line>
-                    <line x1="50" y1="25" x2="46" y2="25" stroke="#FF6B2B" stroke-width="2" stroke-linecap="round">
-                        <animate attributeName="opacity" values="0.6;1;0.6" dur="2s" begin="0.9s" repeatCount="indefinite"/>
-                    </line>
-                    <line x1="10" y1="10" x2="7" y2="7" stroke="#FF6B2B" stroke-width="2" stroke-linecap="round"/>
-                    <line x1="40" y1="10" x2="43" y2="7" stroke="#FF6B2B" stroke-width="2" stroke-linecap="round"/>
-                    <line x1="10" y1="40" x2="7" y2="43" stroke="#FF6B2B" stroke-width="2" stroke-linecap="round"/>
-                    <line x1="40" y1="40" x2="43" y2="43" stroke="#FF6B2B" stroke-width="2" stroke-linecap="round"/>
-                </g>
-
-                <!-- Nœuds de circuit — points lumineux -->
-                <g>
-                    <circle cx="260" cy="10" r="3" fill="#FF6B2B">
-                        <animate attributeName="r" values="2;4;2" dur="3s" repeatCount="indefinite"/>
-                        <animate attributeName="opacity" values="0.5;1;0.5" dur="3s" repeatCount="indefinite"/>
-                    </circle>
-                    <circle cx="430" cy="90" r="3" fill="#C84BFF">
-                        <animate attributeName="r" values="2;4;2" dur="3.5s" repeatCount="indefinite"/>
-                        <animate attributeName="opacity" values="0.5;1;0.5" dur="3.5s" repeatCount="indefinite"/>
-                    </circle>
-                    <circle cx="430" cy="290" r="3" fill="#3B82F6">
-                        <animate attributeName="r" values="2;4;2" dur="4s" repeatCount="indefinite"/>
-                        <animate attributeName="opacity" values="0.5;1;0.5" dur="4s" repeatCount="indefinite"/>
-                    </circle>
-                    <circle cx="260" cy="380" r="3" fill="#FF6B2B">
-                        <animate attributeName="r" values="2;4;2" dur="2.8s" repeatCount="indefinite"/>
-                        <animate attributeName="opacity" values="0.5;1;0.5" dur="2.8s" repeatCount="indefinite"/>
-                    </circle>
-                    <circle cx="90" cy="290" r="3" fill="#3B82F6">
-                        <animate attributeName="r" values="2;4;2" dur="3.8s" repeatCount="indefinite"/>
-                        <animate attributeName="opacity" values="0.5;1;0.5" dur="3.8s" repeatCount="indefinite"/>
-                    </circle>
-                    <circle cx="90" cy="90" r="3" fill="#C84BFF">
-                        <animate attributeName="r" values="2;4;2" dur="3.2s" repeatCount="indefinite"/>
-                        <animate attributeName="opacity" values="0.5;1;0.5" dur="3.2s" repeatCount="indefinite"/>
-                    </circle>
-                </g>
-
-                <!-- Particules orbitales -->
-                <g>
-                    <circle r="4" fill="#FF6B2B" opacity="0.7">
-                        <animateMotion dur="8s" repeatCount="indefinite" path="M260,50 L350,130 L350,230 L260,280 L170,230 L170,130 Z"/>
-                    </circle>
-                    <circle r="3" fill="#3B82F6" opacity="0.6">
-                        <animateMotion dur="12s" repeatCount="indefinite" begin="4s" path="M260,50 L350,130 L350,230 L260,280 L170,230 L170,130 Z"/>
-                    </circle>
-                </g>
-
-                <!-- Grille de fond légère -->
-                <g opacity="0.04" stroke="#FF6B2B" stroke-width="0.5">
-                    <line x1="0" y1="130" x2="520" y2="130"/>
-                    <line x1="0" y1="260" x2="520" y2="260"/>
-                    <line x1="0" y1="390" x2="520" y2="390"/>
-                    <line x1="130" y1="0" x2="130" y2="520"/>
-                    <line x1="260" y1="0" x2="260" y2="520"/>
-                    <line x1="390" y1="0" x2="390" y2="520"/>
-                </g>
-
-                <!-- Badge kWc -->
-                <g transform="translate(350,310)">
-                    <rect width="120" height="44" rx="8" fill="rgba(255,107,43,0.08)" stroke="rgba(255,107,43,0.3)" stroke-width="1"/>
-                    <text x="60" y="18" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="10" fill="#FF6B2B" letter-spacing="0.1em">DERNIER PROJET</text>
-                    <text x="60" y="34" text-anchor="middle" font-family="Space Grotesk, sans-serif" font-size="13" font-weight="700" fill="#F0F0F5">470 kWc</text>
-                </g>
-
-                <!-- Badge localisation -->
-                <g transform="translate(40,300)">
-                    <rect width="110" height="44" rx="8" fill="rgba(59,130,246,0.08)" stroke="rgba(59,130,246,0.3)" stroke-width="1"/>
-                    <text x="55" y="18" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="10" fill="#3B82F6" letter-spacing="0.1em">BASÉ À</text>
-                    <text x="55" y="34" text-anchor="middle" font-family="Space Grotesk, sans-serif" font-size="12" font-weight="700" fill="#F0F0F5">Antsiranana</text>
-                </g>
-            </svg>
-        </div>
+        <canvas id="hero-canvas"></canvas>
     </div>
 </section>
 
@@ -1652,41 +1511,372 @@
     © 2026 Yassor Abdallah · Antsiranana, Madagascar · Ingénieur Indépendant
 </div>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 <script>
-    // Mobile menu
-    document.getElementById('mob-toggle').addEventListener('click', () => {
-        document.getElementById('nav-menu').classList.toggle('open');
+/* ══════════════════════════════════════════════
+   1. MOBILE MENU
+══════════════════════════════════════════════ */
+document.getElementById('mob-toggle').addEventListener('click', () => {
+    document.getElementById('nav-menu').classList.toggle('open');
+});
+
+/* ══════════════════════════════════════════════
+   2. HERO CANVAS — Three.js particle network
+══════════════════════════════════════════════ */
+(function initHeroCanvas() {
+    const canvas = document.getElementById('hero-canvas');
+    const container = canvas.parentElement;
+
+    const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+
+    const scene = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(60, 1, 0.1, 100);
+    camera.position.z = 5;
+
+    /* Resize */
+    function resize() {
+        const w = container.clientWidth;
+        const h = container.clientHeight;
+        renderer.setSize(w, h);
+        camera.aspect = w / h;
+        camera.updateProjectionMatrix();
+    }
+    resize();
+    window.addEventListener('resize', resize);
+
+    /* Mouse tracking */
+    const mouse = new THREE.Vector2(0, 0);
+    container.addEventListener('mousemove', e => {
+        const r = container.getBoundingClientRect();
+        mouse.x = ((e.clientX - r.left) / r.width  - 0.5) * 2;
+        mouse.y = -((e.clientY - r.top)  / r.height - 0.5) * 2;
     });
 
-    // Scroll reveal
-    const revealEls = document.querySelectorAll('.reveal');
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.classList.add('visible');
-                observer.unobserve(entry.target);
+    /* ── Particles ── */
+    const COUNT = 120;
+    const positions = new Float32Array(COUNT * 3);
+    const colors    = new Float32Array(COUNT * 3);
+    const speeds    = new Float32Array(COUNT);
+    const phases    = new Float32Array(COUNT);
+
+    const C_SOL  = new THREE.Color('#FF6B2B');
+    const C_ELEC = new THREE.Color('#3B82F6');
+    const C_PURP = new THREE.Color('#C84BFF');
+
+    for (let i = 0; i < COUNT; i++) {
+        positions[i*3]   = (Math.random() - 0.5) * 9;
+        positions[i*3+1] = (Math.random() - 0.5) * 7;
+        positions[i*3+2] = (Math.random() - 0.5) * 3;
+        speeds[i]  = 0.2 + Math.random() * 0.5;
+        phases[i]  = Math.random() * Math.PI * 2;
+        const t = Math.random();
+        const c = t < 0.4 ? C_SOL.clone().lerp(C_PURP, t/0.4)
+                : t < 0.7 ? C_PURP.clone().lerp(C_ELEC, (t-0.4)/0.3)
+                : C_ELEC.clone();
+        colors[i*3]   = c.r;
+        colors[i*3+1] = c.g;
+        colors[i*3+2] = c.b;
+    }
+
+    const geo = new THREE.BufferGeometry();
+    geo.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+    geo.setAttribute('color',    new THREE.BufferAttribute(colors,    3));
+
+    /* Circular sprite */
+    const sprite = (() => {
+        const c = document.createElement('canvas');
+        c.width = c.height = 64;
+        const ctx = c.getContext('2d');
+        const g = ctx.createRadialGradient(32,32,0,32,32,32);
+        g.addColorStop(0,   'rgba(255,255,255,1)');
+        g.addColorStop(0.4, 'rgba(255,255,255,0.6)');
+        g.addColorStop(1,   'rgba(255,255,255,0)');
+        ctx.fillStyle = g;
+        ctx.fillRect(0,0,64,64);
+        return new THREE.CanvasTexture(c);
+    })();
+
+    const mat = new THREE.PointsMaterial({
+        size: 0.07,
+        vertexColors: true,
+        map: sprite,
+        transparent: true,
+        depthWrite: false,
+        blending: THREE.AdditiveBlending,
+    });
+
+    const points = new THREE.Points(geo, mat);
+    scene.add(points);
+
+    /* ── Connection lines ── */
+    const lineMat = new THREE.LineBasicMaterial({
+        vertexColors: true,
+        transparent: true,
+        opacity: 0.18,
+        blending: THREE.AdditiveBlending,
+        depthWrite: false,
+    });
+
+    let linesMesh = null;
+    function rebuildLines(pos) {
+        const linePos  = [];
+        const lineCol  = [];
+        const THRESH = 2.2;
+        for (let a = 0; a < COUNT; a++) {
+            for (let b = a+1; b < COUNT; b++) {
+                const dx = pos[a*3]   - pos[b*3];
+                const dy = pos[a*3+1] - pos[b*3+1];
+                const dz = pos[a*3+2] - pos[b*3+2];
+                const d  = Math.sqrt(dx*dx + dy*dy + dz*dz);
+                if (d < THRESH) {
+                    linePos.push(pos[a*3], pos[a*3+1], pos[a*3+2]);
+                    linePos.push(pos[b*3], pos[b*3+1], pos[b*3+2]);
+                    const fade = 1 - d / THRESH;
+                    lineCol.push(colors[a*3]*fade, colors[a*3+1]*fade, colors[a*3+2]*fade);
+                    lineCol.push(colors[b*3]*fade, colors[b*3+1]*fade, colors[b*3+2]*fade);
+                }
             }
-        });
-    }, { threshold: 0.08, rootMargin: '0px 0px -60px 0px' });
-    revealEls.forEach(el => observer.observe(el));
+        }
+        if (linesMesh) { scene.remove(linesMesh); linesMesh.geometry.dispose(); }
+        if (linePos.length === 0) return;
+        const lg = new THREE.BufferGeometry();
+        lg.setAttribute('position', new THREE.Float32BufferAttribute(linePos, 3));
+        lg.setAttribute('color',    new THREE.Float32BufferAttribute(lineCol, 3));
+        linesMesh = new THREE.LineSegments(lg, lineMat);
+        scene.add(linesMesh);
+    }
 
-    // Hero visible immédiatement
-    document.querySelectorAll('#hero .reveal, #hero .hero-left > *').forEach((el, i) => {
-        setTimeout(() => el.classList.add('visible'), i * 120);
+    /* ── Energy pulses travelling along edges ── */
+    const pulseGeo  = new THREE.BufferGeometry();
+    const pulseMat  = new THREE.PointsMaterial({
+        size: 0.14, color: '#FF6B2B', map: sprite,
+        transparent: true, blending: THREE.AdditiveBlending, depthWrite: false,
     });
+    const pulseMesh = new THREE.Points(pulseGeo, pulseMat);
+    scene.add(pulseMesh);
 
-    // Nav highlight actif au scroll
-    const sections = document.querySelectorAll('section[id]');
-    const navLinks = document.querySelectorAll('nav ul a');
-    window.addEventListener('scroll', () => {
-        let current = '';
-        sections.forEach(s => {
-            if (window.scrollY >= s.offsetTop - 120) current = s.id;
+    const pulses = [];
+    for (let i = 0; i < 12; i++) {
+        pulses.push({
+            a: Math.floor(Math.random() * COUNT),
+            b: Math.floor(Math.random() * COUNT),
+            t: Math.random(),
+            spd: 0.004 + Math.random() * 0.008,
         });
-        navLinks.forEach(a => {
-            a.style.color = a.getAttribute('href') === '#' + current ? 'var(--txt)' : '';
+    }
+
+    /* ── Central glowing orb ── */
+    const orbGeo = new THREE.SphereGeometry(0.32, 32, 32);
+    const orbMat = new THREE.MeshBasicMaterial({ color: '#FF6B2B', transparent: true, opacity: 0 });
+    const orb = new THREE.Mesh(orbGeo, orbMat);
+    scene.add(orb);
+
+    /* Orb glow via additive sprite */
+    const glowSprite = new THREE.Sprite(new THREE.SpriteMaterial({
+        map: sprite,
+        color: '#FF6B2B',
+        transparent: true,
+        blending: THREE.AdditiveBlending,
+        opacity: 0.35,
+    }));
+    glowSprite.scale.set(2.5, 2.5, 1);
+    scene.add(glowSprite);
+
+    /* ── Ring rings ── */
+    const rings = [];
+    for (let i = 0; i < 3; i++) {
+        const rg = new THREE.RingGeometry(0.5 + i*0.35, 0.52 + i*0.35, 64);
+        const rm = new THREE.MeshBasicMaterial({
+            color: i === 0 ? '#FF6B2B' : i === 1 ? '#C84BFF' : '#3B82F6',
+            transparent: true, opacity: 0.12 - i*0.03, side: THREE.DoubleSide,
         });
-    }, { passive: true });
+        const ring = new THREE.Mesh(rg, rm);
+        ring.rotation.x = Math.PI * 0.15 * (i+1);
+        ring.userData.baseRot = Math.PI * 0.15 * (i+1);
+        ring.userData.speed   = (0.003 + i*0.002) * (i%2===0 ? 1 : -1);
+        scene.add(ring);
+        rings.push(ring);
+    }
+
+    /* ── Animate ── */
+    let frame = 0;
+    function animate() {
+        requestAnimationFrame(animate);
+        frame++;
+        const t = frame * 0.01;
+
+        /* Drift particles */
+        const pos = geo.attributes.position.array;
+        for (let i = 0; i < COUNT; i++) {
+            pos[i*3+1] += speeds[i] * 0.004;
+            pos[i*3]   += Math.sin(t * speeds[i] + phases[i]) * 0.002;
+            if (pos[i*3+1] > 3.5)  pos[i*3+1] = -3.5;
+            if (pos[i*3]   > 4.5)  pos[i*3]   = -4.5;
+            if (pos[i*3]   < -4.5) pos[i*3]   =  4.5;
+        }
+        geo.attributes.position.needsUpdate = true;
+
+        /* Rebuild connections every 4 frames */
+        if (frame % 4 === 0) rebuildLines(pos);
+
+        /* Pulse along edges */
+        const pPos = [];
+        for (const p of pulses) {
+            p.t += p.spd;
+            if (p.t > 1) { p.t = 0; p.a = Math.floor(Math.random()*COUNT); p.b = Math.floor(Math.random()*COUNT); }
+            const ax = pos[p.a*3],   ay = pos[p.a*3+1], az = pos[p.a*3+2];
+            const bx = pos[p.b*3],   by = pos[p.b*3+1], bz = pos[p.b*3+2];
+            const dx = bx-ax, dy = by-ay, dz = bz-az;
+            if (Math.sqrt(dx*dx+dy*dy+dz*dz) < 2.2) {
+                pPos.push(ax + dx*p.t, ay + dy*p.t, az + dz*p.t);
+            }
+        }
+        pulseGeo.setAttribute('position', new THREE.Float32BufferAttribute(pPos, 3));
+
+        /* Orb pulse */
+        const orbPulse = 0.5 + Math.sin(t * 1.2) * 0.5;
+        glowSprite.material.opacity = 0.2 + orbPulse * 0.25;
+        glowSprite.scale.setScalar(2.0 + orbPulse * 0.8);
+
+        /* Rings rotate */
+        rings.forEach(r => { r.rotation.z += r.userData.speed; r.rotation.y += r.userData.speed * 0.5; });
+
+        /* Camera follows mouse gently */
+        camera.position.x += (mouse.x * 0.6 - camera.position.x) * 0.04;
+        camera.position.y += (mouse.y * 0.4 - camera.position.y) * 0.04;
+        camera.lookAt(0, 0, 0);
+
+        renderer.render(scene, camera);
+    }
+    animate();
+})();
+
+/* ══════════════════════════════════════════════
+   3. SCROLL REVEAL — stagger par groupe
+══════════════════════════════════════════════ */
+const revealObs = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+            revealObs.unobserve(entry.target);
+        }
+    });
+}, { threshold: 0.08, rootMargin: '0px 0px -60px 0px' });
+
+document.querySelectorAll('.reveal').forEach(el => revealObs.observe(el));
+
+/* Hero visible immédiatement avec stagger */
+const heroEls = document.querySelectorAll('#hero .hero-left > *');
+heroEls.forEach((el, i) => {
+    el.style.opacity = '0';
+    el.style.transform = 'translateY(28px)';
+    el.style.transition = `opacity 0.7s cubic-bezier(.22,1,.36,1) ${i*110}ms, transform 0.7s cubic-bezier(.22,1,.36,1) ${i*110}ms`;
+    setTimeout(() => { el.style.opacity = '1'; el.style.transform = 'translateY(0)'; }, 200 + i*110);
+});
+
+/* ══════════════════════════════════════════════
+   4. COUNTER ANIMATION au scroll
+══════════════════════════════════════════════ */
+function animateCounter(el, target, suffix, duration) {
+    const isFloat = String(target).includes('.');
+    let start = null;
+    function step(ts) {
+        if (!start) start = ts;
+        const p = Math.min((ts - start) / duration, 1);
+        const ease = 1 - Math.pow(1 - p, 4);
+        const val  = isFloat ? (target * ease).toFixed(1) : Math.round(target * ease);
+        el.textContent = val + suffix;
+        if (p < 1) requestAnimationFrame(step);
+    }
+    requestAnimationFrame(step);
+}
+
+const counterObs = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+        if (!e.isIntersecting) return;
+        const el = e.target;
+        const raw = el.dataset.count;
+        const suffix = el.dataset.suffix || '';
+        animateCounter(el, parseFloat(raw), suffix, 1800);
+        counterObs.unobserve(el);
+    });
+}, { threshold: 0.5 });
+
+/* Wrap stat nums pour counter */
+document.querySelectorAll('.h-stat-num').forEach(el => {
+    const txt = el.textContent.trim();
+    const match = txt.match(/^([\d.]+)(.*)$/);
+    if (match) {
+        el.dataset.count  = match[1];
+        el.dataset.suffix = match[2];
+        el.textContent    = '0' + match[2];
+        counterObs.observe(el);
+    }
+});
+
+/* ══════════════════════════════════════════════
+   5. MAGNETIC BUTTONS
+══════════════════════════════════════════════ */
+document.querySelectorAll('.btn-primary, .nav-cta').forEach(btn => {
+    btn.addEventListener('mousemove', e => {
+        const r  = btn.getBoundingClientRect();
+        const cx = r.left + r.width  / 2;
+        const cy = r.top  + r.height / 2;
+        const dx = (e.clientX - cx) * 0.28;
+        const dy = (e.clientY - cy) * 0.28;
+        btn.style.transform = `translate(${dx}px,${dy}px)`;
+    });
+    btn.addEventListener('mouseleave', () => {
+        btn.style.transition = 'transform 0.5s cubic-bezier(.22,1,.36,1)';
+        btn.style.transform  = 'translate(0,0)';
+        setTimeout(() => btn.style.transition = '', 500);
+    });
+});
+
+/* ══════════════════════════════════════════════
+   6. SKILL TAG hover — gradient sweep
+══════════════════════════════════════════════ */
+document.querySelectorAll('.skill-tag').forEach(tag => {
+    tag.addEventListener('mouseenter', () => {
+        tag.style.background = 'linear-gradient(90deg, rgba(255,107,43,0.12), rgba(200,75,255,0.08))';
+        tag.style.borderColor = 'rgba(255,107,43,0.5)';
+        tag.style.color = '#F0F0F5';
+    });
+    tag.addEventListener('mouseleave', () => {
+        tag.style.background = '';
+        tag.style.borderColor = '';
+        tag.style.color = '';
+    });
+});
+
+/* ══════════════════════════════════════════════
+   7. NAV — highlight actif + shrink au scroll
+══════════════════════════════════════════════ */
+const nav = document.querySelector('nav');
+const sections = document.querySelectorAll('section[id]');
+const navLinks = document.querySelectorAll('nav ul a');
+
+window.addEventListener('scroll', () => {
+    /* Shrink */
+    if (window.scrollY > 60) {
+        nav.style.height = '52px';
+        nav.style.background = 'rgba(10,10,15,0.95)';
+    } else {
+        nav.style.height = '64px';
+        nav.style.background = 'rgba(10,10,15,0.85)';
+    }
+
+    /* Active link */
+    let current = '';
+    sections.forEach(s => {
+        if (window.scrollY >= s.offsetTop - 140) current = s.id;
+    });
+    navLinks.forEach(a => {
+        const isActive = a.getAttribute('href') === '#' + current;
+        a.style.color = isActive ? 'var(--txt)' : '';
+    });
+}, { passive: true });
 </script>
 
 </body>
