@@ -17,7 +17,13 @@ const PVGIS = {
         const qs = params.toString();
         let res = null, lastErr = null;
         const bases = [this.PROXY, this.PROXY_FALLBACK];
-        if (this.PROXY_WORKER.indexOf('votre-compte') === -1) bases.push(this.PROXY_WORKER);
+        if (this.PROXY_WORKER.indexOf('votre-compte') === -1) {
+            // En ligne (pas localhost) : Worker d'abord pour éviter
+            // 2 requêtes vouées à l'échec avant chaque appel horizon.
+            const isLocal = /^(localhost|127\.0\.0\.1)$/.test(location.hostname || '');
+            if (isLocal) bases.push(this.PROXY_WORKER);
+            else bases.unshift(this.PROXY_WORKER);
+        }
         for (const base of bases) {
             try {
                 res = await fetch(`${base}/${endpoint}?${qs}`);
