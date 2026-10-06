@@ -4,8 +4,8 @@
   "description": "Technicien Supérieur en Électromécanique & Énergie à Antsiranana : installation, instrumentation, maintenance, PV, SCADA.",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#ffffff",
-  "theme_color": "#0071E3",
+  "background_color": "#0A0A0F",
+  "theme_color": "#FF6B2B",
   "icons": [
     {
       "src": "favicon-192.png",
@@ -16,6 +16,16 @@
       "src": "favicon.svg",
       "sizes": "any",
       "type": "image/svg+xml"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Simulation solaire",
+      "url": "/logiciels/simulation/simulation.html"
+    },
+    {
+      "name": "Inclinaison optimale",
+      "url": "/logiciels/tilt/optimal-tilt.html"
     }
   ]
 }

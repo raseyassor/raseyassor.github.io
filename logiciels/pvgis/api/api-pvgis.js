@@ -8,11 +8,17 @@ const PVGIS = {
     // Fallback when the page is served by a static server (e.g. Live Server :5500)
     // instead of pvgis/server/server.js (:3001) which owns the /api/pvgis route.
     PROXY_FALLBACK: 'http://localhost:3001/api/pvgis',
+    // Proxy Cloudflare (toujours en ligne, sans endormissement) :
+    // collez ici l'URL de votre Worker + '/api/pvgis'.
+    // Ex. : 'https://sera-pvgis.votre-compte.workers.dev/api/pvgis'
+    PROXY_WORKER: 'https://dark-lab-abbf.ryassor6.workers.dev/api/pvgis',
 
     async _get(endpoint, params) {
         const qs = params.toString();
         let res = null, lastErr = null;
-        for (const base of [this.PROXY, this.PROXY_FALLBACK]) {
+        const bases = [this.PROXY, this.PROXY_FALLBACK];
+        if (this.PROXY_WORKER.indexOf('votre-compte') === -1) bases.push(this.PROXY_WORKER);
+        for (const base of bases) {
             try {
                 res = await fetch(`${base}/${endpoint}?${qs}`);
                 if (res.ok) return res.json();
