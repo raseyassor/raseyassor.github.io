@@ -1,0 +1,2842 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Modèle de rapport — SERA</title>
+  <link rel="stylesheet" href="../theme.css">
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text-mid);
+      font-family: var(--font-body);
+      margin: 0;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* ── Header ── */
+    .tpl-header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(10, 12, 18, 0.85);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      padding: 0.75rem 1.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+
+    .tpl-header-left {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .tpl-header h1 {
+      font-family: var(--font-display);
+      font-size: 1.1rem;
+      color: var(--text-hi);
+      font-weight: 700;
+      margin: 0;
+    }
+
+    .tpl-header h1 span {
+      color: var(--accent);
+    }
+
+    .tpl-badge {
+      font-size: 0.6rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--text-lo);
+      background: var(--bg-card-2);
+      border: 1px solid var(--border);
+      padding: 0.2rem 0.5rem;
+      border-radius: 999px;
+    }
+
+    .tpl-actions {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .btn {
+      background: var(--bg-card-2);
+      border: 1px solid var(--border);
+      color: var(--text-mid);
+      padding: 0.4rem 0.9rem;
+      border-radius: var(--radius-lg);
+      font-family: var(--font-body);
+      font-weight: 600;
+      font-size: 0.75rem;
+      cursor: pointer;
+      transition: all 0.2s;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    .btn:hover {
+      border-color: var(--accent);
+      color: var(--text-hi);
+    }
+
+    .btn-primary {
+      background: var(--accent);
+      color: #fff;
+      border-color: var(--accent);
+    }
+
+    .btn-primary:hover {
+      filter: brightness(1.15);
+    }
+
+    .btn-sm {
+      padding: 0.3rem 0.6rem;
+      font-size: 0.7rem;
+    }
+
+    /* ── Layout ── */
+    .tpl-layout {
+      display: grid;
+      grid-template-columns: 260px 1fr;
+      gap: 0;
+      flex: 1;
+      max-width: 1400px;
+      margin: 0 auto;
+      width: 100%;
+    }
+
+    /* ── Sidebar ── */
+    .tpl-sidebar {
+      border-right: 1px solid var(--border);
+      padding: 1.25rem;
+      position: sticky;
+      top: 56px;
+      height: calc(100vh - 56px);
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+    }
+
+    .sidebar-section-title {
+      font-size: 0.6rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--text-lo);
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+    }
+
+    .nav-page {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      padding: 0.5rem 0.6rem;
+      border-radius: var(--radius);
+      cursor: pointer;
+      transition: all 0.15s;
+      font-size: 0.8rem;
+      color: var(--text-mid);
+      border: 1px solid transparent;
+    }
+
+    .nav-page:hover {
+      background: var(--bg-card-2);
+      color: var(--text-hi);
+    }
+
+    .nav-page.active {
+      background: rgba(255, 107, 43, 0.1);
+      border-color: rgba(255, 107, 43, 0.25);
+      color: var(--accent);
+    }
+
+    .nav-num {
+      width: 22px;
+      height: 22px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--bg-card-2);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      font-size: 0.65rem;
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+
+    .nav-page.active .nav-num {
+      background: var(--accent);
+      color: #fff;
+      border-color: var(--accent);
+    }
+
+    /* Placeholder editor */
+    .ph-editor {
+      display: grid;
+      gap: 0.4rem;
+    }
+
+    .ph-field {
+      display: flex;
+      flex-direction: column;
+      gap: 0.15rem;
+    }
+
+    .ph-field label {
+      font-size: 0.6rem;
+      color: var(--text-lo);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .ph-field input {
+      background: var(--bg-card-2);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 0.35rem 0.5rem;
+      color: var(--text-hi);
+      font-size: 0.75rem;
+      font-family: var(--font-body);
+      width: 100%;
+    }
+
+    .ph-field input:focus {
+      outline: none;
+      border-color: var(--accent);
+    }
+
+    /* ── Main ── */
+    .tpl-main {
+      padding: 1.5rem 2rem;
+      overflow-y: auto;
+      height: calc(100vh - 56px);
+      scroll-behavior: smooth;
+    }
+
+    /* View toggle */
+    .view-tabs {
+      display: flex;
+      gap: 0.25rem;
+      margin-bottom: 1.25rem;
+      background: var(--bg-card-2);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 0.25rem;
+      width: fit-content;
+    }
+
+    .view-tab {
+      padding: 0.35rem 0.9rem;
+      border-radius: var(--radius);
+      font-size: 0.75rem;
+      font-weight: 600;
+      cursor: pointer;
+      border: none;
+      background: transparent;
+      color: var(--text-lo);
+      transition: all 0.2s;
+    }
+
+    .view-tab.active {
+      background: var(--bg-card);
+      color: var(--text-hi);
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+    }
+
+    /* ── Preview Mode ── */
+    .preview-mode .page {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-xl);
+      padding: 1.75rem 2rem;
+      margin-bottom: 1.5rem;
+      position: relative;
+      transition: border-color 0.2s, box-shadow 0.2s;
+      scroll-margin-top: 1rem;
+    }
+
+    .preview-mode .page:hover {
+      border-color: var(--border-mid);
+      box-shadow: 0 4px 24px rgba(0, 0, 0, 0.15);
+    }
+
+    .page-tag {
+      position: absolute;
+      top: -0.6rem;
+      left: 1.25rem;
+      background: var(--accent);
+      color: #fff;
+      font-size: 0.6rem;
+      font-weight: 700;
+      padding: 0.2rem 0.7rem;
+      border-radius: 4px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .page-break-hint {
+      text-align: center;
+      font-size: 0.6rem;
+      color: var(--text-lo);
+      padding: 0.4rem;
+      margin: -0.75rem 0 1.25rem;
+      border-top: 1px dashed var(--border-mid);
+      border-bottom: 1px dashed var(--border-mid);
+      font-family: var(--font-mono, monospace);
+      opacity: 0.6;
+    }
+
+    .section-title {
+      font-family: var(--font-display);
+      color: var(--text-hi);
+      font-size: 1.15rem;
+      font-weight: 700;
+      margin: 0 0 0.2rem;
+    }
+
+    .section-sub {
+      color: var(--text-lo);
+      font-size: 0.8rem;
+      margin-bottom: 1rem;
+    }
+
+    /* Tables */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 0.6rem 0;
+      font-size: 0.8rem;
+    }
+
+    th,
+    td {
+      padding: 0.4rem 0.6rem;
+      text-align: right;
+      border-bottom: 1px solid var(--border);
+    }
+
+    th {
+      color: var(--text-lo);
+      font-weight: 600;
+      text-transform: uppercase;
+      font-size: 0.6rem;
+      letter-spacing: 0.5px;
+      background: rgba(255, 255, 255, 0.02);
+    }
+
+    td {
+      color: var(--text-mid);
+    }
+
+    td:first-child,
+    th:first-child {
+      text-align: left;
+    }
+
+    tr:hover td {
+      background: rgba(255, 255, 255, 0.02);
+    }
+
+    .val {
+      color: var(--text-hi);
+      font-weight: 600;
+    }
+
+    .hl {
+      color: var(--accent);
+      font-weight: 600;
+    }
+
+    /* KPI row */
+    .kpi-row {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 0.6rem;
+      margin: 0.75rem 0;
+    }
+
+    .kpi-item {
+      background: var(--bg-card-2);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 0.75rem;
+      text-align: center;
+      transition: transform 0.15s;
+    }
+
+    .kpi-item:hover {
+      transform: translateY(-2px);
+    }
+
+    .kpi-item .label {
+      font-size: 0.6rem;
+      color: var(--text-lo);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .kpi-item .value {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--text-hi);
+      margin-top: 0.2rem;
+    }
+
+    .kpi-item .sub {
+      font-size: 0.6rem;
+      color: var(--text-lo);
+      margin-top: 0.1rem;
+    }
+
+    /* Blockquote */
+    .blockquote {
+      border-left: 3px solid var(--accent);
+      padding: 0.6rem 1rem;
+      margin: 0.75rem 0;
+      background: rgba(255, 107, 43, 0.06);
+      border-radius: 0 var(--radius) var(--radius) 0;
+      font-size: 0.8rem;
+      color: var(--text-mid);
+      line-height: 1.5;
+    }
+
+    .blockquote strong {
+      color: var(--text-hi);
+    }
+
+    /* Section card */
+    .sec-card {
+      background: var(--bg-card-2);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 1rem;
+      margin: 0.6rem 0;
+    }
+
+    .sec-card-title {
+      font-size: 0.8rem;
+      color: var(--text-hi);
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+    }
+
+    /* ── Source Mode ── */
+    .source-mode {
+      display: none;
+    }
+
+    .source-mode.active {
+      display: block;
+    }
+
+    .md-toolbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 0.75rem;
+    }
+
+    .md-info {
+      font-size: 0.7rem;
+      color: var(--text-lo);
+    }
+
+    .md-block {
+      background: #0d1117;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-xl);
+      padding: 1.25rem;
+      overflow-x: auto;
+      font-family: 'SF Mono', Monaco, 'Cascadia Code', monospace;
+      font-size: 0.8rem;
+      line-height: 1.7;
+      white-space: pre-wrap;
+      word-break: break-word;
+    }
+
+    /* Simple syntax highlighting */
+    .md-h1 {
+      color: #7ee787;
+      font-weight: 700;
+    }
+
+    .md-h2 {
+      color: #7ee787;
+      font-weight: 600;
+    }
+
+    .md-h3 {
+      color: #7ee787;
+    }
+
+    .md-bold {
+      color: #ffa657;
+      font-weight: 600;
+    }
+
+    .md-code {
+      color: #79c0ff;
+      background: rgba(121, 192, 255, 0.08);
+      padding: 0.1rem 0.3rem;
+      border-radius: 3px;
+    }
+
+    .md-table-sep {
+      color: #58a6ff;
+    }
+
+    .md-comment {
+      color: #8b949e;
+      font-style: italic;
+    }
+
+    .md-link {
+      color: #a5d6ff;
+    }
+
+    .md-num {
+      color: #79c0ff;
+    }
+
+    .md-pct {
+      color: #d2a8ff;
+    }
+
+    /* ── Toast ── */
+    #toast {
+      position: fixed;
+      bottom: 1.5rem;
+      right: 1.5rem;
+      z-index: 200;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      pointer-events: none;
+    }
+
+    .toast-item {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-left: 3px solid var(--accent);
+      color: var(--text-hi);
+      padding: 0.6rem 1rem;
+      border-radius: var(--radius);
+      font-size: 0.8rem;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+      animation: toastIn 0.3s ease, toastOut 0.3s ease 2.7s forwards;
+      pointer-events: auto;
+    }
+
+    @keyframes toastIn {
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes toastOut {
+      to {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+    }
+
+    /* ── Responsive ── */
+    @media (max-width: 900px) {
+      .tpl-layout {
+        grid-template-columns: 1fr;
+      }
+
+      .tpl-sidebar {
+        position: relative;
+        top: 0;
+        height: auto;
+        border-right: none;
+        border-bottom: 1px solid var(--border);
+        padding: 1rem;
+      }
+
+      .tpl-main {
+        height: auto;
+        padding: 1rem;
+      }
+
+      .ph-editor {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 600px) {
+      .tpl-header {
+        flex-wrap: wrap;
+        padding: 0.6rem 1rem;
+      }
+
+      .tpl-header h1 {
+        font-size: 1rem;
+      }
+
+      .kpi-row {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .preview-mode .page {
+        padding: 1.25rem;
+      }
+    }
+
+    /* ── PDF Preview Mode ── */
+    .pdf-mode {
+      display: none;
+      background: #e8e8e8;
+      padding: 2rem 1rem;
+    }
+
+    .pdf-mode.active {
+      display: block;
+    }
+
+    .pdf-mode .pdf-controls {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 1.25rem;
+      max-width: 210mm;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .pdf-mode .pdf-controls .pdf-info {
+      font-size: 0.75rem;
+      color: #666;
+    }
+
+    .pdf-mode .pdf-pages {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1.5rem;
+    }
+
+    .pdf-mode .pdf-page {
+      background: #fff;
+      width: 210mm;
+      min-height: 297mm;
+      padding: 18mm 16mm 22mm 16mm;
+      box-shadow: 0 4px 24px rgba(0, 0, 0, 0.15);
+      border-radius: 2px;
+      font-size: 9.5pt;
+      line-height: 1.55;
+      color: #222;
+      box-sizing: border-box;
+      position: relative;
+      page-break-after: always;
+      border-top: 4px solid #FF6B2B;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    }
+
+    .pdf-mode .pdf-page:last-child {
+      page-break-after: auto;
+    }
+
+    .pdf-mode .pdf-page h1 {
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin: 0 0 0.6rem;
+      color: #FF6B2B;
+      page-break-after: avoid;
+      border-bottom: 2px solid #eee;
+      padding-bottom: 0.4rem;
+    }
+
+    .pdf-mode .pdf-page h2 {
+      font-size: 1.05rem;
+      font-weight: 700;
+      margin: 1rem 0 0.4rem;
+      color: #222;
+      page-break-after: avoid;
+    }
+
+    .pdf-mode .pdf-page h3 {
+      font-size: 0.85rem;
+      font-weight: 600;
+      margin: 0.75rem 0 0.3rem;
+      color: #444;
+      page-break-after: avoid;
+    }
+
+    .pdf-mode .pdf-page table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 0.5rem 0;
+      font-size: 0.7rem;
+      page-break-inside: avoid;
+      border: 1px solid #e5e5e5;
+      border-radius: 4px;
+      overflow: hidden;
+    }
+
+    .pdf-mode .pdf-page th {
+      background: #FF6B2B;
+      color: #fff;
+      font-weight: 600;
+      font-size: 0.6rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      padding: 0.4rem 0.5rem;
+      border-bottom: 1px solid #6a4de6;
+      text-align: right;
+    }
+
+    .pdf-mode .pdf-page th:first-child {
+      text-align: left;
+    }
+
+    .pdf-mode .pdf-page td {
+      color: #333;
+      padding: 0.35rem 0.5rem;
+      border-bottom: 1px solid #eee;
+      text-align: right;
+    }
+
+    .pdf-mode .pdf-page td:first-child {
+      text-align: left;
+      color: #444;
+    }
+
+    .pdf-mode .pdf-page td:last-child {
+      color: #FF6B2B;
+      font-weight: 600;
+    }
+
+    .pdf-mode .pdf-page tr:nth-child(even) td {
+      background: #faf8ff;
+    }
+
+    .pdf-mode .pdf-page strong {
+      color: #222;
+      font-weight: 700;
+    }
+
+    .pdf-mode .pdf-page td strong {
+      color: #FF6B2B;
+    }
+
+    .pdf-mode .pdf-page blockquote {
+      border-left: 3px solid #FF6B2B;
+      padding: 0.5rem 0.75rem;
+      margin: 0.5rem 0;
+      background: linear-gradient(to right, #f8f6ff, #fff);
+      font-size: 0.75rem;
+      color: #333;
+      line-height: 1.5;
+      border-radius: 0 4px 4px 0;
+      page-break-inside: avoid;
+    }
+
+    .pdf-mode .pdf-page blockquote strong {
+      color: #FF6B2B;
+    }
+
+    .pdf-mode .pdf-page hr {
+      border: none;
+      border-top: 1px solid #ddd;
+      margin: 0.75rem 0;
+    }
+
+    .pdf-mode .pdf-page ul {
+      font-size: 0.7rem;
+      color: #333;
+      padding-left: 1.2rem;
+      line-height: 1.8;
+      margin: 0.4rem 0;
+    }
+
+    .pdf-mode .pdf-page p {
+      font-size: 0.7rem;
+      color: #333;
+      margin: 0.4rem 0;
+      line-height: 1.55;
+    }
+
+    .pdf-mode .pdf-page code {
+      color: #FF6B2B;
+      background: #f0edff;
+      padding: 0.1rem 0.3rem;
+      border-radius: 2px;
+      font-size: 0.65rem;
+    }
+
+    .pdf-mode .pdf-page a {
+      color: #FF6B2B;
+      text-decoration: underline;
+    }
+
+    .pdf-mode .pdf-page .kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 0.4rem;
+      margin: 0.6rem 0;
+    }
+
+    .pdf-mode .pdf-page .kpi-card {
+      background: linear-gradient(135deg, #f8f6ff, #fff);
+      border: 1px solid #e5e5e5;
+      border-radius: 4px;
+      padding: 0.5rem;
+      text-align: center;
+      page-break-inside: avoid;
+    }
+
+    .pdf-mode .pdf-page .kpi-card .kpi-label {
+      font-size: 0.55rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: #888;
+      margin-bottom: 0.15rem;
+    }
+
+    .pdf-mode .pdf-page .kpi-card .kpi-value {
+      font-size: 1rem;
+      font-weight: 700;
+      color: #FF6B2B;
+    }
+
+    .pdf-mode .pdf-page .kpi-card .kpi-value.green {
+      color: #22c55e;
+    }
+
+    .pdf-mode .pdf-page .kpi-card .kpi-sub {
+      font-size: 0.55rem;
+      color: #999;
+      margin-top: 0.1rem;
+    }
+
+    .pdf-mode .pdf-page .val-accent {
+      color: #FF6B2B;
+      font-weight: 600;
+    }
+
+    .pdf-mode .pdf-page .val-green {
+      color: #22c55e;
+      font-weight: 600;
+    }
+
+    /* ── Cover Page ── */
+    .pdf-mode .pdf-page.pdf-cover {
+      border-top: none;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 22mm 20mm;
+      background: #ffffff;
+      color: #1e293b;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .pdf-mode .pdf-page.pdf-cover::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 10px;
+      background: linear-gradient(90deg, #FF6B2B 0%, #3b82f6 50%, #10b981 100%);
+    }
+
+    .pdf-mode .pdf-page.pdf-cover .cover-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 8mm;
+    }
+
+    .pdf-mode .pdf-page.pdf-cover .cover-brand {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .pdf-mode .pdf-page.pdf-cover .cover-brand-icon {
+      width: 44px;
+      height: 44px;
+      background: rgba(255, 107, 43, 0.08);
+      border: 1px solid rgba(255, 107, 43, 0.2);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #FF6B2B;
+    }
+
+    .pdf-mode .pdf-page.pdf-cover .cover-brand-text {
+      font-weight: 800;
+      font-size: 1.35rem;
+      letter-spacing: 0.05em;
+      color: #0f172a;
+    }
+
+    .pdf-mode .pdf-page.pdf-cover .cover-badge {
+      font-size: 0.6rem;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: #FF6B2B;
+      background: #f1f0fe;
+      border: 1px solid #dcd7fe;
+      padding: 0.35rem 0.85rem;
+      border-radius: 999px;
+    }
+
+    .pdf-mode .pdf-page.pdf-cover .cover-body {
+      margin: auto 0;
+      padding: 12mm 0;
+    }
+
+    .pdf-mode .pdf-page.pdf-cover .cover-tagline {
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      color: #FF6B2B;
+      margin-bottom: 0.75rem;
+    }
+
+    .pdf-mode .pdf-page.pdf-cover .cover-title {
+      font-size: 2.6rem;
+      font-weight: 800;
+      color: #0f172a;
+      line-height: 1.15;
+      margin: 0 0 1rem 0;
+      letter-spacing: -0.02em;
+      border: none;
+      padding: 0;
+    }
+
+    .pdf-mode .pdf-page.pdf-cover .cover-subtitle {
+      font-size: 0.95rem;
+      color: #475569;
+      line-height: 1.6;
+      max-width: 90%;
+      margin: 0 0 2rem 0;
+      font-weight: 400;
+    }
+
+    .pdf-mode .pdf-page.pdf-cover .cover-accent-bar {
+      width: 64px;
+      height: 4px;
+      background: #FF6B2B;
+      border-radius: 2px;
+      margin-bottom: 2.25rem;
+    }
+
+    .pdf-mode .pdf-page.pdf-cover .cover-meta-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1rem;
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 10px;
+      padding: 1.25rem 1.5rem;
+    }
+
+    .pdf-mode .pdf-page.pdf-cover .meta-item {
+      display: flex;
+      flex-direction: column;
+      gap: 0.2rem;
+    }
+
+    .pdf-mode .pdf-page.pdf-cover .meta-label {
+      font-size: 0.58rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: #94a3b8;
+    }
+
+    .pdf-mode .pdf-page.pdf-cover .meta-value {
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: #1e293b;
+    }
+
+    .pdf-mode .pdf-page.pdf-cover .cover-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-top: 1rem;
+      border-top: 1px solid #f1f5f9;
+      font-size: 0.7rem;
+      color: #94a3b8;
+    }
+    /* ── Preview-only mode (show only PDF) ── */
+    body.preview-only .tpl-header,
+    body.preview-only .tpl-sidebar,
+    body.preview-only .view-tabs,
+    body.preview-only #preview-mode,
+    body.preview-only #source-mode {
+      display: none !important;
+    }
+    body.preview-only .tpl-layout {
+      display: block;
+    }
+    body.preview-only .tpl-main {
+      height: auto;
+      padding: 0;
+      overflow: visible;
+    }
+    body.preview-only #pdf-mode {
+      display: block !important;
+      background: #e8e8e8;
+      padding: 2rem 1rem;
+    }
+    body.preview-only .pdf-mode .pdf-controls {
+      display: none;
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- Header -->
+  <div class="tpl-header">
+    <div class="tpl-header-left">
+      <h1><span>&#9723;</span> Modèle de rapport <span style="font-weight:400;font-size:0.8rem;color:var(--text-lo)">squelette
+          .md</span></h1>
+      <span class="tpl-badge">8 pages · optimisé A4</span>
+    </div>
+    <div class="tpl-actions">
+      <button class="btn btn-sm" onclick="resetDefaults()">Réinitialiser</button>
+      <button class="btn btn-sm" onclick="copyMd()">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <rect x="9" y="9" width="13" height="13" rx="2" />
+          <path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1" />
+        </svg>
+        Copier
+      </button>
+      <button class="btn btn-primary" onclick="exportMd()">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4" />
+          <polyline points="7 10 12 15 17 10" />
+          <line x1="12" y1="15" x2="12" y2="3" />
+        </svg>
+        Générer .md
+      </button>
+    </div>
+  </div>
+
+  <!-- Layout -->
+  <div class="tpl-layout">
+
+    <!-- Sidebar -->
+    <aside class="tpl-sidebar">
+      <div>
+        <div class="sidebar-section-title">Pages</div>
+        <nav style="display:flex;flex-direction:column;gap:0.25rem;">
+          <div class="nav-page active" onclick="scrollToPage('page-1', this)">
+            <span class="nav-num">1</span>
+            <span>Aperçu du projet</span>
+          </div>
+          <div class="nav-page" onclick="scrollToPage('page-2', this)">
+            <span class="nav-num">2</span>
+            <span>Site & système</span>
+          </div>
+          <div class="nav-page" onclick="scrollToPage('page-3', this)">
+            <span class="nav-num">3</span>
+            <span>Production d’énergie</span>
+          </div>
+          <div class="nav-page" onclick="scrollToPage('page-4', this)">
+            <span class="nav-num">4</span>
+            <span>Analyse des pertes</span>
+          </div>
+          <div class="nav-page" onclick="scrollToPage('page-5', this)">
+            <span class="nav-num">5</span>
+            <span>Analyse financière</span>
+          </div>
+          <div class="nav-page" onclick="scrollToPage('page-6', this)">
+            <span class="nav-num">6</span>
+            <span>Environnemental</span>
+          </div>
+          <div class="nav-page" onclick="scrollToPage('page-7', this)">
+            <span class="nav-num">7</span>
+            <span>Méthodologie</span>
+          </div>
+        </nav>
+      </div>
+
+      <div>
+        <div class="sidebar-section-title">Édition rapide</div>
+        <div class="ph-editor" id="ph-editor">
+          <div class="ph-field"><label>Lieu</label><input data-key="loc" value="Paris, France"></div>
+          <div class="ph-field"><label>Puissance (kWp)</label><input data-key="kWp" value="12.5" type="number"
+              step="0.1"></div>
+          <div class="ph-field"><label>Prod. annuelle (kWh)</label><input data-key="kWh" value="145000" type="number">
+          </div>
+          <div class="ph-field"><label>PR (%)</label><input data-key="pr" value="83.5" type="number" step="0.1"></div>
+          <div class="ph-field"><label>Investissement (€)</label><input data-key="inv" value="18750" type="number"></div>
+          <div class="ph-field"><label>LCOE (€/kWh)</label><input data-key="lcoe" value="0.084" type="number"
+              step="0.001"></div>
+        </div>
+      </div>
+
+      <div style="margin-top:auto; padding-top:1rem; border-top:1px solid var(--border);">
+        <div class="sidebar-section-title">Conseils</div>
+        <p style="font-size:0.7rem;color:var(--text-lo);line-height:1.6;margin:0;">
+          Modifiez les valeurs ci-dessus pour prévisualiser. Utilisez <strong>Copier</strong> pour récupérer le markdown brut, ou <strong>Générer
+            .md</strong> pour télécharger.
+        </p>
+      </div>
+    </aside>
+
+    <!-- Main -->
+    <main class="tpl-main" id="tpl-main">
+
+      <!-- View tabs -->
+      <div class="view-tabs">
+        <button class="view-tab active" onclick="setView('preview', this)">Aperçu</button>
+        <button class="view-tab" onclick="setView('source', this)">Source Markdown</button>
+        <button class="view-tab" onclick="setView('pdf', this)">Aperçu PDF</button>
+      </div>
+
+      <!-- Preview Mode -->
+      <div class="preview-mode" id="preview-mode">
+
+        <!-- Page 1 -->
+        <div class="page" id="page-1">
+          <div class="page-tag">Page 1</div>
+          <div class="section-title">Aperçu du projet</div>
+          <div class="section-sub">Page de couverture — indicateurs clés en un coup d’œil</div>
+
+          <table>
+            <tr>
+              <th>Paramètre</th>
+              <th>Valeur</th>
+            </tr>
+            <tr>
+              <td>Projet</td>
+              <td>Système PV — <span class="val" data-ph="loc">Paris, France</span></td>
+            </tr>
+            <tr>
+              <td>Lieu</td>
+              <td class="val" data-ph="loc">Paris, France</td>
+            </tr>
+            <tr>
+              <td>Coordonnées</td>
+              <td><span data-ph="lat">48.8566</span>°N, <span data-ph="lng">2.3522</span>°E</td>
+            </tr>
+            <tr>
+              <td>Puissance installée</td>
+              <td class="val"><span data-ph="kWp">12.5</span> kWp</td>
+            </tr>
+            <tr>
+              <td>Production AC annuelle</td>
+              <td class="val"><span data-ph="kWh">145 000</span> kWh</td>
+            </tr>
+            <tr>
+              <td>Ratio de performance</td>
+              <td class="val"><span data-ph="pr">83.5</span>%</td>
+            </tr>
+            <tr>
+              <td>Données météo</td>
+              <td><span data-ph="year">2025</span> (<span data-ph="db">ERA5</span>)</td>
+            </tr>
+            <tr>
+              <td>Mode de simulation</td>
+              <td><span data-ph="mode">Pluriannuel (10 ans)</span></td>
+            </tr>
+            <tr>
+              <td>Date du rapport</td>
+              <td data-ph="date">2026-07-29 14:30</td>
+            </tr>
+            <tr>
+              <td>Moteur</td>
+              <td>SERA — Analyseur de Ressource d’Énergie Solaire</td>
+            </tr>
+          </table>
+
+          <div class="blockquote">
+            <strong>P50 (attendu) :</strong> <span data-ph="p50">142 000</span> kWh ·
+            <strong>P90 (prudent) :</strong> <span data-ph="p90">128 000</span> kWh ·
+            <strong>CV :</strong> ±<span data-ph="cv">8.2</span>%
+          </div>
+
+          <div class="blockquote">
+            <strong>Investissement :</strong> <span data-ph="inv">18 750</span> € ·
+            <strong>VAN :</strong> <span data-ph="npv">+8 420</span> € ·
+            <strong>TRI :</strong> <span data-ph="irr">5.8</span>% ·
+            <strong>LCOE :</strong> <span data-ph="lcoe">0.084</span> €/kWh ·
+            <strong>Amortissement :</strong> <span data-ph="pb">8.3</span> ans
+          </div>
+        </div>
+        <div class="page-break-hint">&lt;div style="page-break-after: always;"&gt;&lt;/div&gt;</div>
+
+        <!-- Page 2 -->
+        <div class="page" id="page-2">
+          <div class="page-tag">Page 2</div>
+          <div class="section-title">1. Configuration du site &amp; système</div>
+          <div class="section-sub">Données du site, specs du champ PV, paramètres de pertes par section</div>
+
+          <div class="sec-card">
+            <div class="sec-card-title">1.1 Données du site</div>
+            <table>
+              <tr>
+                <th>Paramètre</th>
+                <th>Valeur</th>
+              </tr>
+              <tr>
+                <td>Latitude</td>
+                <td><span data-ph="lat">48.8566</span>°N</td>
+              </tr>
+              <tr>
+                <td>Longitude</td>
+                <td><span data-ph="lng">2.3522</span>°E</td>
+              </tr>
+              <tr>
+                <td>Base météo</td>
+                <td><span data-ph="db">ERA5</span></td>
+              </tr>
+              <tr>
+                <td>Période de données</td>
+                <td><span data-ph="year">2025</span></td>
+              </tr>
+              <tr>
+                <td>Années disponibles</td>
+                <td>2015, 2016, …, <span data-ph="year">2025</span></td>
+              </tr>
+              <tr>
+                <td>Température ambiante</td>
+                <td><span data-ph="temp">11.5</span>°C (<span data-ph="tmin">4.2</span>–<span
+                    data-ph="tmax">21.8</span>°C)</td>
+              </tr>
+            </table>
+          </div>
+
+          <div class="sec-card">
+            <div class="sec-card-title">1.2 Configuration du champ PV</div>
+            <p style="font-size:0.8rem;margin:0 0 0.6rem;">Le système comprend <strong><span
+                  data-ph="n_sec">2</span></strong> section(s) — <strong><span data-ph="kWp">12.5</span> kWp</strong>
+              au total.</p>
+
+            <div
+              style="background:var(--bg);border:1px solid var(--border);border-radius:var(--radius);padding:0.75rem;">
+              <p style="font-size:0.75rem;color:var(--text-hi);margin-bottom:0.4rem;font-weight:600;">
+                Section 1 : <span data-ph="kWp_sec">6.25</span> kWp · <span data-ph="tilt">35</span>° inclinaison · <span
+                  data-ph="az">180</span>° azimut · <span data-ph="panel">Trina 400W</span> (<span
+                  data-ph="eff">21.2</span>%) · <span data-ph="mount">Toiture</span>
+              </p>
+              <table style="margin:0;font-size:0.75rem;">
+                <tr>
+                  <th>Perte</th>
+                  <th>Valeur</th>
+                </tr>
+                <tr>
+                  <td>Câble</td>
+                  <td><span data-ph="cl">1.2</span>%</td>
+                </tr>
+                <tr>
+                  <td>Onduleur</td>
+                  <td><span data-ph="il">3.5</span>%</td>
+                </tr>
+                <tr>
+                  <td>Module</td>
+                  <td><span data-ph="pl">2.0</span>%</td>
+                </tr>
+                <tr>
+                  <td>Qualité</td>
+                  <td><span data-ph="ql">2.0</span>%</td>
+                </tr>
+                <tr>
+                  <td>Désadaptation</td>
+                  <td><span data-ph="ml">1.5</span>%</td>
+                </tr>
+                <tr>
+                  <td>Salissures</td>
+                  <td><span data-ph="sl">2.0</span>%</td>
+                </tr>
+                <tr>
+                  <td><strong>Contribution annuelle</strong></td>
+                  <td><strong><span data-ph="contrib">72 500</span> kWh</strong></td>
+                </tr>
+              </table>
+            </div>
+          </div>
+        </div>
+        <div class="page-break-hint">&lt;div style="page-break-after: always;"&gt;&lt;/div&gt;</div>
+
+        <!-- Page 3 -->
+        <div class="page" id="page-3">
+          <div class="page-tag">Page 3</div>
+          <div class="section-title">2. Production d’énergie</div>
+          <div class="section-sub">Indicateurs clés, tableau mensuel, répartition saisonnière, variabilité interannuelle</div>
+
+          <div class="sec-card">
+            <div class="sec-card-title">2.1 Indicateurs clés de performance</div>
+            <table>
+              <tr>
+                <th>Indicateur</th>
+                <th>Valeur</th>
+                <th>Unité</th>
+              </tr>
+              <tr>
+                <td>Production AC annuelle</td>
+                <td class="val"><span data-ph="kWh">145 000</span></td>
+                <td>kWh</td>
+              </tr>
+              <tr>
+                <td>Productible spécifique</td>
+                <td class="val"><span data-ph="sy">11 600</span></td>
+                <td>kWh/kWp</td>
+              </tr>
+              <tr>
+                <td>Facteur de charge</td>
+                <td class="val"><span data-ph="cf">15.2</span>%</td>
+                <td>%</td>
+              </tr>
+              <tr>
+                <td>Ratio de performance (PR)</td>
+                <td class="val"><span data-ph="pr">83.5</span>%</td>
+                <td>%</td>
+              </tr>
+              <tr>
+                <td>Irradiation annuelle dans le plan (GTI)</td>
+                <td class="val"><span data-ph="gti">2 050</span></td>
+                <td>kWh/m²</td>
+              </tr>
+              <tr>
+                <td>Irradiation horizontale (GHI)</td>
+                <td class="val"><span data-ph="ghi">1 580</span></td>
+                <td>kWh/m²</td>
+              </tr>
+              <tr>
+                <td>Heures de soleil équivalentes</td>
+                <td class="val"><span data-ph="esh">5.52</span> h/jour</td>
+                <td>h/jour</td>
+              </tr>
+            </table>
+          </div>
+
+          <div class="sec-card">
+            <div class="sec-card-title">2.2 Bilan énergétique mensuel</div>
+            <table>
+              <thead>
+                <tr>
+                  <th>Mois</th>
+                  <th>GHI</th>
+                  <th>GTI</th>
+                  <th>Prod.</th>
+                  <th>PR</th>
+                  <th>Heures sol.</th>
+                  <th>T°C</th>
+                </tr>
+              </thead>
+              <tbody id="monthly-preview-body">
+                <!-- Populated by JS -->
+              </tbody>
+            </table>
+          </div>
+
+          <div class="sec-card">
+            <div class="sec-card-title">2.3 Répartition saisonnière</div>
+            <table>
+              <tr>
+                <th>Saison</th>
+                <th>Prod. (kWh)</th>
+                <th>Part</th>
+                <th>GTI moy.</th>
+                <th>PR moy.</th>
+              </tr>
+              <tr>
+                <td>Hiver (DJF)</td>
+                <td>18 500</td>
+                <td>12.8%</td>
+                <td>370</td>
+                <td>82.1%</td>
+              </tr>
+              <tr>
+                <td>Printemps (MAM)</td>
+                <td>45 200</td>
+                <td>31.2%</td>
+                <td>610</td>
+                <td>83.9%</td>
+              </tr>
+              <tr>
+                <td>Été (JJA)</td>
+                <td>52 100</td>
+                <td>35.9%</td>
+                <td>680</td>
+                <td>84.2%</td>
+              </tr>
+              <tr>
+                <td>Automne (SON)</td>
+                <td>29 200</td>
+                <td>20.1%</td>
+                <td>390</td>
+                <td>83.0%</td>
+              </tr>
+            </table>
+            <div class="blockquote" style="margin-bottom:0;">
+              <strong>Max :</strong> Juin (<span data-ph="peak">14 200</span> kWh) · <strong>Min :</strong> Déc. (<span
+                data-ph="low">6 800</span> kWh)
+            </div>
+          </div>
+
+          <div class="sec-card">
+            <div class="sec-card-title">2.4 Variabilité interannuelle</div>
+            <p style="font-size:0.8rem;margin:0 0 0.5rem;">Sur <span data-ph="n_yrs">10</span> ans de données :</p>
+            <table>
+              <tr>
+                <th>Statistique</th>
+                <th>Valeur</th>
+              </tr>
+              <tr>
+                <td>Moyenne</td>
+                <td><span data-ph="mean">142 000</span> kWh</td>
+              </tr>
+              <tr>
+                <td>Écart-type (σ)</td>
+                <td><span data-ph="std">11 640</span> kWh</td>
+              </tr>
+              <tr>
+                <td>CV</td>
+                <td><span data-ph="cv">8.2</span>%</td>
+              </tr>
+              <tr>
+                <td>Min (observé)</td>
+                <td><span data-ph="min">121 000</span> kWh</td>
+              </tr>
+              <tr>
+                <td>Max (observé)</td>
+                <td><span data-ph="max">158 000</span> kWh</td>
+              </tr>
+              <tr>
+                <td><strong>P50 (attendu)</strong></td>
+                <td><strong><span data-ph="p50">142 000</span> kWh</strong></td>
+              </tr>
+              <tr>
+                <td><strong>P90 (prudent)</strong></td>
+                <td><strong><span data-ph="p90">128 000</span> kWh</strong></td>
+              </tr>
+            </table>
+          </div>
+        </div>
+        <div class="page-break-hint">&lt;div style="page-break-after: always;"&gt;&lt;/div&gt;</div>
+
+        <!-- Page 4 -->
+        <div class="page" id="page-4">
+          <div class="page-tag">Page 4</div>
+          <div class="section-title">3. Analyse des pertes</div>
+          <div class="section-sub">Tableau en cascade, détail par catégorie, décomposition du PR</div>
+
+          <div class="sec-card">
+            <div class="sec-card-title">3.1 Cascade des pertes</div>
+            <table>
+              <tr>
+                <th>Étape</th>
+                <th>Énergie (kWh)</th>
+                <th>% du GHI</th>
+                <th>Δ préc.</th>
+              </tr>
+              <tr>
+                <td>GHI (horizontal)</td>
+                <td>1 580 000</td>
+                <td>100.0%</td>
+                <td>—</td>
+              </tr>
+              <tr>
+                <td>GTI (plan)</td>
+                <td>2 050 000</td>
+                <td>129.7%</td>
+                <td class="hl">+29.7%</td>
+              </tr>
+              <tr>
+                <td>Après horizon</td>
+                <td>1 970 000</td>
+                <td>124.7%</td>
+                <td>−3.9%</td>
+              </tr>
+              <tr>
+                <td>Après IAM</td>
+                <td>1 930 000</td>
+                <td>122.2%</td>
+                <td>−2.0%</td>
+              </tr>
+              <tr>
+                <td>Après spectral</td>
+                <td>1 900 000</td>
+                <td>120.3%</td>
+                <td>−1.6%</td>
+              </tr>
+              <tr>
+                <td>Après faible éclairement</td>
+                <td>1 870 000</td>
+                <td>118.4%</td>
+                <td>−1.6%</td>
+              </tr>
+              <tr>
+                <td>Après température</td>
+                <td>1 730 000</td>
+                <td>109.5%</td>
+                <td>−7.5%</td>
+              </tr>
+              <tr>
+                <td><strong>Sortie AC</strong></td>
+                <td><strong>145 000</strong></td>
+                <td><strong>100.0%*</strong></td>
+                <td>−91.6%</td>
+              </tr>
+            </table>
+            <p style="font-size:0.65rem;color:var(--text-lo);margin:0.25rem 0 0;">* Normalisé au GHI pour référence PR
+            </p>
+          </div>
+
+          <div class="sec-card">
+            <div class="sec-card-title">3.2 Synthèse des pertes</div>
+            <table>
+              <tr>
+                <th>Catégorie</th>
+                <th>Valeur</th>
+                <th>Description</th>
+              </tr>
+              <tr>
+                <td>Transposition</td>
+                <td class="hl">+29.7%</td>
+                <td>Inclinaison/azimut vs horizontal</td>
+              </tr>
+              <tr>
+                <td>Horizon</td>
+                <td>−3.9%</td>
+                <td>Profil d’ombrage lointain</td>
+              </tr>
+              <tr>
+                <td>IAM</td>
+                <td>−2.0%</td>
+                <td>Réflexion Martin &amp; Ruiz</td>
+              </tr>
+              <tr>
+                <td>Spectral</td>
+                <td>−1.6%</td>
+                <td>Effet de masse d’air</td>
+              </tr>
+              <tr>
+                <td>Faible éclairement</td>
+                <td>−1.6%</td>
+                <td>η non linéaire à faible W/m²</td>
+              </tr>
+              <tr>
+                <td>Température</td>
+                <td>−7.5%</td>
+                <td>Cellule &gt;25°C</td>
+              </tr>
+              <tr>
+                <td>Câble DC</td>
+                <td>−1.2%</td>
+                <td>Câblage ohmique</td>
+              </tr>
+              <tr>
+                <td>Onduleur</td>
+                <td>−3.5%</td>
+                <td>Conversion</td>
+              </tr>
+              <tr>
+                <td>Qualité</td>
+                <td>−2.0%</td>
+                <td>Tolérance</td>
+              </tr>
+              <tr>
+                <td>Désadaptation</td>
+                <td>−1.5%</td>
+                <td>Discordance des chaînes</td>
+              </tr>
+              <tr>
+                <td>Salissures</td>
+                <td>−2.0%</td>
+                <td>Poussière/neige</td>
+              </tr>
+              <tr>
+                <td><strong>Facteur physique</strong></td>
+                <td><strong>83.5%</strong></td>
+                <td>Transp→horizon→IAM→spec→faibleÉcl→temp</td>
+              </tr>
+              <tr>
+                <td><strong>Facteur système</strong></td>
+                <td><strong>89.5%</strong></td>
+                <td>Câble×ond×module×qual×désad×salis</td>
+              </tr>
+              <tr>
+                <td><strong>PR total</strong></td>
+                <td><strong>83.5%</strong></td>
+                <td>Physique × Système</td>
+              </tr>
+            </table>
+          </div>
+        </div>
+        <div class="page-break-hint">&lt;div style="page-break-after: always;"&gt;&lt;/div&gt;</div>
+
+        <!-- Page 5 -->
+        <div class="page" id="page-5">
+          <div class="page-tag">Page 5</div>
+          <div class="section-title">4. Analyse financière</div>
+          <div class="section-sub">Investissement, revenus, VAN, TRI, LCOE, amortissement, trésorerie</div>
+
+          <div class="kpi-row" style="margin-bottom:1rem;">
+            <div class="kpi-item">
+              <div class="label">CAPEX total</div>
+              <div class="val" style="font-size:1.1rem;"><span data-ph="inv">18 750</span> €</div>
+            </div>
+            <div class="kpi-item">
+              <div class="label">VAN (25 ans)</div>
+              <div class="val" style="font-size:1.1rem; color: #22c55e;"><span data-ph="npv">+8 420</span> €</div>
+            </div>
+            <div class="kpi-item">
+              <div class="label">TRI</div>
+              <div class="val" style="font-size:1.1rem;"><span data-ph="irr">5.8</span>%</div>
+            </div>
+            <div class="kpi-item">
+              <div class="label">LCOE</div>
+              <div class="val" style="font-size:1.1rem;"><span data-ph="lcoe">0.084</span> €/kWh</div>
+            </div>
+          </div>
+
+          <div class="sec-card">
+            <div class="sec-card-title">4.1 Investissement &amp; revenus</div>
+            <table>
+              <tr>
+                <th>Poste</th>
+                <th>Montant</th>
+              </tr>
+              <tr>
+                <td>CAPEX total</td>
+                <td class="val"><span data-ph="inv">18 750</span> €</td>
+              </tr>
+              <tr>
+                <td>Coût spécifique</td>
+                <td><span data-ph="spec_cost">1 500</span> €/kWp</td>
+              </tr>
+              <tr>
+                <td>O&amp;M sur durée de vie</td>
+                <td><span data-ph="om">4 500</span> €</td>
+              </tr>
+              <tr>
+                <td>Remplacement onduleur (an <span data-ph="inv_yr">15</span>)</td>
+                <td><span data-ph="inv_cost">1 875</span> €</td>
+              </tr>
+              <tr>
+                <td>Prix électricité (A1)</td>
+                <td><span data-ph="ep">0.251</span> €/kWh</td>
+              </tr>
+              <tr>
+                <td>Tarif d’injection</td>
+                <td><span data-ph="fi">0.127</span> €/kWh</td>
+              </tr>
+              <tr>
+                <td>Autoconsommé (A1)</td>
+                <td><span data-ph="sc_kwh">62 000</span> kWh × <span data-ph="ep">0.251</span> € = <strong><span
+                      data-ph="sc_rev">15 562</span> €</strong></td>
+              </tr>
+              <tr>
+                <td>Injecté réseau (A1)</td>
+                <td><span data-ph="fg_kwh">83 000</span> kWh × <span data-ph="fi">0.127</span> € = <strong><span
+                      data-ph="fg_rev">10 541</span> €</strong></td>
+              </tr>
+              <tr>
+                <td><strong>Bénéfice annuel net (A1)</strong></td>
+                <td><strong><span data-ph="benefit">26 103</span> €</strong></td>
+              </tr>
+            </table>
+          </div>
+
+          <div class="sec-card">
+            <div class="sec-card-title">4.2 Indicateurs clés</div>
+            <table>
+              <tr>
+                <th>Indicateur</th>
+                <th>Valeur</th>
+              </tr>
+              <tr>
+                <td>VAN (<span data-ph="life">25</span> ans, <span data-ph="dr">4.0</span>% actu.)</td>
+                <td class="val"><span data-ph="npv">+8 420</span> €</td>
+              </tr>
+              <tr>
+                <td>TRI</td>
+                <td class="val"><span data-ph="irr">5.8</span>%</td>
+              </tr>
+              <tr>
+                <td>LCOE</td>
+                <td class="val"><span data-ph="lcoe">0.084</span> €/kWh</td>
+              </tr>
+              <tr>
+                <td>Amortissement simple</td>
+                <td class="val"><span data-ph="pb">8.3</span> ans</td>
+              </tr>
+              <tr>
+                <td>Amortissement actualisé</td>
+                <td class="val"><span data-ph="dpb">11.5</span> ans</td>
+              </tr>
+              <tr>
+                <td>Dégradation</td>
+                <td><span data-ph="deg">0.5</span>%/an</td>
+              </tr>
+              <tr>
+                <td>Taux d’actualisation</td>
+                <td><span data-ph="dr">4.0</span>%</td>
+              </tr>
+              <tr>
+                <td>Durée de vie du système</td>
+                <td><span data-ph="life">25</span> ans</td>
+              </tr>
+            </table>
+          </div>
+
+          <div class="sec-card">
+            <div class="sec-card-title">4.3 Trésorerie année par année (années sélectionnées)</div>
+            <table>
+              <tr>
+                <th>Année</th>
+                <th>Flux net</th>
+                <th>Cumulé</th>
+              </tr>
+              <tr>
+                <td>0</td>
+                <td>−<span data-ph="inv">18 750</span> €</td>
+                <td>−<span data-ph="inv">18 750</span> €</td>
+              </tr>
+              <tr>
+                <td>1</td>
+                <td>+<span data-ph="benefit">26 103</span> €</td>
+                <td>−<span data-ph="cb1">16 250</span> €</td>
+              </tr>
+              <tr>
+                <td>5</td>
+                <td>+<span data-ph="benefit">26 103</span> €</td>
+                <td>−6 500 €</td>
+              </tr>
+              <tr>
+                <td><span data-ph="pb_year">9</span></td>
+                <td>+<span data-ph="benefit">26 103</span> €</td>
+                <td class="val"><strong>+0 €</strong></td>
+              </tr>
+              <tr>
+                <td>25</td>
+                <td>+18 000 €</td>
+                <td>+120 000 €</td>
+              </tr>
+            </table>
+            <div class="blockquote" style="margin-bottom:0;">
+              Seuil de rentabilité atteint en <strong>année <span data-ph="pb_year">9</span></strong> (cumul actualisé
+              positif).
+            </div>
+          </div>
+        </div>
+        <div class="page-break-hint">&lt;div style="page-break-after: always;"&gt;&lt;/div&gt;</div>
+
+        <!-- Page 6 -->
+        <div class="page" id="page-6">
+          <div class="page-tag">Page 6</div>
+          <div class="section-title">5. Impact environnemental</div>
+          <div class="section-sub">CO₂ évité, équivalent km-voiture, années-arbre, foyers alimentés</div>
+
+          <div class="kpi-row" style="margin-bottom:1rem;">
+            <div class="kpi-item">
+              <div class="label">CO₂ évité / an</div>
+              <div class="val" style="font-size:1.1rem; color: #22c55e;"><span data-ph="co2_yr">58.0</span> t</div>
+              <div class="sub"><span data-ph="km_eq">483 333</span> km-voiture</div>
+            </div>
+            <div class="kpi-item">
+              <div class="label">Sur <span data-ph="life">25</span> ans</div>
+              <div class="val" style="font-size:1.1rem;"><span data-ph="co2_life">1 450</span> t</div>
+              <div class="sub"><span data-ph="trees_eq">2 636</span> années-arbre</div>
+            </div>
+            <div class="kpi-item">
+              <div class="label">Foyers alimentés</div>
+              <div class="val" style="font-size:1.1rem;"><span data-ph="homes">38.7</span></div>
+              <div class="sub">à 1,5 t CO₂/foyer/an</div>
+            </div>
+          </div>
+
+          <table>
+            <tr>
+              <th>Indicateur</th>
+              <th>Valeur</th>
+              <th>Équivalent</th>
+            </tr>
+            <tr>
+              <td>Intensité CO₂ réseau</td>
+              <td><span data-ph="co2_int">400</span> g/kWh</td>
+              <td>—</td>
+            </tr>
+            <tr>
+              <td>CO₂ évité / an</td>
+              <td class="val"><span data-ph="co2_yr">58.0</span> t</td>
+              <td><span data-ph="km_eq">483 333</span> km-voiture</td>
+            </tr>
+            <tr>
+              <td>CO₂ évité / <span data-ph="life">25</span> ans</td>
+              <td class="val"><span data-ph="co2_life">1 450</span> t</td>
+              <td><span data-ph="trees_eq">2 636</span> années-arbre</td>
+            </tr>
+            <tr>
+              <td>Foyers alimentés</td>
+              <td class="val"><span data-ph="homes">38.7</span></td>
+              <td>à 1,5 t CO₂/foyer/an</td>
+            </tr>
+          </table>
+        </div>
+        <div class="page-break-hint">&lt;div style="page-break-after: always;"&gt;&lt;/div&gt;</div>
+
+        <!-- Page 7 -->
+        <div class="page" id="page-7">
+          <div class="page-tag">Page 7</div>
+          <div class="section-title">6. Méthodologie</div>
+          <div class="section-sub">Sources de données, modèles, normes</div>
+
+          <div class="sec-card">
+            <div class="sec-card-title">Sources de données</div>
+            <ul style="font-size:0.8rem;color:var(--text-mid);padding-left:1.2rem;line-height:1.8;margin:0;">
+              <li><strong>Météo :</strong> <span data-ph="db">ERA5</span> avec réanalyse <span data-ph="meteo">PVGIS v5.3</span>
+                — horaire</li>
+              <li><strong>Horizon :</strong> Calculé par MNE (PVGIS)</li>
+            </ul>
+          </div>
+
+          <div class="sec-card">
+            <div class="sec-card-title">Modèles</div>
+            <ul style="font-size:0.8rem;color:var(--text-mid);padding-left:1.2rem;line-height:1.8;margin:0;">
+              <li><strong>Transposition :</strong> Hay-Davies (direct + isotrope + circumsolaire + brillance d’horizon)</li>
+              <li><strong>Température cellule :</strong> Sandia (NOCT + vent)</li>
+              <li><strong>IAM :</strong> Martin &amp; Ruiz (réflexion selon l’angle)</li>
+              <li><strong>Correction spectrale :</strong> masse d’air + paramétrisation PW (PVGIS)</li>
+              <li><strong>P50/P90 :</strong> moyenne ± t₉₀ × s × √(1 + 1/N) avec loi de Student</li>
+              <li><strong>Financier :</strong> DCF — VAN, TRI (recherche dichotomique), amortissement, LCOE</li>
+              <li><strong>Dégradation :</strong> réduction linéaire annuelle</li>
+            </ul>
+          </div>
+
+          <div class="sec-card">
+            <div class="sec-card-title">Normes</div>
+            <ul style="font-size:0.8rem;color:var(--text-mid);padding-left:1.2rem;line-height:1.8;margin:0;">
+              <li>Ratio de performance selon IEC 61724-1:2017</li>
+              <li>Indicateurs financiers selon les lignes directrices IEA PVPS Task 13</li>
+            </ul>
+          </div>
+
+          <div
+            style="border-top:1px solid var(--border);margin-top:1.25rem;padding-top:1rem;font-size:0.7rem;color:var(--text-lo);line-height:1.6;">
+            Généré par SERA — <span data-ph="lat">48.8566</span>°N, <span data-ph="lng">2.3522</span>°E · <span
+              data-ph="year">2025</span> · <span data-ph="date">2026-07-29 14:30</span><br>
+            Ceci est un rapport de simulation automatisé. Les performances réelles peuvent varier. Consultez un ingénieur PV certifié pour les
+            décisions d’investissement.
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Source Mode -->
+      <div class="source-mode" id="source-mode">
+        <div class="md-toolbar">
+          <span class="md-info">Sortie Markdown brute avec <span style="color:var(--accent)">sauts de page</span> pour le
+            rendu PDF</span>
+          <button class="btn btn-sm" onclick="copyMd()">Copier dans le presse-papiers</button>
+        </div>
+        <div class="md-block" id="md-source-block">Chargement…</div>
+      </div>
+
+      <!-- PDF Preview Mode -->
+      <div class="pdf-mode" id="pdf-mode">
+        <div class="pdf-controls">
+          <span class="pdf-info">A4 · <span id="pdf-page-count">8</span> pages</span>
+          <button class="btn btn-primary btn-sm" onclick="printPdf()">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M6 9V2h12v7" />
+              <path d="M6 18H4a2 2 0 01-2-2v-5a2 2 0 012-2h16a2 2 0 012 2v5a2 2 0 01-2 2h-2" />
+              <rect x="6" y="14" width="12" height="8" rx="1" />
+            </svg>
+            Imprimer / PDF
+          </button>
+        </div>
+        <div class="pdf-pages" id="pdf-pages"></div>
+      </div>
+
+    </main>
+  </div>
+
+  <div id="toast"></div>
+
+  <script>
+    /* ── Data Model ── */
+    const DEFAULTS = {
+      loc: 'Paris, France', lat: 48.8566, lng: 2.3522, year: 2025,
+      db: 'ERA5', meteo: 'PVGIS v5.3', mode: 'Pluriannuel (10 ans)',
+      kWp: 12.5, kWh: 145000, pr: 83.5, sy: 11600, cf: 15.2,
+      gti: 2050, ghi: 1580, esh: 5.52,
+      temp: 11.5, tmin: 4.2, tmax: 21.8,
+      p50: 142000, p90: 128000, cv: 8.2,
+      mean: 142000, std: 11640, min: 121000, max: 158000,
+      n_sec: 2, kWp_sec: 6.25, tilt: 35, az: 180,
+      panel: 'Trina 400W', eff: 21.2, mount: 'Toiture',
+      cl: 1.2, il: 3.5, pl: 2.0, ql: 2.0, ml: 1.5, sl: 2.0,
+      contrib: 72500, peak: 14200, low: 6800,
+      inv: 18750, spec_cost: 1500, om: 4500,
+      inv_yr: 15, inv_cost: 1875,
+      ep: 0.251, fi: 0.127,
+      sc_kwh: 62000, sc_rev: 15562,
+      fg_kwh: 83000, fg_rev: 10541, benefit: 26103,
+      life: 25, dr: 4.0, deg: 0.5,
+      npv: 8420, irr: 5.8, lcoe: 0.084,
+      pb: 8.3, dpb: 11.5, pb_year: 9,
+      co2_int: 400, co2_yr: 58.0, km_eq: 483333,
+      co2_life: 1450, trees_eq: 2636, homes: 38.7,
+      cb1: 16250, n_yrs: 10, date: '2026-07-29 14:30',
+      brief: false
+    };
+    let data = { ...DEFAULTS };
+
+    /* ── Formatters ── */
+    const kwh = (v) => Number(v).toLocaleString('fr-FR') + ' kWh';
+    const cur = (v) => Number(v).toLocaleString('fr-FR') + ' €';
+    const pct = (v) => Number(v).toFixed(1) + '%';
+    const num = (v, d = 1) => Number(v).toFixed(d);
+
+    /* ── Monthly dummy data ── */
+    const MONTHS = ['Janv.', 'Févr.', 'Mars', 'Avr.', 'Mai', 'Juin', 'Juil.', 'Août', 'Sept.', 'Oct.', 'Nov.', 'Déc.'];
+    const monthlyData = [
+      { ghi: 75, gti: 110, prod: 8520, pr: 82.4, sun: 4.32, temp: 6.2 },
+      { ghi: 95, gti: 135, prod: 10100, pr: 83.1, sun: 5.01, temp: 7.8 },
+      { ghi: 140, gti: 185, prod: 12800, pr: 83.5, sun: 5.48, temp: 10.5 },
+      { ghi: 165, gti: 210, prod: 14200, pr: 83.8, sun: 5.85, temp: 13.2 },
+      { ghi: 190, gti: 235, prod: 15500, pr: 84.0, sun: 6.02, temp: 16.8 },
+      { ghi: 210, gti: 255, prod: 16200, pr: 84.2, sun: 6.15, temp: 20.1 },
+      { ghi: 205, gti: 250, prod: 15800, pr: 84.1, sun: 6.08, temp: 22.5 },
+      { ghi: 180, gti: 225, prod: 14800, pr: 83.9, sun: 5.92, temp: 21.8 },
+      { ghi: 150, gti: 195, prod: 13200, pr: 83.6, sun: 5.65, temp: 18.2 },
+      { ghi: 110, gti: 155, prod: 10800, pr: 83.2, sun: 5.21, temp: 13.5 },
+      { ghi: 80, gti: 120, prod: 8800, pr: 82.5, sun: 4.55, temp: 9.1 },
+      { ghi: 60, gti: 95, prod: 6800, pr: 82.0, sun: 4.05, temp: 6.5 }
+    ];
+
+    function renderMonthlyTable() {
+      const tbody = document.getElementById('monthly-preview-body');
+      if (!tbody) return;
+      let html = '';
+      let tGHI = 0, tGTI = 0, tProd = 0;
+      monthlyData.forEach((m, i) => {
+        tGHI += m.ghi; tGTI += m.gti; tProd += m.prod;
+        html += `<tr>
+      <td>${MONTHS[i]}</td>
+      <td>${m.ghi}</td>
+      <td>${m.gti}</td>
+      <td class="val">${m.prod.toLocaleString('fr-FR')}</td>
+      <td>${m.pr.toFixed(1)}</td>
+      <td>${m.sun.toFixed(2)}</td>
+      <td>${m.temp.toFixed(1)}</td>
+    </tr>`;
+      });
+      html += `<tr style="font-weight:600;">
+    <td>Total</td>
+    <td>${tGHI.toLocaleString('fr-FR')}</td>
+    <td>${tGTI.toLocaleString('fr-FR')}</td>
+    <td class="val">${tProd.toLocaleString('fr-FR')}</td>
+    <td>${data.pr.toFixed(1)}</td>
+    <td>${data.esh.toFixed(2)}</td>
+    <td>—</td>
+  </tr>`;
+      tbody.innerHTML = html;
+    }
+
+    /* ── Live Update ── */
+    function updatePreview() {
+      // Update all [data-ph] elements
+      document.querySelectorAll('[data-ph]').forEach(el => {
+        const key = el.dataset.ph;
+        if (data[key] != null) {
+          let v = data[key];
+          // Format large numbers with spaces
+          if (typeof v === 'number' && v > 1000 && !key.includes('ep') && !key.includes('fi') && !key.includes('lcoe')) {
+            v = v.toLocaleString('fr-FR');
+          } else if (typeof v === 'number') {
+            v = v.toString();
+          }
+          el.textContent = v;
+        }
+      });
+      // Update sidebar inputs
+      document.querySelectorAll('.ph-field input[data-key]').forEach(inp => {
+        const key = inp.dataset.key;
+        if (data[key] != null && document.activeElement !== inp) {
+          inp.value = data[key];
+        }
+      });
+      renderMonthlyTable();
+      renderSource();
+      renderPdfPreview();
+    }
+
+    function setData(key, value) {
+      const numVal = parseFloat(value);
+      data[key] = isNaN(numVal) ? value : numVal;
+      updatePreview();
+    }
+
+    /* ── Sidebar inputs ── */
+    document.getElementById('ph-editor').addEventListener('input', (e) => {
+      if (e.target.dataset.key) setData(e.target.dataset.key, e.target.value);
+    });
+
+    /* ── Navigation ── */
+    function scrollToPage(id, el) {
+      document.querySelectorAll('.nav-page').forEach(n => n.classList.remove('active'));
+      if (el) el.classList.add('active');
+      const target = document.getElementById(id);
+      if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+
+    // Scroll spy
+    const main = document.getElementById('tpl-main');
+    main.addEventListener('scroll', () => {
+      const pages = ['page-1', 'page-2', 'page-3', 'page-4', 'page-5', 'page-6', 'page-7'];
+      let active = 'page-1';
+      for (const id of pages) {
+        const el = document.getElementById(id);
+        if (el && el.getBoundingClientRect().top < 200) active = id;
+      }
+      document.querySelectorAll('.nav-page').forEach(n => n.classList.remove('active'));
+      const nav = document.querySelector(`.nav-page[onclick*="${active}"]`);
+      if (nav) nav.classList.add('active');
+    });
+
+    /* ── View Toggle ── */
+    function setView(mode, btn) {
+      document.querySelectorAll('.view-tab').forEach(t => t.classList.remove('active'));
+      (btn || event?.target).classList.add('active');
+      document.getElementById('preview-mode').style.display = mode === 'preview' ? 'block' : 'none';
+      document.getElementById('source-mode').classList.toggle('active', mode === 'source');
+      document.getElementById('pdf-mode').classList.toggle('active', mode === 'pdf');
+      if (mode === 'pdf') renderPdfPreview();
+    }
+
+    /* ── Markdown Builder ── */
+    /* Brief mode: one-page, plain-language summary for Simple mode users */
+    function buildBriefMarkdown(d) {
+      const _kwh = (v) => Number(v).toLocaleString('fr-FR', { minimumFractionDigits: 0, maximumFractionDigits: 0 }) + ' kWh';
+      const _cur = (v) => Number(v).toLocaleString('fr-FR') + ' €';
+      const _num = (v, dec = 1) => Number(v).toFixed(dec);
+      let md = '';
+
+      md += '# Résumé solaire\n\n';
+      md += '| Vos informations | |\n|:---|:---|\n';
+      md += `| **Lieu** | ${d.loc} (${d.lat}°N, ${d.lng}°E) |\n`;
+      md += `| **Date du rapport** | ${d.date} |\n\n`;
+
+      md += '| Résultat | Valeur |\n|:---|---:|\n';
+      md += `| **Puissance du système** | **${_num(d.kWp, 1)} kW** |\n`;
+      md += `| **Production estimée / an** | **${_kwh(d.kWh)}** |\n`;
+      md += `| Production par kW de panneaux | ${_num(d.sy, 0)} kWh/kWp par an |\n`;
+      md += `| Les panneaux fonctionnent à | ${_num(d.cf, 1)}% de leur production maximale possible |\n`;
+      if (d.inv > 0) {
+        md += `| Investissement estimé | ${_cur(d.inv)} |\n`;
+        md += `| Bénéfice estimé / an | ${_cur(d.benefit)} |\n`;
+        md += `| Investissement récupéré en | environ ${_num(d.pb, 1)} ans |\n`;
+        md += `| **Bénéfice sur ${_num(d.life, 0)} ans** | **${d.npv >= 0 ? '+' : ''}${_cur(d.npv)}** |\n`;
+      }
+      md += '\n';
+
+      md += '**Production mensuelle (kWh) :**\n\n';
+      md += '| ' + MONTHS.join(' | ') + ' |\n';
+      md += '|' + '---:|'.repeat(12) + '\n';
+      md += '| ' + monthlyData.map(m => Math.round(m.prod).toLocaleString('fr-FR')).join(' | ') + ' |\n\n';
+
+      if (d.co2_yr > 0) {
+        md += `> Cela évite environ **${_num(d.co2_yr, 0)} tonnes de CO₂ par an** (${_num(d.co2_life, 0)} tonnes sur la durée de vie du système) — soit environ ${d.km_eq.toLocaleString('fr-FR')} km en voiture en moins.\n\n`;
+      }
+
+      md += '---\n\n';
+      md += `*Estimation générée par SERA — ${d.loc} · ${d.date}*  \n`;
+      md += '*Estimation automatisée basée sur des valeurs typiques. La production réelle dépend de la météo, de l’ombrage et de la qualité d’installation. Pour une étude technique complète, utilisez le mode Expert et le rapport détaillé.*\n';
+      return md;
+    }
+
+    function buildMarkdown() {
+      const d = data;
+      if (d.brief) return buildBriefMarkdown(d);
+      const date = d.date;
+      let md = '';
+      let sec = 0;
+
+      const _kwh = (v) => Number(v).toLocaleString('fr-FR', { minimumFractionDigits: 0, maximumFractionDigits: 0 }) + ' kWh';
+      const _cur = (v) => Number(v).toLocaleString('fr-FR') + ' €';
+      const _pct = (v) => Number(v).toFixed(1) + '%';
+      const _num = (v, dec = 1) => Number(v).toFixed(dec);
+
+      md += '# Rapport de simulation PV solaire\n\n';
+      md += '| Paramètre | Valeur |\n|:---|---:|\n';
+      md += `| **Projet** | Système PV — ${d.loc} |\n`;
+      md += `| **Coordonnées** | ${d.lat}°N, ${d.lng}°E |\n`;
+      md += `| **Puissance installée** | **${d.kWp} kWp** |\n`;
+      md += `| **Production AC annuelle** | **${_kwh(d.kWh)}** |\n`;
+      md += `| **Ratio de performance** | **${_pct(d.pr)}** |\n`;
+      md += `| **Données météo** | ${d.year} (${d.db} + ${d.meteo}) |\n`;
+      md += `| **Mode de simulation** | ${d.mode} |\n`;
+      md += `| **Date du rapport** | ${date} |\n`;
+      md += `| **Moteur** | SERA — Analyseur de Ressource d’Énergie Solaire |\n\n`;
+      if (d.p50 > 0) {
+        md += `> **P50 (attendu) :** ${_kwh(d.p50)} · **P90 (prudent) :** ${_kwh(d.p90)} · **CV :** ±${_num(d.cv, 1)}%\n\n`;
+      }
+      if (d.inv > 0) {
+        md += `> **Investissement :** ${_cur(d.inv)} · **VAN :** ${d.npv >= 0 ? '+' : ''}${_cur(d.npv)} · **TRI :** ${_pct(d.irr)} · **LCOE :** ${d.lcoe > 0 ? _num(d.lcoe, 2) : '—'} €/kWh · **Amortissement :** ${d.pb != null ? _num(d.pb, 2) : '—'} ans\n\n`;
+      }
+      md += '<div style="page-break-after: always;"></div>\n\n';
+
+      sec++;
+      md += `## ${sec}. Configuration du site & système\n\n`;
+      md += '### 1.1 Données du site\n\n| Paramètre | Valeur |\n|:---|---:|\n';
+      md += `| Latitude | ${d.lat}°N |\n| Longitude | ${d.lng}°E |\n`;
+      md += `| Base météo | ${d.db} + ${d.meteo} |\n| Période de données | ${d.year} |\n`;
+      md += `| Années disponibles | 2015–${d.year} |\n`;
+      md += `| Température ambiante | ${d.temp ? _num(d.temp, 2) : '—'}°C (${d.tmin ? _num(d.tmin, 2) : '—'}–${d.tmax ? _num(d.tmax, 2) : '—'}°C) |\n\n`;
+      md += '### 1.2 Configuration du champ PV\n\n';
+      md += `Le système comprend **${d.n_sec}** section(s) — **${d.kWp} kWp** au total.\n\n`;
+      md += '| # | kWp | Inclinaison | Azimut | Panneau | η (%) |\n|--:|---:|:---|:---:|:---|---:|\n';
+      if (d._sections && d._sections.length > 0) {
+        d._sections.forEach((s, i) => {
+          md += `| ${i+1} | ${s.kWp} | ${s.tiltLabel} | ${s.az}° | ${s.panel} | ${s.eff} |\n`;
+        });
+      } else {
+        md += `| 1 | ${d.kWp_sec || d.kWp} | ${d.tilt || '—'}° | ${d.az || '—'}° | ${d.panel || '—'} | ${d.eff || '—'} |\n`;
+      }
+      md += '\n';
+      md += '\n<div style="page-break-after: always;"></div>\n\n';
+
+      sec++;
+      md += `## ${sec}. Production d’énergie\n\n`;
+      md += '### 2.1 Indicateurs clés de performance\n\n| Indicateur | Valeur | Unité |\n|:---|---:|---|\n';
+      md += `| Production AC annuelle | ${_kwh(d.kWh)} | kWh |\n`;
+      md += `| Productible spécifique | ${_num(d.sy, 0)} | kWh/kWp |\n`;
+      md += `| Facteur de charge | ${_num(d.cf, 1)} | % |\n`;
+      md += `| Ratio de performance (PR) | **${_num(d.pr, 1)}** | % |\n`;
+      md += `| Irradiation annuelle dans le plan (GTI) | ${_num(d.gti, 0)} | kWh/m² |\n`;
+      md += `| Irradiation horizontale (GHI) | ${_num(d.ghi, 0)} | kWh/m² |\n`;
+      md += `| Heures de soleil équivalentes | ${_num(d.esh, 2)} | h/jour |\n\n`;
+      md += '### 2.2 Bilan énergétique mensuel\n\n| Mois | GHI | GTI | Prod. | PR | Heures sol. | T°C |\n|:---|:---|:---|:---|:---:|:---:|:---:|\n';
+      monthlyData.forEach((m, i) => {
+        md += `| ${MONTHS[i]} | ${m.ghi} | ${m.gti} | ${m.prod.toLocaleString('fr-FR')} | ${m.pr.toFixed(1)} | ${m.sun.toFixed(2)} | ${m.temp.toFixed(1)} |\n`;
+      });
+      md += `| **Total** | **${monthlyData.reduce((s, m) => s + m.ghi, 0).toLocaleString('fr-FR')}** | **${monthlyData.reduce((s, m) => s + m.gti, 0).toLocaleString('fr-FR')}** | **${_kwh(d.kWh)}** | **${_num(d.pr, 1)}** | **${_num(d.esh, 2)}** | — |\n\n`;
+      md += '### 2.3 Répartition saisonnière\n\n| Saison | Prod. (kWh) | Part | GTI moy. | PR moy. |\n|:---|---:|:---|:---:|:---:|\n';
+      md += '| Hiver (DJF) | 18 500 | 12.8% | 370 | 82.1% |\n';
+      md += '| Printemps (MAM) | 45 200 | 31.2% | 610 | 83.9% |\n';
+      md += '| Été (JJA) | 52 100 | 35.9% | 680 | 84.2% |\n';
+      md += '| Automne (SON) | 29 200 | 20.1% | 390 | 83.0% |\n\n';
+      md += `> **Max :** Juin (${_kwh(d.peak)}) · **Min :** Déc (${_kwh(d.low)})\n\n`;
+      if (d.n_yrs > 0 && d.p50 > 0) {
+        md += '### 2.4 Variabilité interannuelle\n\n';
+        md += `Sur ${d.n_yrs} ans de données :\n\n| Statistique | Valeur |\n|:---|---:|\n`;
+        md += `| Moyenne | ${_kwh(d.mean)} |\n| Écart-type (σ) | ${_kwh(d.std)} |\n| CV | ${_num(d.cv, 1)}% |\n| Min (observé) | ${_kwh(d.min)} |\n| Max (observé) | ${_kwh(d.max)} |\n| **P50 (attendu)** | **${_kwh(d.p50)}** |\n| **P90 (prudent)** | **${_kwh(d.p90)}** |\n\n`;
+      }
+      md += '<div style="page-break-after: always;"></div>\n\n';
+
+      sec++;
+      md += `## ${sec}. Analyse des pertes\n\n`;
+      md += '### 3.1 Cascade des pertes\n\n| Étape | Énergie (kWh) | % du GHI | Δ préc. |\n|:---|---:|:---:|:---:|\n';
+      if (d._losses && d._losses.ghi > 0) {
+        const L = d._losses;
+        const ac = d.kWh;
+        const pct = (v) => _num((v / L.ghi) * 100, 1);
+        const stages = [
+          { label: 'GHI (horizontal)', energy: L.ghi, delta: '—' },
+          { label: 'GTI (plan)', energy: L.ideal, delta: '+' + _num(((L.ideal - L.ghi) / L.ghi) * 100, 1) + '%' },
+          { label: 'Après horizon', energy: L.horizon, delta: _num(((L.horizon - L.ideal) / L.ideal) * 100, 1) + '%' },
+          { label: 'Après IAM', energy: L.iam, delta: _num(((L.iam - L.horizon) / L.horizon) * 100, 1) + '%' },
+          { label: 'Après spectral', energy: L.spec, delta: _num(((L.spec - L.iam) / L.iam) * 100, 1) + '%' },
+          { label: 'Après faible éclairement', energy: L.lowIrr, delta: _num(((L.lowIrr - L.spec) / L.spec) * 100, 1) + '%' },
+          { label: 'Après température', energy: L.temp, delta: _num(((L.temp - L.lowIrr) / L.lowIrr) * 100, 1) + '%' },
+          { label: 'Sortie AC', energy: ac, delta: _num(((ac - L.temp) / L.temp) * 100, 1) + '%' }
+        ];
+        stages.forEach(st => {
+          const pctVal = st.label === 'Sortie AC' ? pct(ac) + '%*' : pct(st.energy) + '%';
+          md += `| ${st.label} | ${_kwh(st.energy)} | ${pctVal} | ${st.delta} |\n`;
+        });
+      } else {
+        md += '| GHI (horizontal) | 1 580 000 | 100.0% | — |\n';
+        md += '| GTI (plan) | 2 050 000 | 129.7% | +29.7% |\n';
+        md += '| Après horizon | 1 970 000 | 124.7% | −3.9% |\n';
+        md += '| Après IAM | 1 930 000 | 122.2% | −2.0% |\n';
+        md += '| Après spectral | 1 900 000 | 120.3% | −1.6% |\n';
+        md += '| Après faible éclairement | 1 870 000 | 118.4% | −1.6% |\n';
+        md += '| Après température | 1 730 000 | 109.5% | −7.5% |\n';
+        md += '| **Sortie AC** | **145 000** | **100.0%*** | −91.6% |\n\n';
+      }
+      md += '\n### 3.2 Synthèse des pertes\n\n| Catégorie | Valeur | Description |\n|:---|---:|:---|\n';
+      if (d._losses && d._losses.ghi > 0) {
+        const L = d._losses;
+        md += `| Transposition | +${_num(((L.ideal - L.ghi) / L.ghi) * 100, 1)}% | Inclinaison/azimut vs horizontal |\n`;
+        md += `| Horizon | ${_num(((L.horizon - L.ideal) / L.ideal) * 100, 1)}% | Profil d’ombrage lointain |\n`;
+        md += `| IAM | ${_num(((L.iam - L.horizon) / L.horizon) * 100, 1)}% | Réflexion Martin & Ruiz |\n`;
+        md += `| Spectral | ${_num(((L.spec - L.iam) / L.iam) * 100, 1)}% | Effet de masse d’air |\n`;
+        md += `| Faible éclairement | ${_num(((L.lowIrr - L.spec) / L.spec) * 100, 1)}% | η non linéaire à faible W/m² |\n`;
+        md += `| Température | ${_num(((L.temp - L.lowIrr) / L.lowIrr) * 100, 1)}% | Cellule >25°C |\n`;
+        md += `| Câble DC | ${_num(L.cLoss, 1)}% | Câblage ohmique |\n`;
+        md += `| Onduleur | ${_num(L.iLoss, 1)}% | Conversion |\n`;
+        md += `| Qualité | ${_num(L.qLoss, 1)}% | Tolérance |\n`;
+        md += `| Désadaptation | ${_num(L.mLoss, 1)}% | Discordance des chaînes |\n`;
+        md += `| Salissures | ${_num(L.sLoss, 1)}% | Poussière/neige |\n`;
+        md += `| **Facteur physique** | **${_num(L.physicalFactor * 100, 1)}%** | Transp→horizon→IAM→spec→faibleÉcl→temp |\n`;
+        md += `| **Facteur système** | **${_num(L.sysFactor * 100, 1)}%** | Câble×ond×module×qual×désad×salis |\n`;
+        md += `| **PR total** | **${_num(L.totalFactor * 100, 1)}%** | Physique × Système |\n\n`;
+      } else {
+        md += '| Transposition | +29.7% | Inclinaison/azimut vs horizontal |\n';
+        md += '| Horizon | −3.9% | Profil d’ombrage lointain |\n';
+        md += '| IAM | −2.0% | Réflexion Martin & Ruiz |\n';
+        md += '| Spectral | −1.6% | Effet de masse d’air |\n';
+        md += '| Faible éclairement | −1.6% | η non linéaire à faible W/m² |\n';
+        md += '| Température | −7.5% | Cellule >25°C |\n';
+        md += '| Câble DC | −1.2% | Câblage ohmique |\n';
+        md += '| Onduleur | −3.5% | Conversion |\n';
+        md += '| Qualité | −2.0% | Tolérance |\n';
+        md += '| Désadaptation | −1.5% | Discordance des chaînes |\n';
+        md += '| Salissures | −2.0% | Poussière/neige |\n';
+        md += '| **Facteur physique** | **83.5%** | Transp→horizon→IAM→spec→faibleÉcl→temp |\n';
+        md += '| **Facteur système** | **89.5%** | Câble×ond×module×qual×désad×salis |\n';
+        md += '| **PR total** | **83.5%** | Physique × Système |\n\n';
+      }
+      md += '<div style="page-break-after: always;"></div>\n\n';
+
+      if (d.inv > 0) {
+        sec++;
+        md += `## ${sec}. Analyse financière\n\n`;
+        md += '### 4.1 Investissement & revenus\n\n| Poste | Montant |\n|:---|---:|\n';
+        md += `| CAPEX total | **${_cur(d.inv)}** |\n`;
+        md += `| Coût spécifique | ${_num(d.spec_cost, 0)} €/kWp |\n`;
+        md += `| O&M sur durée de vie | ${_cur(d.om)} |\n`;
+        md += `| Remplacement onduleur (an ${d.inv_yr}) | ${_cur(d.inv_cost)} |\n`;
+        md += `| Prix électricité (A1) | ${_num(d.ep, 3)} €/kWh |\n`;
+        md += `| Tarif d’injection | ${_num(d.fi, 3)} €/kWh |\n`;
+        md += `| Autoconsommé (A1) | ${_kwh(d.sc_kwh)} × ${_num(d.ep, 3)} € = **${_cur(d.sc_rev)}** |\n`;
+        md += `| Injecté réseau (A1) | ${_kwh(d.fg_kwh)} × ${_num(d.fi, 3)} € = **${_cur(d.fg_rev)}** |\n`;
+        md += `| **Bénéfice annuel net (A1)** | **${_cur(d.benefit)}** |\n\n`;
+        md += '| Indicateur | Valeur |\n|:---|---:|\n';
+        md += `| VAN (${d.life} ans, ${d.dr}% actu.) | ${d.npv >= 0 ? '+' : ''}${_cur(d.npv)} |\n`;
+        md += `| TRI | ${_pct(d.irr)} |\n`;
+        md += `| LCOE | ${d.lcoe > 0 ? _num(d.lcoe, 2) : '—'} €/kWh |\n`;
+        md += `| Amortissement simple | ${d.pb != null ? _num(d.pb, 2) : '—'} ans |\n`;
+        md += `| Amortissement actualisé | ${d.dpb != null ? _num(d.dpb, 2) : '—'} ans |\n`;
+        md += `| Dégradation | ${d.deg}%/an |\n`;
+        md += `| Taux d’actualisation | ${d.dr}% |\n`;
+        md += `| Durée de vie du système | ${d.life} ans |\n\n`;
+        md += '### 4.2 Trésorerie année par année (années sélectionnées)\n\n| Année | Flux net | Cumulé |\n|:---:|:---:|:---:|\n';
+        if (d._yearlyCashFlow && d._yearlyCashFlow.length > 0) {
+          const cf = d._yearlyCashFlow;
+          const rows = [];
+          const selYears = [0, 1, 5];
+          for (const y of selYears) {
+            if (y < cf.length) {
+              const flow = cf[y].netCashFlow || cf[y].benefit - cf[y].om - (cf[y].invReplace || 0);
+              const cum = cf[y].cumulative;
+              rows.push(`| ${y} | ${flow >= 0 ? '+' : '−'}${_cur(Math.abs(flow))} | ${cum >= 0 ? '+' : '−'}${_cur(Math.abs(cum))} |\n`);
+            }
+          }
+          const pbIdx = cf.findIndex(c => c.cumulative >= 0);
+          const pbYear = pbIdx >= 0 ? cf[pbIdx].year : d.pb_year;
+          if (pbIdx >= 0 && pbIdx < cf.length) {
+            rows.push(`| **${pbYear}** | +${_cur(cf[pbIdx].netCashFlow || (cf[pbIdx].benefit - cf[pbIdx].om))} | **+0 €** |\n`);
+          }
+          const lastRow = cf[cf.length - 1];
+          if (lastRow) {
+            rows.push(`| **${lastRow.year}** | +${_cur(lastRow.netCashFlow || lastRow.benefit)} | +${_cur(Math.abs(lastRow.cumulative))} |\n`);
+          }
+          md += rows.join('');
+          md += `\n> Seuil de rentabilité atteint en **année ${pbYear}** (cumul actualisé positif).\n\n`;
+        } else {
+          md += `| 0 | −${_cur(d.inv)} | −${_cur(d.inv)} |\n`;
+          md += `| 1 | +${_cur(d.benefit)} | −${_cur(d.cb1)} |\n`;
+          md += `| 5 | +${_cur(d.benefit)} | −${_num(d.inv - d.benefit * 5, 0)} € |\n`;
+          md += `| ${d.pb_year} | +${_cur(d.benefit)} | **+0 €** |\n`;
+          md += `| 25 | +${_cur(d.benefit)} | +${_cur(d.benefit * 25 - d.inv)} |\n\n`;
+          md += `> Seuil de rentabilité atteint en **année ${d.pb_year}** (cumul actualisé positif).\n\n`;
+        }
+        md += '<div style="page-break-after: always;"></div>\n\n';
+      }
+
+      if (d.co2_int > 0) {
+        sec++;
+        md += `## ${sec}. Impact environnemental\n\n`;
+        md += '| Indicateur | Valeur | Équivalent |\n|:---|---:|:---|\n';
+        md += `| Intensité CO₂ réseau | ${d.co2_int} g/kWh | — |\n`;
+        md += `| CO₂ évité / an | **${_num(d.co2_yr, 1)} t** | ${(d.km_eq || 0).toLocaleString('fr-FR')} km-voiture |\n`;
+        md += `| CO₂ évité / ${d.life} ans | **${_num(d.co2_life, 1)} t** | ${(d.trees_eq || 0).toLocaleString('fr-FR')} années-arbre |\n`;
+        md += `| Foyers alimentés | ${_num(d.homes, 1)} | à 1,5 t CO₂/foyer/an |\n\n`;
+        md += '<div style="page-break-after: always;"></div>\n\n';
+      }
+
+      sec++;
+      md += `## ${sec}. À propos de SERA\n\n`;
+
+      md += `> *« Un outil qui cache son raisonnement n’est qu’une opinion bien typographiée. »*\n\n`;
+
+      md += `**SERA** (Analyseur de Ressource d’Énergie Solaire) est une suite d’ingénierie PV dans le navigateur qui suit un système du soleil brut jusqu’au verdict financier. Le soleil mène la même expérience gratuite depuis 4,6 milliards d’années — SERA l’observe juste de plus près, transformant des décennies d’historique météo en image complète de ce qu’un système solaire ferait vraiment sur votre toit, calculé entièrement dans votre navigateur, gratuitement.\n\n`;
+
+      md += '### Ce qu’est SERA\n\n';
+      md += `Conçu pour les particuliers qui dimensionnent une toiture, les installateurs qui préparent un devis et les ingénieurs en pré-faisabilité — sans ouvrir un tableur d’abord. Né lors de visites de terrain dans le nord de Madagascar, où la « moyenne régionale » la plus proche est souvent à une côte de distance. SERA ne prend jamais une moyenne nationale — il calcule du neuf, pour les coordonnées exactes que vous donnez, où que ce soit sur la planète.\n\n`;
+
+      md += '### La boîte à outils\n\n';
+      md += `| Outil | Ce qu’il fait |\n|:---|---|\n`;
+      md += `| **Inclinaison optimale** | Trouve l’angle qui capte le plus de soleil à votre point exact — sans raccourci « égale votre latitude ». Propose aussi une alternative plus plate, facile à nettoyer pour toits poussiéreux. |\n`;
+      md += `| **Simulation** | Toute la chaîne de modélisation — météo, soleil & ombrage, physique des modules, retour financier. D’un lieu à un chiffre en euros. |\n`;
+      md += `| **Dimensionnement** | Consommation en entrée, spec honnête en sortie — nombre de panneaux, puissance, surface de toit. Sans arrondir « au cas où ». *(En développement.)* |\n\n`;
+
+      md += '### La chaîne de simulation\n\n';
+      md += `Quatre étapes transforment un lieu en verdict financier :\n\n`;
+      md += `| Étape | Description |\n|:---|---|\n`;
+      md += `| **Météo** | Soleil et température heure par heure pour vos coordonnées exactes — réanalyse ERA5 (mondiale, 1940–présent) avec repli PVGIS. |\n`;
+      md += `| **Soleil & ombrage** | La course du soleil suivie heure par heure et projetée sur votre pan de toit, avec horizons et obstacles qui mordent comme dans la vraie vie. |\n`;
+      md += `| **Physique des modules** | Lumière → DC → AC — avec température, montage, salissures, câblage et onduleur qui prennent chacun leur part réelle. |\n`;
+      md += `| **Retour financier** | L’énergie devient argent — délai d’amortissement, VAN, TRI, LCOE — sans rien cacher derrière un seul chiffre « croyez-nous ». |\n\n`;
+      md += `En **mode pluriannuel**, SERA rejoue toute la chaîne sur chaque année d’historique disponible et donne non seulement une moyenne mais la dispersion réaliste autour.\n\n`;
+
+      md += `---\n\n`;
+      md += `*Généré par SERA — ${d.lat}°N, ${d.lng}°E · ${d.year} · ${date}*  \n`;
+      md += '*Rapport de simulation automatisé. Les performances réelles peuvent varier. Consultez un ingénieur PV certifié pour les décisions d’investissement.*\n';
+
+      return md;
+    }
+
+    /* ── Syntax Highlighting ── */
+    function highlightMarkdown(md) {
+      return md
+        .replace(/^#{1,6}\s+(.+)$/gm, '<span class="md-h1">$&</span>')
+        .replace(/^\|(.+)\|$/gm, (m) => {
+          if (m.includes('---')) return `<span class="md-table-sep">${m}</span>`;
+          return m;
+        })
+        .replace(/\*\*(.+?)\*\*/g, '<span class="md-bold">**$1**</span>')
+        .replace(/`([^`]+)`/g, '<span class="md-code">`$1`</span>')
+        .replace(/&gt;\s+(.+)/g, '<span class="md-comment">&gt; $1</span>')
+        .replace(/(\d{1,3}(?:\s\d{3})*(?:\.\d+)?)\s*(kWh|€|t|yr|%|g\/kWh)/g, '<span class="md-num">$1</span> <span class="md-pct">$2</span>')
+        .replace(/(\d+\.\d{4})\s*€\/kWh/g, '<span class="md-num">$1</span> <span class="md-pct">€/kWh</span>')
+        .replace(/&lt;div style="page-break-after: always;"&gt;&lt;\/div&gt;/g, '<span class="md-comment">&lt;div style="page-break-after: always;"&gt;&lt;/div&gt;</span>');
+    }
+
+    function renderSource() {
+      const md = buildMarkdown();
+      const block = document.getElementById('md-source-block');
+      if (block) block.innerHTML = highlightMarkdown(md);
+    }
+
+    /* ── Inline Markdown Renderer ── */
+    function inlineMd(text) {
+      return text
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/`([^`]+)`/g, '<code>$1</code>')
+        .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
+        .replace(/\*(.+?)\*/g, '<em>$1</em>')
+        .replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2">$1</a>');
+    }
+
+    /* ── Full Markdown → HTML ── */
+    function mdToHtml(md) {
+      const lines = md.split('\n');
+      let html = '';
+      let inTable = false;
+      let inList = false;
+      let tablePassedSep = false;
+
+      for (let i = 0; i < lines.length; i++) {
+        const line = lines[i];
+
+        if (line.includes('<div style="page-break-after: always;">')) {
+          if (inTable) { html += '</table>\n'; inTable = false; }
+          if (inList) { html += '</ul>\n'; inList = false; }
+          html += line + '\n';
+          continue;
+        }
+
+        if (line.trim() === '') {
+          if (inTable) { html += '</table>\n'; inTable = false; }
+          if (inList) { html += '</ul>\n'; inList = false; }
+          continue;
+        }
+
+        if (/^#{1,6}\s/.test(line)) {
+          if (inTable) { html += '</table>\n'; inTable = false; }
+          if (inList) { html += '</ul>\n'; inList = false; }
+          const level = line.match(/^#+/)[0].length;
+          const content = line.replace(/^#+\s+/, '');
+          html += `<h${level}>${inlineMd(content)}</h${level}>\n`;
+          continue;
+        }
+
+        if (/^\|.+\|$/.test(line) && /---/.test(line)) {
+          tablePassedSep = true;
+          continue;
+        }
+
+        if (/^\|.+\|$/.test(line)) {
+          if (!inTable) { html += '<table>\n'; inTable = true; tablePassedSep = false; }
+          const cells = line.split('|').filter(c => c.trim() !== '');
+          const tag = tablePassedSep ? 'td' : 'th';
+          html += '  <tr>\n';
+          cells.forEach(c => {
+            html += `    <${tag}>${inlineMd(c.trim())}</${tag}>\n`;
+          });
+          html += '  </tr>\n';
+          continue;
+        }
+
+        if (/^>\s/.test(line)) {
+          if (inTable) { html += '</table>\n'; inTable = false; }
+          if (inList) { html += '</ul>\n'; inList = false; }
+          const content = line.replace(/^>\s+/, '');
+          html += `<blockquote>${inlineMd(content)}</blockquote>\n`;
+          continue;
+        }
+
+        if (/^[-*]\s/.test(line)) {
+          if (inTable) { html += '</table>\n'; inTable = false; }
+          if (!inList) { html += '<ul>\n'; inList = true; }
+          const content = line.replace(/^[-*]\s+/, '');
+          html += `  <li>${inlineMd(content)}</li>\n`;
+          continue;
+        }
+
+        if (/^-{3,}$/.test(line.trim())) {
+          if (inTable) { html += '</table>\n'; inTable = false; }
+          if (inList) { html += '</ul>\n'; inList = false; }
+          html += '<hr>\n';
+          continue;
+        }
+
+        if (inTable) { html += '</table>\n'; inTable = false; }
+        if (inList) { html += '</ul>\n'; inList = false; }
+        if (line.trim()) html += `<p>${inlineMd(line)}</p>\n`;
+      }
+
+      if (inTable) html += '</table>\n';
+      if (inList) html += '</ul>\n';
+      return html;
+    }
+
+    /* ── Cover Page HTML ── */
+    function buildCoverPage() {
+      const d = data;
+      return `<div class="pdf-page pdf-cover">
+    <div class="cover-header">
+      <div class="cover-brand">
+        <div class="cover-brand-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="5"></circle>
+            <line x1="12" y1="1" x2="12" y2="3"></line>
+            <line x1="12" y1="21" x2="12" y2="23"></line>
+            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+            <line x1="1" y1="12" x2="3" y2="12"></line>
+            <line x1="21" y1="12" x2="23" y2="12"></line>
+            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+          </svg>
+        </div>
+        <span class="cover-brand-text">SERA</span>
+      </div>
+      <span class="cover-badge">RAPPORT TECHNIQUE</span>
+    </div>
+
+    <div class="cover-body">
+      <div class="cover-tagline">Analyseur de Ressource d’Énergie Solaire</div>
+      <h1 class="cover-title">Étude de faisabilité &amp; performance d’un système photovoltaïque</h1>
+      <p class="cover-subtitle">Évaluation technique, simulation de productible, analyse des pertes et évaluation financière pour infrastructure PV raccordée au réseau.</p>
+      <div class="cover-accent-bar"></div>
+
+      <div class="cover-meta-grid">
+        <div class="meta-item">
+          <span class="meta-label">Lieu</span>
+          <span class="meta-value">${d.loc}</span>
+        </div>
+        <div class="meta-item">
+          <span class="meta-label">Puissance installée</span>
+          <span class="meta-value">${d.kWp} kWp</span>
+        </div>
+        <div class="meta-item">
+          <span class="meta-label">Prod. annuelle est.</span>
+          <span class="meta-value">${Number(d.kWh).toLocaleString('fr-FR')} kWh</span>
+        </div>
+        <div class="meta-item">
+          <span class="meta-label">Date du rapport</span>
+          <span class="meta-value">${d.date}</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="cover-footer">
+      <span>Moteur : SERA v2.4 (${d.db} / ${d.meteo})</span>
+      <span>Confidentiel &amp; propriétaire</span>
+    </div>
+  </div>`;
+    }
+
+    /* ── Build KPI Dashboard HTML ── */
+    function buildKpiDashboard() {
+      const d = data;
+      const num = (v, dec) => v > 0 ? Number(v).toFixed(dec) : '—';
+      const loc = (v) => v > 0 ? Number(v).toLocaleString('fr-FR') : '—';
+      return `<div class="kpi-grid">
+    <div class="kpi-card">
+      <div class="kpi-label">Puissance</div>
+      <div class="kpi-value">${num(d.kWp, 1)}</div>
+      <div class="kpi-sub">kWp</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-label">Productible annuel</div>
+      <div class="kpi-value green">${loc(d.kWh)}</div>
+      <div class="kpi-sub">kWh</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-label">Ratio de performance</div>
+      <div class="kpi-value green">${num(d.pr, 1)}</div>
+      <div class="kpi-sub">%</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-label">LCOE</div>
+      <div class="kpi-value">${d.lcoe > 0 ? num(d.lcoe, 3) : '—'}</div>
+      <div class="kpi-sub">€/kWh</div>
+    </div>
+  </div>`;
+    }
+
+    /* ── PDF Preview Renderer ── */
+    function renderPdfPreview() {
+      const md = buildMarkdown();
+      const container = document.getElementById('pdf-pages');
+      if (!container) return;
+      let html = mdToHtml(md);
+      // Inject KPI dashboard after the first h1 closing tag
+      html = html.replace('</h1>', '</h1>' + buildKpiDashboard());
+      const pages = html.split('<div style="page-break-after: always;"></div>');
+      let out = '';
+      pages.forEach((p) => {
+        const trimmed = p.trim();
+        if (trimmed) {
+          out += `<div class="pdf-page">${trimmed}</div>\n`;
+        }
+      });
+      container.innerHTML = buildCoverPage() + out;
+      document.getElementById('pdf-page-count').textContent = (1 + (out.match(/<div class="pdf-page"/g)?.length || 0));
+    }
+
+    function printPdf() {
+      renderPdfPreview();
+      const pages = document.getElementById('pdf-pages').innerHTML;
+      const iframe = document.createElement('iframe');
+      iframe.style.position = 'fixed';
+      iframe.style.right = '-9999px';
+      iframe.style.bottom = '-9999px';
+      iframe.style.width = '210mm';
+      iframe.style.height = '297mm';
+      iframe.style.border = '0';
+      document.body.appendChild(iframe);
+      const doc = iframe.contentWindow.document;
+      doc.open();
+      doc.write(`<!DOCTYPE html>
+<html lang="fr">
+<head><meta charset="UTF-8">
+<title>Rapport solaire — ${data.loc}</title>
+<style>
+  @page { size: A4; margin: 0; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-size: 9.5pt; line-height: 1.55; color: #222; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  .pdf-page { page-break-after: always; border-top: 4px solid #FF6B2B; padding: 18mm 16mm 22mm 16mm; }
+  .pdf-page:last-child { page-break-after: auto; }
+  h1 { font-size: 1.5rem; font-weight: 700; margin: 0 0 0.6rem; color: #FF6B2B; page-break-after: avoid; border-bottom: 2px solid #eee; padding-bottom: 0.4rem; }
+  h2 { font-size: 1.05rem; font-weight: 700; margin: 1rem 0 0.4rem; color: #222; page-break-after: avoid; }
+  h3 { font-size: 0.85rem; font-weight: 600; margin: 0.75rem 0 0.3rem; color: #444; page-break-after: avoid; }
+  table { width: 100%; border-collapse: collapse; margin: 0.5rem 0; font-size: 0.7rem; page-break-inside: avoid; border: 1px solid #e5e5e5; border-radius: 4px; overflow: hidden; }
+  th { background: #FF6B2B; color: #fff; font-weight: 600; font-size: 0.6rem; text-transform: uppercase; letter-spacing: 0.5px; padding: 0.4rem 0.5rem; border-bottom: 1px solid #6a4de6; text-align: right; }
+  th:first-child { text-align: left; }
+  td { color: #333; padding: 0.35rem 0.5rem; border-bottom: 1px solid #eee; text-align: right; }
+  td:first-child { text-align: left; color: #444; }
+  td:last-child { color: #FF6B2B; font-weight: 600; }
+  tr:nth-child(even) td { background: #faf8ff; }
+  strong { color: #222; font-weight: 700; }
+  td strong { color: #FF6B2B; }
+  blockquote { border-left: 4px solid #FF6B2B; padding: 0.5rem 0.75rem; margin: 0.5rem 0; background: #f8f6ff; font-size: 0.75rem; color: #333; line-height: 1.5; border-radius: 0 4px 4px 0; page-break-inside: avoid; }
+  blockquote strong { color: #FF6B2B; }
+  hr { border: none; border-top: 1px solid #ddd; margin: 0.75rem 0; }
+  ul { font-size: 0.7rem; color: #333; padding-left: 1.2rem; line-height: 1.8; margin: 0.4rem 0; }
+  p { font-size: 0.7rem; color: #333; margin: 0.4rem 0; line-height: 1.55; }
+  code { color: #FF6B2B; background: #f0edff; padding: 0.1rem 0.3rem; border-radius: 2px; font-size: 0.65rem; }
+  a { color: #FF6B2B; text-decoration: underline; }
+  div[style*="page-break-after"] { page-break-after: always; }
+  .kpi-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0.4rem; margin: 0.6rem 0; }
+  .kpi-card { background: #f8f6ff; border: 1px solid #e5e5e5; border-radius: 4px; padding: 0.5rem; text-align: center; page-break-inside: avoid; }
+  .kpi-card .kpi-label { font-size: 0.55rem; text-transform: uppercase; letter-spacing: 0.5px; color: #888; margin-bottom: 0.15rem; }
+  .kpi-card .kpi-value { font-size: 1rem; font-weight: 700; color: #FF6B2B; }
+  .kpi-card .kpi-value.green { color: #22c55e; }
+  .kpi-card .kpi-sub { font-size: 0.55rem; color: #999; margin-top: 0.1rem; }
+  .val-accent { color: #FF6B2B; font-weight: 600; }
+  .val-green { color: #22c55e; font-weight: 600; }
+  .pdf-cover { border-top: none; display: flex; flex-direction: column; justify-content: space-between; padding: 22mm 20mm; background: #ffffff; color: #1e293b; overflow: hidden; position: relative; min-height: 297mm; }
+  .pdf-cover::before { content: ""; position: absolute; top: 0; left: 0; right: 0; height: 10px; background: linear-gradient(90deg, #FF6B2B 0%, #3b82f6 50%, #10b981 100%); }
+  .pdf-cover .cover-header { display: flex; justify-content: space-between; align-items: center; margin-top: 8mm; }
+  .pdf-cover .cover-brand { display: flex; align-items: center; gap: 0.75rem; }
+  .pdf-cover .cover-brand-icon { width: 44px; height: 44px; background: rgba(255, 107, 43, 0.08); border: 1px solid rgba(255, 107, 43, 0.2); border-radius: 12px; display: flex; align-items: center; justify-content: center; color: #FF6B2B; }
+  .pdf-cover .cover-brand-text { font-weight: 800; font-size: 1.35rem; letter-spacing: 0.05em; color: #0f172a; }
+  .pdf-cover .cover-badge { font-size: 0.6rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: #FF6B2B; background: #f1f0fe; border: 1px solid #dcd7fe; padding: 0.35rem 0.85rem; border-radius: 999px; }
+  .pdf-cover .cover-body { margin: auto 0; padding: 12mm 0; }
+  .pdf-cover .cover-tagline { font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.15em; color: #FF6B2B; margin-bottom: 0.75rem; }
+  .pdf-cover .cover-title { font-size: 2.6rem; font-weight: 800; color: #0f172a; line-height: 1.15; margin: 0 0 1rem 0; letter-spacing: -0.02em; border: none; padding: 0; }
+  .pdf-cover .cover-subtitle { font-size: 0.95rem; color: #475569; line-height: 1.6; max-width: 90%; margin: 0 0 2rem 0; font-weight: 400; }
+  .pdf-cover .cover-accent-bar { width: 64px; height: 4px; background: #FF6B2B; border-radius: 2px; margin-bottom: 2.25rem; }
+  .pdf-cover .cover-meta-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 10px; padding: 1.25rem 1.5rem; }
+  .pdf-cover .meta-item { display: flex; flex-direction: column; gap: 0.2rem; }
+  .pdf-cover .meta-label { font-size: 0.58rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; color: #94a3b8; }
+  .pdf-cover .meta-value { font-size: 0.9rem; font-weight: 700; color: #1e293b; }
+  .pdf-cover .cover-footer { display: flex; justify-content: space-between; align-items: center; padding-top: 1rem; border-top: 1px solid #f1f5f9; font-size: 0.7rem; color: #94a3b8; }
+  @media print { body { margin: 0; } }
+${'</'}style>${'</'}head>
+${'<'}body>${pages}${'</'}body>
+${'</'}html>`);
+      doc.close();
+      setTimeout(() => { iframe.contentWindow.print(); document.body.removeChild(iframe); }, 300);
+    }
+
+    /* ── Actions ── */
+    function exportMd() {
+      const md = buildMarkdown();
+      const blob = new Blob([md], { type: 'text/markdown' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `rapport-solaire-${data.loc.replace(/[^a-zA-Z0-9]/g, '_').substring(0, 30)}-${data.year}.md`;
+      a.click();
+      URL.revokeObjectURL(url);
+      showToast('Rapport Markdown téléchargé', 'success');
+    }
+
+    function copyMd() {
+      const md = buildMarkdown();
+      navigator.clipboard.writeText(md).then(() => {
+        showToast('Markdown copié dans le presse-papiers', 'success');
+      }).catch(() => {
+        // Fallback
+        const ta = document.createElement('textarea');
+        ta.value = md;
+        document.body.appendChild(ta);
+        ta.select();
+        document.execCommand('copy');
+        document.body.removeChild(ta);
+        showToast('Markdown copié dans le presse-papiers', 'success');
+      });
+    }
+
+    function resetDefaults() {
+      data = { ...DEFAULTS };
+      updatePreview();
+      showToast('Valeurs réinitialisées', 'success');
+    }
+
+    function showToast(msg, type = 'success') {
+      const container = document.getElementById('toast');
+      const d = document.createElement('div');
+      d.className = 'toast-item';
+      d.textContent = msg;
+      if (type === 'error') d.style.borderLeftColor = '#ef4444';
+      container.appendChild(d);
+      setTimeout(() => d.remove(), 3000);
+    }
+
+    /* ── Load Real Simulation Data ── */
+    function loadSimDataFromStorage() {
+      try {
+        const raw = sessionStorage.getItem('seraSimResult');
+        if (!raw) return false;
+        const r = JSON.parse(raw);
+        if (!r || !r.results) return false;
+
+        const d = data;
+        d.brief = r.meta && r.meta.interface === 'beginner';
+        d.loc = r.meta.locationName || `${r.meta.lat.toFixed(4)}°N, ${r.meta.lng.toFixed(4)}°E`;
+        d.lat = r.meta.lat;
+        d.lng = r.meta.lng;
+        d.year = r.meta.year;
+        d.mode = r.meta.mode === 'multi-year' ? 'Pluriannuel (' + (r.results.variabilityStats?.years || '?') + ' ans)' : 'Annuelle';
+        d.date = (r.meta.timestamp || '').replace('T', ' ').replace(/\..+/, '');
+        d.db = r.weather?.radDb || 'PVGIS';
+        d.meteo = r.weather?.meteoDb || '';
+
+        d.kWp = r.results.totalKwp;
+        d.kWh = r.results.annualAC;
+        d.pr = r.results.prAnnuel;
+        d.sy = r.results.specificYield;
+        d.cf = r.results.capacityFactor;
+        d.gti = r.results.annualGti;
+        d.ghi = r.losses?.sumGHI || 0;
+        d._losses = r.losses ? {
+          ghi: r.losses.sumGHI || 0,
+          ideal: r.losses.sumIdeal || 0,
+          horizon: r.losses.sumAfterHorizon || 0,
+          iam: r.losses.sumAfterIAM || 0,
+          spec: r.losses.sumAfterSpec || 0,
+          lowIrr: r.losses.sumAfterLowIrrad || 0,
+          temp: r.losses.sumAfterTemp || 0,
+          physicalFactor: r.losses.physicalFactor || 0,
+          sysFactor: r.losses.sysFactor || 0,
+          totalFactor: r.losses.totalFactor || 0,
+          qLoss: r.losses.qLoss || 0, mLoss: r.losses.mLoss || 0, sLoss: r.losses.sLoss || 0,
+          cLoss: r.losses.cLoss || 0, iLoss: r.losses.iLoss || 0, pLoss: r.losses.pLoss || 0
+        } : null;
+        d.esh = r.results.sunEquivalent;
+
+        if (r.monthly?.avgTemp) {
+          const t = r.monthly.avgTemp;
+          d.temp = t.reduce((a, b) => a + b, 0) / t.length;
+          d.tmin = Math.min(...t);
+          d.tmax = Math.max(...t);
+        }
+
+        const vs = r.results.variabilityStats;
+        if (vs) {
+          d.p50 = vs.p50; d.p90 = vs.p90; d.cv = vs.cv;
+          d.mean = vs.mean; d.std = vs.std; d.min = vs.min; d.max = vs.max;
+          d.n_yrs = vs.years;
+        }
+
+        const secs = r.inputs?.sections || [];
+        d.n_sec = secs.length;
+        d._sections = secs.map((s, i) => {
+          const panelMap = { mono: 'Monocristallin', poly: 'Polycristallin', cis: 'Couches minces CIS', cdte: 'Couches minces CdTe', hit: 'Hétérojonction HIT' };
+          const secRes = r.sections?.[i];
+          const rawTilt = secRes?.rawTilt != null ? secRes.rawTilt : s.tilt;
+          const wasOpt = secRes?.rawTilt != null && Math.abs(secRes.rawTilt - s.tilt) > 0.1;
+          return {
+            kWp: s.kWc,
+            az: s.azimuth,
+            tilt: rawTilt,
+            tiltLabel: wasOpt ? rawTilt + '° (opt.)' : rawTilt + '°',
+            panel: panelMap[s.panel] || s.panel,
+            eff: s.efficiency,
+            contrib: secRes?.total || 0
+          };
+        });
+
+        if (r.monthly?.ac) {
+          const ac = r.monthly.ac;
+          const peakIdx = ac.indexOf(Math.max(...ac));
+          const lowIdx = ac.indexOf(Math.min(...ac));
+          d.peak = ac[peakIdx];
+          d.low = ac[lowIdx];
+        }
+
+        const fin = r.financial;
+        const finIn = r.inputs?.financial;
+        if (fin && finIn) {
+          d.inv = fin.totalInvest;
+          d.spec_cost = finIn.invCost;
+          d.om = fin.totalOMLifetime || 0;
+          d.inv_yr = fin.invReplaceYear || finIn.invReplaceYear || 12;
+          d.inv_cost = (fin.invReplaceCost || finIn.invReplaceCost || 150) * d.kWp;
+          d.ep = finIn.elecPrice;
+          d.fi = finIn.feedIn;
+          d.sc_kwh = fin.selfConsumed;
+          d.sc_rev = fin.annualSavings;
+          d.fg_kwh = fin.fedToGrid;
+          d.fg_rev = fin.annualFeedin;
+          d.benefit = fin.annualBenefit;
+          d.life = finIn.lifetime;
+          d.dr = finIn.discountRate;
+          d.deg = finIn.degradation;
+          d.npv = fin.npv;
+          d.irr = fin.irr != null ? fin.irr * 100 : 0;
+          d.lcoe = fin.lcoe;
+          d.pb = fin.simplePaybackYear;
+          d.dpb = fin.discountedPaybackYear;
+          d.pb_year = fin.simplePaybackYear != null ? Math.round(fin.simplePaybackYear) : 0;
+          d.cb1 = Math.max(0, fin.totalInvest - fin.annualBenefit);
+          d._yearlyCashFlow = fin.yearlyCashFlow ? fin.yearlyCashFlow.slice() : [];
+        }
+
+        if (finIn) {
+          d.co2_int = finIn.co2Factor || 400;
+          const carEm = finIn.carEmissions || 120;
+          const co2yr = d.kWh * d.co2_int / 1000;
+          const co2life = co2yr * d.life;
+          d.co2_yr = co2yr;
+          d.km_eq = Math.round(co2yr * 1000000 / carEm);
+          d.co2_life = co2life;
+          d.trees_eq = Math.round(co2life / 0.022);
+          d.homes = co2yr / 1.5;
+        }
+
+        if (!vs) {
+          d.cv = 0; d.p50 = 0; d.p90 = 0; d.n_yrs = 0;
+        }
+        if (!fin || !finIn) {
+          d.inv = 0; d.lcoe = 0; d.npv = 0; d.irr = 0;
+          d.pb = 0; d.dpb = 0; d.benefit = 0;
+          d.ep = 0; d.fi = 0;
+        }
+
+        if (r.monthly?.ghi) {
+          monthlyData.length = 0;
+          const dim = [31,28,31,30,31,30,31,31,30,31,30,31];
+          for (let i = 0; i < 12; i++) {
+            const ghi = r.monthly.ghi[i] || 0;
+            const gti = r.monthly.gti[i] || 0;
+            const prod = r.monthly.ac[i] || 0;
+            const pvKwp = d.kWp || 1;
+            const pr = gti > 0 ? (prod / (gti * pvKwp)) * 100 : 0;
+            const sun = pvKwp > 0 ? prod / pvKwp / dim[i] : 0;
+            monthlyData.push({
+              ghi, gti,
+              prod,
+              pr,
+              sun,
+              temp: r.monthly.avgTemp ? (r.monthly.avgTemp[i] || 0) : 0
+            });
+          }
+        }
+
+        return true;
+      } catch (e) {
+        console.warn('Failed to load sim data:', e);
+        return false;
+      }
+    }
+
+    /* ── Init ── */
+    const isPreview = window.location.search.includes('preview');
+    if (isPreview) document.body.classList.add('preview-only');
+
+    if (loadSimDataFromStorage()) {
+      updatePreview();
+      const pdfBtn = document.querySelector('.view-tab[onclick*="pdf"]');
+      if (pdfBtn) setView('pdf', pdfBtn);
+    } else if (isPreview) {
+      // No data but in preview mode — show empty PDF state
+      document.getElementById('pdf-mode').classList.add('active');
+      document.getElementById('pdf-pages').innerHTML = '<p style="text-align:center;padding:4rem;color:#999;">Aucune donnée de simulation disponible. Lancez d’abord une simulation.</p>';
+    } else {
+      updatePreview();
+    }
+  </script>
+
+</body>
+
+</html>

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SERA — Outils solaires</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@300;400;500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="theme.css">
+    <script>document.documentElement.setAttribute('data-theme',localStorage.getItem('sera-theme')==='light'?'light':'dark');</script>
+</head>
+<body>
+<nav>
+    <a href="../index.html" class="nav-logo">RASE Yassor · SERA</a>
+    <div class="nav-links">
+        <a href="../index.html">← Portfolio</a>
+        <a href="tilt/optimal-tilt.html">Inclinaison optimale</a>
+        <a href="simulation/simulation.html">Simulation</a>
+    </div>
+    <div class="nav-overlay"></div>
+</nav>
+<main style="max-width:1280px;margin:0 auto;padding:4rem 5rem 5rem;">
+    <div class="section-label" style="margin-bottom:0.6rem;">Outils solaires — SERA</div>
+    <h1 style="font-family:'Space Grotesk',sans-serif;font-size:clamp(2rem,4vw,3rem);font-weight:700;letter-spacing:-0.03em;margin-bottom:1rem;">Outils <em style="font-style:normal;background:linear-gradient(90deg,#FF6B2B,#C84BFF,#3B82F6);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">solaires</em></h1>
+    <p style="font-size:15px;color:var(--text-mid);line-height:1.8;max-width:560px;margin-bottom:3rem;">Inclinaison optimale et simulation de production photovoltaïque — données ERA5 / PVGIS, ombrage horizon inclus via ce serveur.</p>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:2rem;" class="hub-grid">
+        <div class="kpi" style="padding:2.5rem;">
+            <div class="kpi-label">Inclinaison optimale</div>
+            <p style="font-size:14px;color:var(--text-mid);line-height:1.8;margin:1rem 0 1.8rem;">Angle idéal, courbe production vs inclinaison et trajectoire solaire + horizon.</p>
+            <a href="tilt/optimal-tilt.html" class="btn btn-primary">Ouvrir l'outil</a>
+        </div>
+        <div class="kpi" style="padding:2.5rem;">
+            <div class="kpi-label">Simulation de production</div>
+            <p style="font-size:14px;color:var(--text-mid);line-height:1.8;margin:1rem 0 1.8rem;">Productible mensuel, pertes, financier et CO₂, rapport PDF exportable.</p>
+            <a href="simulation/simulation.html" class="btn btn-primary">Lancer la simulation</a>
+        </div>
+    </div>
+</main>
+<script src="shared.js"></script>
+</body>
+</html>

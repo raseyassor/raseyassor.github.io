@@ -1,0 +1,869 @@
+html,
+body {
+    height: 100%;
+    margin: 0;
+}
+
+#map {
+    height: 100%;
+    width: 100%;
+}
+
+.leaflet-container {
+    background: var(--bg);
+}
+
+select option {
+    background: var(--bg);
+    color: var(--text-hi);
+}
+
+.section-tab {
+    cursor: pointer;
+    transition: all 0.2s var(--ease-out);
+    user-select: none;
+    font-size: 0.7rem;
+    border: 1px solid var(--border-mid);
+    padding: 0.3rem 0.625rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    border-radius: var(--radius);
+    background: transparent;
+}
+
+.section-tab:hover {
+    border-color: var(--border-hi);
+    background: rgba(255,255,255,0.03);
+}
+
+.section-tab.active {
+    border-color: var(--accent);
+    background: var(--accent-dim);
+    color: var(--text-hi);
+}
+
+.section-tab .close-btn:hover {
+    color: #ef4444 !important;
+}
+
+#advanced-panel {
+    max-height: none;
+}
+
+#report-area {
+    display: none;
+}
+
+#report-area.visible {
+    display: block;
+}
+
+/* ─── Report Header ─────────────────────── */
+
+.report-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.5rem 0;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 1.5rem;
+}
+
+.report-header-left {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.report-icon {
+    width: 2.5rem;
+    height: 2.5rem;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--bg-card);
+}
+
+.report-icon span {
+    font-family: var(--font-display);
+    font-size: 1.125rem;
+    font-weight: 700;
+    color: var(--accent);
+}
+
+.report-title {
+    font-family: var(--font-display);
+    font-size: 1.125rem;
+    font-weight: 700;
+}
+
+.report-sub {
+    font-size: 0.7rem;
+    color: var(--text-mid);
+}
+
+/* ─── KPI cards in report ────────────────── */
+
+.report-kpis {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+}
+
+@media (max-width: 900px) {
+    .report-kpis { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 500px) {
+    .report-kpis { grid-template-columns: 1fr; }
+}
+
+/* ─── Section detail table ───────────────── */
+
+.sec-table {
+    width: 100%;
+    font-size: 0.75rem;
+    text-align: left;
+    border-collapse: collapse;
+}
+
+.sec-table th {
+    font-size: 0.65rem;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--text-mid);
+    padding: 0.5rem 0.75rem 0.5rem 0;
+    border-bottom: 1px solid var(--border);
+}
+
+.sec-table td {
+    padding: 0.5rem 0.75rem 0.5rem 0;
+    border-bottom: 1px solid var(--border);
+    color: var(--text-mid);
+}
+
+.sec-table td:last-child {
+    color: var(--kpi-battery);
+    font-weight: 600;
+}
+
+/* ─── Monthly balance table ──────────────── */
+
+.monthly-table {
+    width: 100%;
+    font-size: 0.7rem;
+    text-align: center;
+    border-collapse: collapse;
+}
+
+.monthly-table th {
+    font-size: 0.6rem;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--text-mid);
+    padding: 0.4rem 0.5rem;
+    border-bottom: 1px solid var(--border);
+}
+
+.monthly-table th:first-child {
+    text-align: left;
+}
+
+.monthly-table td {
+    padding: 0.4rem 0.5rem;
+    border-bottom: 1px solid var(--border);
+}
+
+.monthly-table tr:last-child td {
+    border-bottom: none;
+}
+
+/* ─── Loss analysis grid ─────────────────── */
+
+.loss-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0.75rem;
+    font-size: 0.75rem;
+}
+
+@media (max-width: 900px) {
+    .loss-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+.loss-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 0.35rem 0;
+    border-bottom: 1px solid var(--border);
+}
+
+.loss-item:last-child { border-bottom: none; }
+
+.loss-item-label {
+    color: var(--text-mid);
+}
+
+.loss-item-value {
+    font-weight: 500;
+    font-family: var(--font-display);
+}
+
+/* ─── Pill Toggle ───────────────────────── */
+
+.pill-toggle {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.3rem 0.7rem;
+    font-size: 0.65rem;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    border: 1px solid var(--border-mid);
+    border-radius: 999px;
+    cursor: pointer;
+    user-select: none;
+    color: var(--text-mid);
+    background: transparent;
+    transition: all 0.15s var(--ease-out);
+}
+
+.pill-toggle:hover {
+    border-color: var(--border-hi);
+    color: var(--text-hi);
+}
+
+.pill-toggle--active {
+    background: var(--accent-dim);
+    border-color: var(--accent);
+    color: var(--accent);
+}
+
+/* ─── Methodology Footer ────────────────── */
+
+#loss-chart-row {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 1rem;
+}
+
+@media (max-width: 900px) {
+    #loss-chart-row { grid-template-columns: 1fr; }
+}
+
+.chart-wrap {
+    position: relative;
+    width: 100%;
+}
+
+::-webkit-scrollbar {
+    width: 6px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--bg);
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--border-mid);
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--border-hi);
+}
+
+#toast {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    z-index: 9999;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    pointer-events: none;
+}
+
+#toast>div {
+    pointer-events: auto;
+    animation: toastIn 0.3s ease;
+}
+
+@keyframes toastIn {
+    from {
+        opacity: 0;
+        transform: translateY(12px)
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0)
+    }
+}
+
+.sim-layout {
+    display: flex;
+    height: calc(100vh - 60px);
+    background: var(--bg);
+}
+
+.sim-left {
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    border-right: 1px solid var(--border);
+}
+
+.sim-left .map-container {
+    flex: 1;
+    position: relative;
+    border-radius: 0.5rem;
+    overflow: hidden;
+    margin: 0.5rem;
+}
+
+.sim-coords {
+    border-top: 1px solid var(--border);
+    padding: 0.75rem 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.sim-right {
+    width: 50%;
+    overflow-y: auto;
+    padding: 1.25rem;
+    scrollbar-width: thin;
+    scrollbar-color: var(--border-mid) transparent;
+}
+
+.sim-right::-webkit-scrollbar { width: 4px; }
+.sim-right::-webkit-scrollbar-track { background: transparent; }
+.sim-right::-webkit-scrollbar-thumb { background: var(--border-mid); border-radius: 99px; }
+.sim-right::-webkit-scrollbar-thumb:hover { background: var(--border-hi); }
+
+.sim-input {
+    width: 100%;
+    background: transparent;
+    border: 1px solid var(--border-mid);
+    padding: 0.5rem 0.75rem;
+    font-size: 0.85rem;
+    color: var(--text-hi);
+    transition: border-color 0.2s var(--ease-out);
+    border-radius: var(--radius);
+}
+
+.sim-input:focus {
+    border-color: var(--accent);
+    outline: none;
+    box-shadow: 0 0 0 1px var(--accent-dim);
+}
+
+.sim-input::placeholder {
+    color: var(--text-lo);
+}
+
+.sim-input-sm {
+    width: 7rem;
+}
+
+.sim-input-xs {
+    width: 6rem;
+}
+
+.sim-label {
+    font-size: 0.65rem;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--text-mid);
+}
+
+.sim-field {
+    margin-bottom: 1rem;
+}
+
+.sim-field-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 0.5rem;
+}
+
+.sim-section-card {
+    border: 1px solid var(--border);
+    padding: 0.75rem;
+    border-radius: var(--radius-lg);
+    background: var(--bg-card);
+    transition: border-color 0.2s var(--ease-out);
+}
+
+.sim-section-card:hover {
+    border-color: var(--border-mid);
+}
+
+.sim-section-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.75rem;
+}
+
+.sim-section-grid label {
+    font-size: 0.6rem;
+    color: var(--text-mid);
+    display: block;
+    margin-bottom: 0.25rem;
+}
+
+.sim-section-grid input,
+.sim-section-grid select {
+    width: 100%;
+    background: transparent;
+    border: 1px solid var(--border-mid);
+    padding: 0.375rem 0.5rem;
+    font-size: 0.85rem;
+    color: var(--text-hi);
+    transition: border-color 0.2s var(--ease-out);
+    border-radius: var(--radius);
+}
+
+.sim-section-grid input:focus,
+.sim-section-grid select:focus {
+    border-color: var(--accent);
+    outline: none;
+    box-shadow: 0 0 0 1px var(--accent-dim);
+}
+
+.sim-section-grid select {
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg width='10' height='6' viewBox='0 0 10 6' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1L5 5L9 1' stroke='%23888' stroke-width='1.5' stroke-linecap='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 0.5rem center;
+    padding-right: 1.5rem;
+}
+
+.sim-section-grid select option {
+    background: var(--bg-card-2);
+    color: var(--text-hi);
+}
+
+.sim-tilt-row {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.sim-tilt-row input[type="number"] {
+    flex: 1;
+    min-width: 0;
+}
+
+.sim-checkbox-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    font-size: 0.6rem;
+    color: var(--text-mid);
+    white-space: nowrap;
+    cursor: pointer;
+    padding: 0.25rem 0.4rem;
+    border: 1px solid var(--border-mid);
+    transition: all 0.15s;
+}
+
+.sim-checkbox-label:hover {
+    border-color: var(--accent);
+    color: var(--text-hi);
+}
+
+.sim-checkbox-label input[type="checkbox"] {
+    width: 0.75rem;
+    height: 0.75rem;
+    accent-color: var(--accent);
+}
+
+.sim-advanced-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.75rem;
+}
+
+.sim-advanced-grid label {
+    font-size: 0.6rem;
+    color: var(--text-mid);
+    display: block;
+    margin-bottom: 0.25rem;
+}
+
+.sim-advanced-grid input {
+    width: 100%;
+    background: transparent;
+    border: 1px solid var(--border-mid);
+    padding: 0.375rem 0.5rem;
+    font-size: 0.85rem;
+    color: var(--text-hi);
+    transition: border-color 0.2s;
+}
+
+.sim-advanced-grid input:focus {
+    border-color: var(--accent);
+    outline: none;
+}
+
+.stat-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    transition: border-color 0.2s var(--ease-out);
+}
+
+.stat-card:hover {
+    border-color: var(--border-mid);
+}
+
+@media (max-width: 900px) {
+    .sim-layout {
+        flex-direction: column;
+        height: auto;
+    }
+
+    .sim-left,
+    .sim-right {
+        width: 100%;
+    }
+
+    .sim-left {
+        height: 50vh;
+        border-right: none;
+        border-bottom: 1px solid var(--border);
+    }
+}
+
+/* ─── Mode switch (Simple / Expert) ─────────── */
+
+.mode-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+    padding-bottom: 1.25rem;
+    border-bottom: 1px solid var(--border);
+    flex-wrap: wrap;
+}
+
+.mode-seg {
+    display: inline-flex;
+    background: var(--bg-card-2);
+    border: 1px solid var(--border-mid);
+    border-radius: 999px;
+    padding: 0.2rem;
+    gap: 0.2rem;
+}
+
+.mode-btn {
+    border: none;
+    background: transparent;
+    color: var(--text-mid);
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    padding: 0.4rem 1.1rem;
+    border-radius: 999px;
+    cursor: pointer;
+    transition: all 0.2s var(--ease-out);
+}
+
+.mode-btn:hover {
+    color: var(--text-hi);
+}
+
+.mode-btn.mode-btn--active {
+    background: var(--accent);
+    color: #fff;
+}
+
+.mode-hint {
+    font-size: 0.7rem;
+    color: var(--text-mid);
+    flex: 1;
+    min-width: 14rem;
+    margin: 0;
+    line-height: 1.5;
+}
+
+/* ─── Beginner form ─────────────────────────── */
+
+.bf-hero {
+    margin-bottom: 1.5rem;
+}
+
+.bf-step {
+    font-family: var(--font-display);
+    font-size: 0.9rem;
+    font-weight: 700;
+    margin-bottom: 0.45rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.bf-hint {
+    font-size: 0.7rem;
+    color: var(--text-mid);
+    margin: 0.35rem 0 0.5rem;
+    line-height: 1.5;
+}
+
+.bf-slider-row {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.bf-slider {
+    flex: 1;
+    min-width: 0;
+    accent-color: var(--accent);
+    cursor: pointer;
+}
+
+.bf-size-val {
+    font-family: var(--font-display);
+    font-size: 1.05rem;
+    font-weight: 700;
+    white-space: nowrap;
+}
+
+.bf-run {
+    margin-top: 0.75rem;
+}
+
+/* ─── Beginner mode: simplified report ──────── */
+
+body.mode-beginner #sim-coords,
+body.mode-beginner #collapse-sections,
+body.mode-beginner #collapse-monthly,
+body.mode-beginner #collapse-losses,
+body.mode-beginner #r-financial-section,
+body.mode-beginner #card-irr,
+body.mode-beginner #card-prod-angle,
+body.mode-beginner #card-pr,
+body.mode-beginner #card-sunpath,
+body.mode-beginner #card-diurnal {
+    display: none !important;
+}
+
+/* Beginner mode: monthly production (left) + payback chart (right), side by side */
+body.mode-beginner #card-cashflow {
+    grid-column: 2 !important;
+    grid-row: 1 !important;
+}
+
+body.mode-beginner #card-prod {
+    display: flex;
+    flex-direction: column;
+}
+
+body.mode-beginner #card-prod .chart-wrap {
+    flex: 1;
+    min-height: 160px;
+}
+
+/* Expert mode: tall chart cards, matching the Simple-mode look */
+
+body.mode-expert #card-prod,
+body.mode-expert #card-irr,
+body.mode-expert #card-prod-angle,
+body.mode-expert #card-pr,
+body.mode-expert #card-sunpath,
+body.mode-expert #card-diurnal {
+    display: flex;
+    flex-direction: column;
+}
+
+body.mode-expert #card-prod .chart-wrap,
+body.mode-expert #card-irr .chart-wrap,
+body.mode-expert #card-prod-angle .chart-wrap,
+body.mode-expert #card-pr .chart-wrap,
+body.mode-expert #card-sunpath .chart-wrap,
+body.mode-expert #card-diurnal .chart-wrap {
+    flex: 1;
+    min-height: 280px;
+}
+
+/* ─── Expert mode: hide beginner bits (redundant safeguard) ── */
+
+body.mode-expert #beginner-panel,
+body.mode-expert #beginner-fin,
+body.mode-expert #card-cashflow,
+body.mode-expert .bf-run {
+    display: none !important;
+}
+
+@media (max-width: 900px) {
+    .mode-hint { min-width: 100%; }
+}
+
+@media print {
+    @page {
+        size: A4;
+        margin: 18mm 16mm 22mm 16mm;
+    }
+
+    * {
+        background: transparent !important;
+        color: #111 !important;
+        text-shadow: none !important;
+        box-shadow: none !important;
+    }
+
+    html, body {
+        background: #fff !important;
+        font-size: 9.5pt;
+        line-height: 1.55;
+        color: #111 !important;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+    }
+
+    nav, #map, .sim-left, .sim-controls, .progress-area, .toast,
+    #loading-overlay, footer, .btn, button, .section-tab,
+    .collapse-head, .pill-toggle, .chart-wrap canvas,
+    .kpi:hover, .stat-card:hover {
+        display: none !important;
+    }
+
+    .sim-right {
+        width: 100% !important;
+        height: auto !important;
+        padding: 0 !important;
+        overflow: visible !important;
+    }
+
+    #report-area {
+        display: block !important;
+        padding: 0 !important;
+        margin: 0 !important;
+    }
+
+    #report-content {
+        padding: 0 !important;
+        margin: 0 !important;
+        display: block !important;
+    }
+
+    .kpi-grid { page-break-inside: avoid; }
+
+    .stat-card {
+        border: 1px solid #ccc !important;
+        border-radius: 3px !important;
+        padding: 0.6rem 0.8rem !important;
+        margin-bottom: 0.6rem !important;
+        page-break-inside: avoid;
+        background: #fafafa !important;
+    }
+
+    .kpi {
+        border: 1px solid #ddd !important;
+        border-radius: 3px !important;
+        padding: 0.5rem 0.75rem !important;
+        background: #f8f8f8 !important;
+    }
+
+    .kpi-label { color: #666 !important; font-size: 0.55rem !important; }
+    .kpi-value { color: #111 !important; font-size: 1rem !important; }
+    .kpi-sub { color: #888 !important; font-size: 0.55rem !important; }
+
+    .sec-table { border: 1px solid #ddd !important; border-radius: 3px !important; }
+
+    table {
+        font-size: 0.7rem !important;
+        border-collapse: collapse !important;
+        width: 100% !important;
+        margin: 0.5rem 0 !important;
+        page-break-inside: avoid;
+    }
+
+    th {
+        background: #f0f0f0 !important;
+        color: #333 !important;
+        font-weight: 600 !important;
+        font-size: 0.6rem !important;
+        padding: 0.35rem 0.45rem !important;
+        border-bottom: 1px solid #ccc !important;
+        text-transform: uppercase !important;
+    }
+
+    td {
+        color: #333 !important;
+        padding: 0.3rem 0.45rem !important;
+        border-bottom: 1px solid #eee !important;
+        font-size: 0.7rem !important;
+    }
+
+    .monthly-table td { color: #333 !important; }
+
+    .loss-chart-row { page-break-inside: avoid; }
+
+    .chip {
+        border: 1px solid #ccc !important;
+        color: #555 !important;
+        background: #f0f0f0 !important;
+    }
+
+    .chart-wrap {
+        border: 1px solid #ddd !important;
+        border-radius: 3px !important;
+        padding: 0.5rem !important;
+        margin-bottom: 0.6rem !important;
+        page-break-inside: avoid;
+    }
+
+    .chart-wrap canvas { display: none !important; }
+
+    .collapse {
+        border: 1px solid #ddd !important;
+        border-radius: 3px !important;
+        page-break-inside: avoid;
+    }
+
+    .collapse-body { display: block !important; }
+
+    .sim-label { color: #666 !important; font-size: 0.65rem !important; }
+    .section-tab { border-color: #ccc !important; }
+
+    .pr-ring svg circle { stroke: #ddd !important; }
+    #pr-ring-fill { stroke: #333 !important; }
+
+    h1, h2, h3, h4 { color: #111 !important; page-break-after: avoid; }
+    h1 { font-size: 1.3rem !important; }
+    h2 { font-size: 1rem !important; margin-top: 1rem !important; }
+    h3 { font-size: 0.85rem !important; }
+    h4 { font-size: 0.8rem !important; }
+
+    p, li { color: #333 !important; font-size: 0.7rem !important; }
+
+    strong { color: #111 !important; }
+
+    a { color: #333 !important; text-decoration: underline !important; }
+
+    .collapse-num { color: #555 !important; }
+    .collapse-title { color: #111 !important; }
+    .collapse-icon { display: none !important; }
+
+    .report-header { border-bottom: 1px solid #ccc !important; }
+    .report-header h1 { color: #111 !important; }
+    .report-header span { color: #555 !important; }
+
+    ::-webkit-scrollbar { display: none !important; }
+
+    .about-page { display: none !important; }
+}

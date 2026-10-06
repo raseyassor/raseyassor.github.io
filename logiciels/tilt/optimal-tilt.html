@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inclinaison Optimale — SERA</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../theme.css">
+    <script>document.documentElement.setAttribute('data-theme',localStorage.getItem('sera-theme')==='light'?'light':'dark');</script>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <link rel="stylesheet" href="tilt.css">
+</head>
+<body>
+
+<nav>
+    <a href="../../index.html" class="nav-logo">RASE Yassor · SERA</a>
+    <button class="nav-toggle" aria-label="Menu">
+        <span></span><span></span><span></span>
+    </button>
+    <div class="nav-links">
+        <a href="../../index.html">← Portfolio</a>
+        <a href="optimal-tilt.html" class="active">Inclinaison optimale</a>
+        <a href="../simulation/simulation.html">Simulation</a>
+        <a href="../../index.html#contact">Contact</a>
+        <a href="mailto:ryassor6@gmail.com?subject=Demande%20de%20devis" class="btn btn-primary" style="padding:0.45rem 1.1rem;font-size:13px;">Demander un devis</a>
+            <button class="theme-toggle" aria-label="Changer de thème">
+                <svg class="sun-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+                <svg class="moon-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+            </button>
+    </div>
+    <div class="nav-overlay"></div>
+</nav>
+
+<main class="tilt-layout">
+
+    <!-- Left: Map + Inputs -->
+    <div class="tilt-left">
+        <div class="section-label" style="margin-bottom: 0.6rem;">Outils solaires — SERA</div>
+        <h1 style="font-family:'Space Grotesk',sans-serif;font-size:clamp(1.8rem,3vw,2.6rem);font-weight:700;letter-spacing:-0.03em;line-height:1.15;margin-bottom:0.8rem;">Inclinaison <em style="font-style:normal;background:linear-gradient(90deg,#FF6B2B,#C84BFF,#3B82F6);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">optimale</em></h1>
+        <p style="font-size:14px;color:var(--text-mid);line-height:1.8;max-width:520px;margin-bottom:1.8rem;">Cliquez sur la carte ou recherchez une adresse : l'angle qui maximise l'irradiation annuelle, la courbe de production et la trajectoire solaire.</p>
+        <div class="section-label" style="margin-bottom: 1rem;">01 — Carte & paramètres</div>
+
+        <div id="map"></div>
+
+        <div class="tilt-inputs">
+            <div class="tilt-input-group">
+                <label>Rechercher une adresse</label>
+                <input type="text" id="address-input" placeholder="ex. Diego Suarez, Madagascar" />
+                <button id="address-btn" class="btn btn-primary" style="padding: 0.5rem 1rem; font-size: 0.7rem;">Rechercher</button>
+            </div>
+
+            <div class="tilt-row">
+                <div class="tilt-input-group">
+                    <label>Longitude</label>
+                    <input type="number" id="longitude" step="any" placeholder="49.2917" />
+                </div>
+                <div class="tilt-input-group">
+                    <label>Latitude</label>
+                    <input type="number" id="latitude" step="any" placeholder="-12.3486" />
+                </div>
+                <div class="tilt-input-group">
+                    <label>Altitude (m)</label>
+                    <input type="number" id="altitude" step="any" placeholder="0" />
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Right: Results -->
+    <div class="tilt-right">
+        <div class="tilt-input-group">
+            <label>Azimut des panneaux</label>
+            <input type="number" id="azimuth" step="any" value="180" placeholder="180" />
+            <div class="tilt-hint">0° = Plein sud · -90° = Plein est · +90° = Plein ouest</div>
+        </div>
+
+        <div class="tilt-input-group">
+            <label>Plage d'années</label>
+            <div class="tilt-row" style="margin-top: 0.35rem;">
+                <input type="number" id="startyear" value="2021" min="2005" max="2025" />
+                <input type="number" id="endyear" value="2025" min="2005" max="2025" />
+            </div>
+            <div class="tilt-hint">2018–2023 recommandé</div>
+        </div>
+
+        <div class="tilt-input-group">
+            <label>Base de données d'irradiation</label>
+            <select id="raddatabase">
+                <option value="ERA5" selected>ERA5 (Open-Meteo) — Mondial</option>
+                <option value="PVGIS-SARAH3">PVGIS-SARAH3 v6 (Europe, Afrique, Asie)</option>
+                <option value="PVGIS-NSRDB">PVGIS-NSRDB v6 (Amériques)</option>
+            </select>
+        </div>
+
+        <button id="simulate-btn" class="btn btn-primary" style="width: 100%; justify-content: center;">
+            Lancer la simulation
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </button>
+
+        <div id="progress-container" class="progress-container" style="display: none;">
+            <div class="progress-bar">
+                <div class="progress-fill" id="progress-fill"></div>
+            </div>
+            <div class="progress-text" id="progress-text">Initialisation...</div>
+        </div>
+
+        <div id="sim-status" class="tilt-status" style="display: none;"></div>
+
+        <!-- Results -->
+        <div id="tilt-results" style="display: none;">
+            <div class="tilt-kpis">
+                <div class="kpi kpi--solar">
+                    <div class="kpi-label">Angle d'inclinaison optimal</div>
+                    <div class="kpi-value" id="tilt-angle-result">—</div>
+                    <div class="kpi-sub">Maximise l'irradiation annuelle</div>
+                </div>
+                <div class="kpi kpi--battery">
+                    <div class="kpi-label">Production annuelle</div>
+                    <div class="kpi-value" id="tilt-prod-result">—</div>
+                    <div class="kpi-sub">kWh par kWc installé</div>
+                </div>
+            </div>
+            <div id="tilt-dust-rec" class="kpi kpi--ev" style="display:none;">
+                <div class="kpi-label">Recommandation anti-poussière</div>
+                <div class="kpi-value" id="tilt-dust-angle" style="font-size:1.1rem;">—</div>
+                <div class="kpi-sub">Moins de 0,4% de perte annuelle, encrassement réduit</div>
+            </div>
+        </div>
+
+    </div>
+
+</main>
+
+<!-- Graphs Section -->
+<section class="tilt-graphs reveal" id="tilt-graphs" style="display: none;">
+    <div class="tilt-graphs-inner">
+        <div class="section-label" style="margin-bottom: 1.5rem;">Résultats</div>
+        <div class="tilt-graphs-grid">
+            <div class="tilt-graph-card">
+                <div class="tilt-graph-title">Production vs angle d'inclinaison</div>
+                <canvas id="chart-production"></canvas>
+            </div>
+            <div class="tilt-graph-card">
+                <div class="tilt-graph-title">Trajectoire solaire + horizon</div>
+                <canvas id="chart-sunpath"></canvas>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/suncalc@1.9.0/suncalc.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<script src="../pvgis/api/api-pvgis.js"></script>
+<script src="../pvgis/maps/map.js"></script>
+<script src="optimal-tilt.js"></script>
+
+<script src="../shared.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,827 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simulation — SERA</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../theme.css">
+    <script>document.documentElement.setAttribute('data-theme',localStorage.getItem('sera-theme')==='light'?'light':'dark');</script>
+    <link rel="stylesheet" href="simulation.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/suncalc@1.9.0/suncalc.min.js"></script>
+</head>
+
+<body>
+
+    <!-- Loading overlay -->
+    <div id="loading-overlay" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.85); z-index:9999; align-items:center; justify-content:center; flex-direction:column; gap:1rem;">
+        <div class="spinner" style="width:48px; height:48px; border:4px solid rgba(255,255,255,0.1); border-top:4px solid var(--accent); border-radius:50%; animation:spin 1s linear infinite;"></div>
+        <div id="loading-text" style="color:#ccc; font-size:0.95rem;">Chargement...</div>
+    </div>
+    <style>@keyframes spin { to { transform: rotate(360deg); } }</style>
+
+    <nav>
+        <a href="../../index.html" class="nav-logo">RASE Yassor · SERA</a>
+        <button class="nav-toggle" aria-label="Menu">
+            <span></span><span></span><span></span>
+        </button>
+        <div class="nav-links">
+            <a href="../../index.html">← Portfolio</a>
+            <a href="../tilt/optimal-tilt.html">Inclinaison optimale</a>
+            <a href="simulation.html" class="active">Simulation</a>
+            <a href="../../index.html#contact">Contact</a>
+            <a href="mailto:ryassor6@gmail.com?subject=Demande%20de%20devis" class="btn btn-primary" style="padding:0.45rem 1.1rem;font-size:13px;">Demander un devis</a>
+            <button class="theme-toggle" aria-label="Toggle theme">
+                <svg class="sun-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+                <svg class="moon-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+            </button>
+    </div>
+    <div class="nav-overlay"></div>
+    </nav>
+
+    <div class="sim-layout">
+        <!-- Left: Map + Inputs -->
+        <div class="sim-left">
+            <div class="section-label" style="margin-bottom: 0.6rem;">Outils solaires — SERA</div>
+            <h1 style="font-family:'Space Grotesk',sans-serif;font-size:clamp(1.8rem,3vw,2.6rem);font-weight:700;letter-spacing:-0.03em;line-height:1.15;margin-bottom:0.8rem;">Simulation de <em style="font-style:normal;background:linear-gradient(90deg,#FF6B2B,#C84BFF,#3B82F6);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">production</em></h1>
+            <p style="font-size:14px;color:var(--text-mid);line-height:1.8;max-width:520px;margin-bottom:1.8rem;">Mode Simple ou Expert : productible mensuel, pertes, financier et CO₂, avec rapport PDF exportable.</p>
+            <div class="map-container">
+                <div id="map"></div>
+            </div>
+            <div class="sim-coords" id="sim-coords">
+                <span class="sim-label">Lat</span>
+                <input type="number" id="lat" step="any" placeholder="-12.277963" class="sim-input sim-input-sm">
+                <span class="sim-label">Lng</span>
+                <input type="number" id="lng" step="any" placeholder="49.291374" class="sim-input sim-input-sm">
+                <span class="sim-label">Alt (m)</span>
+                <input type="number" id="elevation" step="any" placeholder="—" class="sim-input sim-input-xs" readonly>
+            </div>
+        </div>
+
+        <div class="sim-right">
+
+            <!-- ── Mode switch ── -->
+            <div class="mode-bar">
+                <div class="mode-seg" role="tablist" aria-label="Interface mode">
+                    <button id="mode-beginner-btn" class="mode-btn mode-btn--active" onclick="setMode('beginner')">Simple</button>
+                    <button id="mode-expert-btn" class="mode-btn" onclick="setMode('expert')">Expert</button>
+                </div>
+                <p class="mode-hint" id="mode-hint"></p>
+            </div>
+
+            <!-- ── Beginner panel (no technical knowledge needed) ── -->
+            <div id="beginner-panel">
+                <div class="bf-hero">
+                    <h2 style="font-family: var(--font-display); font-size: 1.25rem; font-weight: 700; margin-bottom: 0.35rem;">Estimez votre installation solaire</h2>
+                    <p style="font-size: 0.78rem; color: var(--text-mid); line-height: 1.6; margin: 0;">Aucune connaissance technique requise — répondez à 3 questions rapides, on s'occupe du reste.</p>
+                </div>
+
+                <div class="sim-field">
+                    <div class="bf-step">1. Où se situe votre site ?</div>
+                    <div class="bf-hint">Tapez votre ville ou adresse — ou cliquez sur la carte.</div>
+                    <input type="text" id="bf-location" class="sim-input" placeholder="ex. Antsiranana, Madagascar" autocomplete="off">
+                </div>
+
+                <div class="sim-field">
+                    <div class="bf-step">2. Où seront installés les panneaux ?</div>
+                    <select id="bf-mount" class="sim-input">
+                        <option value="roof" selected>Sur le toit d'un bâtiment</option>
+                        <option value="ground">Au sol (structure libre)</option>
+                    </select>
+                </div>
+
+                <div class="sim-field">
+                    <div class="bf-step">3. Quelle puissance pour votre installation ?</div>
+                    <div class="bf-slider-row">
+                        <input type="range" id="bf-size" class="bf-slider" min="0.5" max="20" step="0.5" value="3">
+                        <div class="bf-size-val"><span id="bf-size-out" style="color: var(--accent);">3.0</span> kW</div>
+                    </div>
+                    <div class="bf-hint" id="bf-size-hint">Cela représente environ 7–8 panneaux, soit ~20 m² de toiture. Un doute ? Commencez avec 3 kW.</div>
+                </div>
+
+                <div class="sim-field">
+                    <div class="bf-step">4. Qualité des panneaux</div>
+                    <select id="bf-panel" class="sim-input">
+                        <option value="mono" selected>Standard — meilleur rapport qualité-prix</option>
+                        <option value="hit">Premium — rendement maximal</option>
+                    </select>
+                </div>
+
+                <div class="sim-field">
+                    <div class="bf-step">5. Quel est le coût d'installation ?</div>
+                    <div class="bf-hint">Les prix typiques sont de 800–1 500 € par kW installé (les petites toitures coûtent plus cher par kW). Un montant indicatif est pré-rempli — ajustez-le librement.</div>
+                    <div class="bf-slider-row">
+                        <input type="number" id="bf-cost" class="sim-input" min="0" step="100" value="3000">
+                        <div class="bf-size-val" style="font-size: 0.9rem; color: var(--text-mid);">€</div>
+                    </div>
+                </div>
+
+                <div class="sim-field">
+                    <div class="bf-step">6. Combien payez-vous l'électricité ?</div>
+                    <div class="bf-hint">Consultez votre dernière facture — il s'agit du prix par kilowatt-heure (kWh).</div>
+                    <select id="bf-price" class="sim-input">
+                        <option value="0.10">0.10 € / kWh</option>
+                        <option value="0.15">0.15 € / kWh</option>
+                        <option value="0.20">0.20 € / kWh</option>
+                        <option value="0.25" selected>0.25 € / kWh</option>
+                        <option value="0.30">0.30 € / kWh</option>
+                        <option value="0.35">0.35 € / kWh</option>
+                        <option value="0.40">0.40 € / kWh</option>
+                        <option value="0.50">0.50 € / kWh</option>
+                    </select>
+                </div>
+
+                <button id="simulate-btn-beginner" class="btn btn-primary bf-run" style="width: 100%; justify-content: center;">
+                    Estimer ma production
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                </button>
+            </div>
+
+            <!-- ── Expert panel (full control) ── -->
+            <div id="expert-panel" style="display: none;">
+            <a href="../../index.html#logiciels" class="sim-label" style="display: inline-flex; align-items: center; gap: 0.5rem; margin-bottom: 1rem; transition: color 0.2s;">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M7 16l-4-4m0 0l4-4m-4 4h18" />
+                </svg>
+                Retour
+            </a>
+            <h2 style="font-family: var(--font-display); font-size: 1.25rem; font-weight: 700; margin-bottom: 0.25rem;">Simulation rapide</h2>
+            <p style="font-size: 0.75rem; color: var(--text-mid); margin-bottom: 1.25rem;">Estimation de production photovoltaïque.</p>
+
+            <div class="sim-field">
+                <div class="sim-label" style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem;">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M17.657 16.657L13.414 20.9a2 2 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                        <path d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                    </svg>
+                    Emplacement
+                </div>
+                <input type="text" id="location" class="sim-input" placeholder="ex. Antsiranana, Madagascar">
+            </div>
+
+            <div class="sim-field">
+                <div class="sim-field-header">
+                    <div class="sim-label" style="display: flex; align-items: center; gap: 0.5rem;">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+                        </svg>
+                        Champs PV
+                    </div>
+                    <button id="add-section" class="btn btn-ghost" style="padding: 0.25rem 0.5rem; font-size: 0.65rem;">+ Ajouter</button>
+                </div>
+                <div id="section-tabs" style="display: flex; gap: 0.25rem; margin-bottom: 0.5rem; flex-wrap: wrap;"></div>
+                <div id="sections-container"></div>
+
+                <template id="section-tpl">
+                    <div class="sim-section-card">
+                        <div class="sim-section-grid">
+                            <div>
+                                <label>Puissance crête (kWc)</label>
+                                <input type="number" class="section-puissance" value="1" min="0" step="0.1">
+                            </div>
+                            <div>
+                                <label>Azimut (°) <span style="font-weight: 400;">S0 · E-90 · O+90 · N±180</span></label>
+                                <input type="number" class="section-azimuth" value="180" min="-180" max="180" step="1">
+                            </div>
+                            <div>
+                                <label>Inclinaison PV (°)</label>
+                                <div class="sim-tilt-row">
+                                    <input type="number" class="section-inclinaison" value="35" min="0" max="90" step="1">
+                                    <label class="sim-checkbox-label">
+                                        <input type="checkbox" class="section-opt-angle"> Optimiser
+                                    </label>
+                                </div>
+                            </div>
+                            <div>
+                                <label>Type de montage</label>
+                                <select class="section-type">
+                                    <option value="toiture" selected>Toiture</option>
+                                    <option value="freestanding">Au sol (libre)</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label>Type de panneau</label>
+                                <select class="section-panel-type">
+                                    <option value="mono" selected>Monocristallin</option>
+                                    <option value="poly">Polycristallin</option>
+                                    <option value="cis">Couches minces CIS</option>
+                                    <option value="cdte">Couches minces CdTe</option>
+                                    <option value="hit">Hétérojonction HIT</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label>Rendement STC (%)</label>
+                                <input type="number" class="section-efficiency" value="20" min="0" max="30" step="0.1">
+                            </div>
+                            <div>
+                                <label>Pertes câbles (%)</label>
+                                <input type="number" class="section-cable-loss" value="1" min="0" step="0.1">
+                            </div>
+                            <div>
+                                <label>Pertes onduleur (%)</label>
+                                <input type="number" class="section-inv-loss" value="2" min="0" step="0.1">
+                            </div>
+                            <div>
+                                <label>Pertes PV (%)</label>
+                                <input type="number" class="section-pv-loss" value="0.5" min="0" step="0.1">
+                            </div>
+                            <div>
+                                <label>Qualité module (%)</label>
+                                <input type="number" class="section-quality-loss" value="3" min="0" step="0.1">
+                            </div>
+                            <div>
+                                <label>Mismatch (%)</label>
+                                <input type="number" class="section-mismatch-loss" value="2" min="0" step="0.1">
+                            </div>
+                            <div>
+                                <label>Encrassement (%)</label>
+                                <input type="number" class="section-soiling-loss" value="3" min="0" step="0.1">
+                            </div>
+                        </div>
+                    </div>
+                </template>
+            </div>
+
+            <!-- Advanced options -->
+            <div class="sim-field">
+                <div id="advanced-panel" class="open">
+                    <div class="sim-section-card" style="margin-top: 0.5rem;">
+                        <div class="sim-label" style="margin-bottom: 0.5rem;">Estimation financière</div>
+                        <div class="sim-advanced-grid" style="margin-bottom: 0.75rem;">
+                            <div>
+                                <label>Coût d'investissement (€/kWc)</label>
+                                <input type="number" id="inv-cost" value="1000" min="0" step="10">
+                            </div>
+                            <div>
+                                <label>Prix de l'électricité (€/kWh)</label>
+                                <input type="number" id="elec-price" value="0.25" min="0" step="0.01">
+                            </div>
+                            <div>
+                                <label>Tarif de rachat (€/kWh)</label>
+                                <input type="number" id="feed-in" value="0.12" min="0" step="0.01">
+                            </div>
+                            <div>
+                                <label>Durée de vie (années)</label>
+                                <input type="number" id="lifetime" value="25" min="1" step="1">
+                            </div>
+                            <div>
+                                <label>Dégradation annuelle (%)</label>
+                                <input type="number" id="degradation" value="0.5" min="0" step="0.1">
+                            </div>
+                            <div>
+                                <label>Taux d'actualisation (%)</label>
+                                <input type="number" id="discount-rate" value="4" min="0" step="0.1">
+                            </div>
+                        </div>
+
+                        <div class="sim-label" style="margin-bottom: 0.5rem; margin-top: 0.75rem;">Exploitation-maintenance & remplacement</div>
+                        <div class="sim-advanced-grid" style="margin-bottom: 0.75rem;">
+                            <div>
+                                <label>Coût O&M (€/kWc/an)</label>
+                                <input type="number" id="om-cost" value="20" min="0" step="5">
+                            </div>
+                            <div>
+                                <label>Hausse O&M (%/an)</label>
+                                <input type="number" id="om-escalation" value="2.0" min="0" step="0.5">
+                            </div>
+                            <div>
+                                <label>Remplacement onduleur (€/kWc)</label>
+                                <input type="number" id="inverter-replacement" value="150" min="0" step="10">
+                            </div>
+                            <div>
+                                <label>Année de remplacement onduleur</label>
+                                <input type="number" id="inverter-replace-year" value="12" min="1" step="1">
+                            </div>
+                        </div>
+
+                        <div class="sim-label" style="margin-bottom: 0.5rem; margin-top: 0.75rem;">Hausse du prix de l'électricité</div>
+                        <div class="sim-advanced-grid">
+                            <div>
+                                <label>Hausse du prix de l'électricité (%/an)</label>
+                                <input type="number" id="elec-escalation" value="2.5" min="0" step="0.5">
+                            </div>
+                        </div>
+
+                        <div class="sim-label" style="margin-bottom: 0.5rem;">Impact environnemental</div>
+                        <div class="sim-advanced-grid">
+                            <div>
+                                <label>Facteur CO₂ (g CO₂/kWh)</label>
+                                <input type="number" id="co2-factor" value="40" min="0" step="1">
+                            </div>
+                            <div>
+                                <label>Émissions voiture (g CO₂/km)</label>
+                                <input type="number" id="car-emissions" value="120" min="0" step="5">
+                            </div>
+                        </div>
+
+                        <div class="sim-label" style="margin-bottom: 0.5rem; margin-top: 0.75rem;">Autoconsommation</div>
+                        <div class="sim-advanced-grid">
+                            <div>
+                                <label>Taux d'autoconsommation (%)</label>
+                                <input type="number" id="self-consumption" value="70" min="0" max="100" step="1">
+                            </div>
+                            <div>
+                                <label>Consommation annuelle (kWh)</label>
+                                <input type="number" id="annual-consumption" value="5000" min="0" step="100">
+                            </div>
+                        </div>
+
+                        <div class="sim-label" style="margin-bottom: 0.5rem; margin-top: 0.75rem;">Modèle d'onduleur</div>
+                        <div class="sim-advanced-grid">
+                            <div>
+                                <label>Modèle de rendement onduleur</label>
+                                <select id="inverter-model">
+                                    <option value="simple" selected>Simple (forfaitaire %)</option>
+                                    <option value="partload">Courbe à charge partielle</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label>Puissance AC onduleur (kW)</label>
+                                <input type="number" id="inverter-ac-rating" value="0" min="0" step="0.1" placeholder="0 = auto (DC/AC = 1,0)">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 0.75rem; flex-wrap: wrap;">
+                <div style="display: flex; align-items: center; gap: 0.5rem;">
+                    <label class="sim-label" style="font-size: 0.65rem;">Année :</label>
+                    <select id="data-year" class="sim-input" style="width: auto; padding: 0.3rem 0.5rem; font-size: 0.75rem;">
+                        <option value="2025" selected>2025</option>
+                        <option value="2024">2024</option>
+                        <option value="2023">2023</option>
+                        <option value="2022">2022</option>
+                        <option value="2021">2021</option>
+                        <option value="2020">2020</option>
+                    </select>
+                </div>
+                <label class="sim-checkbox-label" style="font-size: 0.7rem;">
+                    <input type="checkbox" id="multi-year"> Variabilité interannuelle (toutes les années disponibles)
+                </label>
+                <p id="multi-year-warn" class="sim-label" style="color: #d97706; margin-top: 0.25rem; display: none;">⚠ Le mode multi-années télécharge toutes les années disponibles — plus long.</p>
+            </div>
+            <div id="progress-area" style="display: none; margin-bottom: 1rem;">
+                <div style="width: 100%; background: var(--bg-card-2); height: 0.5rem; border-radius: 9999px; overflow: hidden;">
+                    <div id="progress-fill" style="height: 100%; background: var(--accent); transition: width 0.3s; border-radius: 9999px; width: 0%;"></div>
+                </div>
+                <p id="progress-text" style="font-size: 0.75rem; color: var(--text-mid); margin-top: 0.25rem;"></p>
+            </div>
+            <button id="simulate-btn" class="btn btn-primary" style="width: 100%; justify-content: center;">
+                Lancer la simulation
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </button>
+            </div><!-- /expert-panel -->
+        </div>
+    </div>
+
+    <!-- Bottom: report full-width -->
+    <div id="report-area">
+        <div style="border-top: 1px solid var(--border); padding: 1.5rem; max-width: 80rem; margin: 0 auto;">
+
+            <div id="report-empty" style="text-align: center; padding: 3rem 0;">
+                <p style="font-size: 0.875rem; color: var(--text-mid);">Lancez une simulation pour afficher le rapport.</p>
+            </div>
+
+            <div id="report-content" style="display: none;">
+
+                <!-- ── Report Header ── -->
+                <div class="report-header">
+                    <div class="report-header-left">
+                        <div class="report-icon"><span>S</span></div>
+                        <div>
+                            <div class="report-title">Rapport de simulation solaire</div>
+                            <p class="report-sub" id="r-header-sub">PVGIS · ERA5 · SERA Engine</p>
+                        </div>
+                    </div>
+                    <div style="display: flex; gap: 0.5rem;">
+                        <span class="chip chip--solar" id="r-chip-db" style="display:none;">PVGIS</span>
+                        <button onclick="showFullReport()" class="btn btn-primary" style="padding: 0.4rem 0.85rem; font-size: 0.7rem;"><span id="r-report-full-label">Rapport complet</span></button>
+                    </div>
+                </div>
+
+                <!-- ── KPI Row 1: Production ── -->
+                <div class="report-kpis" id="r-kpis-row1">
+                    <div class="kpi kpi--solar">
+                        <div class="kpi-label">Production annuelle</div>
+                        <div class="kpi-value" id="r-prod-annuelle">—</div>
+                        <div class="kpi-sub">Énergie totale produite par an</div>
+                    </div>
+                    <div class="kpi kpi--solar">
+                        <div class="kpi-label">Productible spécifique</div>
+                        <div class="kpi-value" id="r-specific-yield">—</div>
+                        <div class="kpi-sub">Énergie par kWc installé</div>
+                    </div>
+                    <div class="kpi kpi--solar">
+                        <div class="kpi-label">Facteur de charge</div>
+                        <div class="kpi-value" id="r-capacity-factor">—</div>
+                        <div class="kpi-sub">Production réelle vs maximum théorique</div>
+                    </div>
+                    <div class="kpi kpi--solar">
+                        <div class="kpi-label">Ratio de performance</div>
+                        <div class="kpi-value" id="r-pr">—</div>
+                    </div>
+                </div>
+
+                <!-- ── Beginner: simplified financial summary ── -->
+                <div id="beginner-fin" style="display:none;">
+                    <div class="report-kpis">
+                        <div class="kpi kpi--finance">
+                            <div class="kpi-label">Coût total</div>
+                            <div class="kpi-value" id="bf-fin-invest" style="font-size:1.1rem;">—</div>
+                            <div class="kpi-sub">Coût total d'installation</div>
+                        </div>
+                        <div class="kpi kpi--finance">
+                            <div class="kpi-label">Économies / an</div>
+                            <div class="kpi-value" id="bf-fin-savings" style="font-size:1.1rem;">—</div>
+                            <div class="kpi-sub">Électricité économisée + revendue au réseau</div>
+                        </div>
+                        <div class="kpi kpi--finance">
+                            <div class="kpi-label">Temps de retour</div>
+                            <div class="kpi-value" id="bf-fin-payback" style="font-size:1.1rem;">—</div>
+                            <div class="kpi-sub">Durée avant rentabilité du système</div>
+                        </div>
+                        <div class="kpi kpi--finance">
+                            <div class="kpi-label">Bénéfice sur 25 ans</div>
+                            <div class="kpi-value" id="bf-fin-npv" style="font-size:1.1rem;">—</div>
+                            <div class="kpi-sub">Gain net après tous les coûts</div>
+                        </div>
+                    </div>
+                    <p id="bf-fin-note" style="font-size: 0.75rem; color: var(--text-mid); padding: 0 0.25rem 1rem; line-height: 1.6;"></p>
+                </div>
+
+                <!-- ── KPI Row 2: Resource + Losses ── -->
+                <div class="report-kpis">
+                    <div class="kpi kpi--consume">
+                        <div class="kpi-label">Irradiation quotidienne</div>
+                        <div class="kpi-value" id="r-irr-annuelle">—</div>
+                        <div class="kpi-sub">GTI moyen sur les panneaux</div>
+                    </div>
+                    <div class="kpi kpi--consume">
+                        <div class="kpi-label">Heures soleil équivalent</div>
+                        <div class="kpi-value" id="r-heures">—</div>
+                        <div class="kpi-sub">h/jour à puissance nominale</div>
+                    </div>
+                    <div class="kpi kpi--loss">
+                        <div class="kpi-label">Pertes totales</div>
+                        <div class="kpi-value" id="r-pertes">—</div>
+                        <div class="kpi-sub">Par rapport à la production idéale</div>
+                    </div>
+                    <div class="kpi kpi--consume">
+                        <div class="kpi-label">Variabilité</div>
+                        <div class="kpi-value" id="r-variabilite" style="font-size:1rem;">—</div>
+                        <div class="kpi-sub">Dispersion interannuelle / mensuelle</div>
+                    </div>
+                    <div class="kpi kpi--solar" id="r-p50-wrap" style="display:none;">
+                        <div class="kpi-label">P50 (attendu)</div>
+                        <div class="kpi-value" id="r-p50" style="font-size:1rem;">—</div>
+                        <div class="kpi-sub">Niveau de confiance 50 %</div>
+                    </div>
+                    <div class="kpi kpi--solar" id="r-p90-wrap" style="display:none;">
+                        <div class="kpi-label">P90 (prudent)</div>
+                        <div class="kpi-value" id="r-p90" style="font-size:1rem;">—</div>
+                        <div class="kpi-sub">Niveau de confiance 90 %</div>
+                    </div>
+                </div>
+
+                <!-- ── System Info Card ── -->
+                <div class="stat-card" style="padding: 1rem; margin-bottom: 1.25rem;">
+                    <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.75rem;">
+                        <span class="chip chip--solar">Système</span>
+                        <span style="font-size: 0.75rem; color: var(--text-mid);" id="r-db-label">Open-Meteo (ERA5, 2023)</span>
+                        <span style="font-size: 0.75rem; color: var(--text-mid);" id="r-tech-label">Crystalline silicon</span>
+                    </div>
+                    <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 0.75rem; font-size: 0.75rem;">
+                        <div><span class="text-mid">Emplacement :</span> <span id="r-loc">—</span></div>
+                        <div><span class="text-mid">PV installé :</span> <span id="r-pv-installed">—</span></div>
+                        <div><span class="text-mid">Champs :</span> <span id="r-sections-count">—</span></div>
+                        <div><span class="text-mid">Base de données :</span> <span id="r-db-inline">—</span></div>
+                    </div>
+                </div>
+
+                <!-- ── Collapsible: Détails des champs PV ── -->
+                <div class="collapse open mb-4" id="collapse-sections">
+                    <div class="collapse-head" onclick="toggleCollapse(this.parentElement)">
+                        <span class="collapse-num">01</span>
+                        <span class="collapse-title">Détails des champs PV</span>
+                        <span class="collapse-icon">
+                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+                        </span>
+                    </div>
+                    <div class="collapse-body">
+                        <div style="overflow-x: auto; padding-bottom: 1rem;">
+                            <table class="sec-table">
+                                <thead>
+                                    <tr>
+                                        <th>Champ</th>
+                                        <th>PV (kWc)</th>
+                                        <th>Inclinaison</th>
+                                        <th>Azimut</th>
+                                        <th>Panneaux</th>
+                                        <th>Pertes syst.</th>
+                                        <th>Prod. (kWh)</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="r-sections-tbody"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ── Collapsible: Bilan énergétique mensuel ── -->
+                <div class="collapse open mb-4" id="collapse-monthly">
+                    <div class="collapse-head" onclick="toggleCollapse(this.parentElement)">
+                        <span class="collapse-num">02</span>
+                        <span class="collapse-title">Bilan énergétique mensuel</span>
+                        <span class="collapse-icon">
+                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+                        </span>
+                    </div>
+                    <div class="collapse-body">
+                        <div style="display:flex; gap:0.25rem; margin-bottom:0.75rem;">
+                            <span class="pill-toggle pill-toggle--active" data-view="monthly" onclick="switchEnergyView('monthly')">Mensuel</span>
+                            <span class="pill-toggle" data-view="seasonal" onclick="switchEnergyView('seasonal')">Saisonnier</span>
+                            <span class="pill-toggle" data-view="yearly" onclick="switchEnergyView('yearly')">Annuel</span>
+                        </div>
+                        <div style="overflow-x: auto; padding-bottom: 1rem;">
+                            <table class="monthly-table">
+                                <thead id="r-monthly-head">
+                                    <tr>
+                                        <th>Indicateur</th>
+                                        <th>Jan</th>
+                                        <th>Feb</th>
+                                        <th>Mar</th>
+                                        <th>Apr</th>
+                                        <th>May</th>
+                                        <th>Jun</th>
+                                        <th>Jul</th>
+                                        <th>Aug</th>
+                                        <th>Sep</th>
+                                        <th>Oct</th>
+                                        <th>Nov</th>
+                                        <th>Dec</th>
+                                        <th style="font-weight:600;">Total</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="r-monthly-balance"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ── Collapsible: Analyse des pertes ── -->
+                <div class="collapse open mb-4" id="collapse-losses">
+                    <div class="collapse-head" onclick="toggleCollapse(this.parentElement)">
+                        <span class="collapse-num">03</span>
+                        <span class="collapse-title">Analyse des pertes</span>
+                        <span class="collapse-icon">
+                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+                        </span>
+                    </div>
+                    <div class="collapse-body">
+                        <div class="loss-grid mb-4" id="r-losses">
+                            <div class="loss-item"><span class="loss-item-label">Transposition</span><span class="loss-item-value" id="r-loss-transpo">—</span></div>
+                            <div class="loss-item"><span class="loss-item-label">Encrassement</span><span class="loss-item-value" id="r-loss-soiling">—</span></div>
+                            <div class="loss-item"><span class="loss-item-label">Ombrage horizon</span><span class="loss-item-value" id="r-loss-horizon">—</span></div>
+                            <div class="loss-item"><span class="loss-item-label">IAM (angle d'incidence)</span><span class="loss-item-value" id="r-loss-aoi">—</span></div>
+                            <div class="loss-item"><span class="loss-item-label">Effet spectral</span><span class="loss-item-value" id="r-loss-spec">—</span></div>
+                            <div class="loss-item"><span class="loss-item-label">Faible irradiance</span><span class="loss-item-value" id="r-loss-low-irrad">—</span></div>
+                            <div class="loss-item"><span class="loss-item-label">Température</span><span class="loss-item-value" id="r-loss-temp">—</span></div>
+                            <div class="loss-item"><span class="loss-item-label">Qualité module</span><span class="loss-item-value" id="r-loss-quality">—</span></div>
+                            <div class="loss-item"><span class="loss-item-label">Mismatch</span><span class="loss-item-value" id="r-loss-mismatch">—</span></div>
+                            <div class="loss-item"><span class="loss-item-label">Système (câbles+ond.+PV)</span><span class="loss-item-value" id="r-loss-sys">—</span></div>
+                        </div>
+                        <div id="loss-chart-row">
+                            <div>
+                                <div class="sim-label mb-3">Cascade des pertes</div>
+                                <div class="chart-wrap" style="height: 260px;"><canvas id="chart-losses"></canvas></div>
+                                <div id="variability-pdf-wrap" style="display: none; margin-top: 1rem;">
+                                    <div class="sim-label mb-3">Densité de probabilité (courbe en cloche)</div>
+                                    <div class="chart-wrap" style="height: 200px;"><canvas id="chart-variability-pdf"></canvas></div>
+                                </div>
+                            </div>
+                            <div id="loss-chart-right-col">
+                                <div id="self-consumption-wrap" style="display: none;">
+                                    <div class="sim-label mb-3">Répartition autoconsommation</div>
+                                    <div class="chart-wrap" style="height: 260px;"><canvas id="chart-self-consumption"></canvas></div>
+                                </div>
+                                <div id="variability-cdf-wrap" style="display: none; margin-top: 1rem;">
+                                    <div class="sim-label mb-3">Distribution cumulée (courbe en S)</div>
+                                    <div class="chart-wrap" style="height: 200px;"><canvas id="chart-variability-cdf"></canvas></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ── Collapsible: Analyse financière ── -->
+                <div id="r-financial-section" class="collapse open mb-4" style="display:none;">
+                    <div class="collapse-head" onclick="toggleCollapse(this.parentElement)">
+                        <span class="collapse-num">04</span>
+                        <span class="collapse-title">Analyse financière</span>
+                        <span class="collapse-icon">
+                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+                        </span>
+                    </div>
+                    <div class="collapse-body">
+                        <!-- KPI row -->
+                        <div class="report-kpis">
+                            <div class="kpi kpi--finance">
+                                <div class="kpi-label">Investissement</div>
+                                <div class="kpi-value" id="r-invest" style="font-size:1.1rem;">—</div>
+                                <div class="kpi-sub" id="r-invest-sub"></div>
+                            </div>
+                            <div class="kpi kpi--finance">
+                                <div class="kpi-label">Économies annuelles</div>
+                                <div class="kpi-value" id="r-savings" style="font-size:1.1rem;">—</div>
+                                <div class="kpi-sub" id="r-savings-sub"></div>
+                            </div>
+                            <div class="kpi kpi--finance">
+                                <div class="kpi-label">Revenu de revente</div>
+                                <div class="kpi-value" id="r-feedin" style="font-size:1.1rem;">—</div>
+                                <div class="kpi-sub" id="r-feedin-sub"></div>
+                            </div>
+                            <div class="kpi kpi--finance">
+                                <div class="kpi-label">Bénéfice annuel net</div>
+                                <div class="kpi-value" id="r-net-benefit" style="font-size:1.1rem;">—</div>
+                                <div class="kpi-sub" id="r-net-benefit-sub"></div>
+                            </div>
+                        </div>
+                        <div class="report-kpis">
+                            <div class="kpi kpi--loss">
+                                <div class="kpi-label">Retour sur investissement simple</div>
+                                <div class="kpi-value" id="r-payback" style="font-size:1.1rem;">—</div>
+                                <div class="kpi-sub" id="r-payback-sub"></div>
+                            </div>
+                            <div class="kpi kpi--loss">
+                                <div class="kpi-label">Retour actualisé</div>
+                                <div class="kpi-value" id="r-payback-discounted" style="font-size:1.1rem;">—</div>
+                                <div class="kpi-sub" id="r-payback-discounted-sub"></div>
+                            </div>
+                            <div class="kpi kpi--battery">
+                                <div class="kpi-label">VAN (durée de vie)</div>
+                                <div class="kpi-value" id="r-npv" style="font-size:1.1rem;">—</div>
+                                <div class="kpi-sub" id="r-npv-sub"></div>
+                            </div>
+                            <div class="kpi kpi--battery">
+                                <div class="kpi-label">TRI</div>
+                                <div class="kpi-value" id="r-irr" style="font-size:1.1rem;">—</div>
+                                <div class="kpi-sub" id="r-irr-sub"></div>
+                            </div>
+                        </div>
+                        <div class="report-kpis">
+                            <div class="kpi kpi--finance">
+                                <div class="kpi-label">LCOE (coût actualisé)</div>
+                                <div class="kpi-value" id="r-lcoe" style="font-size:1.1rem;">—</div>
+                                <div class="kpi-sub" id="r-lcoe-sub"></div>
+                            </div>
+                            <div class="kpi kpi--finance">
+                                <div class="kpi-label">O&M total (durée de vie)</div>
+                                <div class="kpi-value" id="r-total-om" style="font-size:1.1rem;">—</div>
+                                <div class="kpi-sub" id="r-total-om-sub"></div>
+                            </div>
+                        </div>
+                        <div class="mt-4">
+                            <div class="sim-label mb-3">Trésorerie cumulée & ROI</div>
+                            <div class="chart-wrap" style="height: 380px;"><canvas id="chart-cashflow"></canvas></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ── Collapsible: Impact environnemental ── -->
+                <div id="r-co2-section" class="collapse open mb-4" style="display:none;">
+                    <div class="collapse-head" onclick="toggleCollapse(this.parentElement)">
+                        <span class="collapse-num">05</span>
+                        <span class="collapse-title">Impact environnemental</span>
+                        <span class="collapse-icon">
+                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+                        </span>
+                    </div>
+                    <div class="collapse-body">
+                        <div class="report-kpis">
+                            <div class="kpi kpi--co2">
+                                <div class="kpi-label">CO₂ évité par an</div>
+                                <div class="kpi-value" id="r-co2-year" style="font-size:1.1rem;">—</div>
+                            </div>
+                            <div class="kpi kpi--co2">
+                                <div class="kpi-label">Sur la durée de vie</div>
+                                <div class="kpi-value" id="r-co2-lifetime" style="font-size:1.1rem;">—</div>
+                            </div>
+                            <div class="kpi kpi--co2">
+                                <div class="kpi-label">Équivalent km voiture/an</div>
+                                <div class="kpi-value" id="r-co2-km" style="font-size:1.1rem;">—</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ── Graphiques de performance ── -->
+                <div class="collapse open mb-4">
+                    <div class="collapse-head" onclick="toggleCollapse(this.parentElement)">
+                        <span class="collapse-num">06</span>
+                        <span class="collapse-title">Graphiques de performance</span>
+                        <span class="collapse-icon">
+                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+                        </span>
+                    </div>
+                    <div class="collapse-body">
+                        <div class="report-kpis" style="grid-template-columns: 1fr 1fr;">
+                            <div class="stat-card" style="padding: 0.75rem;" id="card-prod">
+                                <div class="sim-label mb-2">Production mensuelle (kWh)</div>
+                                <div class="chart-wrap"><canvas id="chart-prod" height="180"></canvas></div>
+                            </div>
+                            <div class="stat-card" style="padding: 0.75rem;" id="card-irr">
+                                <div class="sim-label mb-2">Irradiation mensuelle (kWh/m²)</div>
+                                <div class="chart-wrap"><canvas id="chart-irr" height="180"></canvas></div>
+                            </div>
+                            <div class="stat-card" style="padding: 0.75rem; grid-column: 1 / -1;" id="card-cashflow">
+                                <div class="sim-label mb-2">Retour sur investissement — quand votre argent revient</div>
+                                <p style="font-size: 0.6rem; color: var(--text-mid); margin-bottom: 0.25rem;">Trésorerie cumulée année par année. Les pointillés marquent le seuil de rentabilité.</p>
+                                <div class="chart-wrap" style="height: 300px"><canvas id="chart-payback"></canvas></div>
+                            </div>
+                        </div>
+                        <div class="report-kpis" style="grid-template-columns: 1fr 1fr; margin-top: 0.75rem;">
+                            <div class="stat-card" style="padding: 0.75rem;" id="card-prod-angle">
+                                <div class="sim-label mb-2">Production vs angle d'inclinaison</div>
+                                <p style="font-size: 0.6rem; color: var(--text-mid); margin-bottom: 0.25rem;">Balayage complet 0°–90° — champ 1</p>
+                                <div class="chart-wrap"><canvas id="chart-prod-angle" height="180"></canvas></div>
+                            </div>
+                            <div class="stat-card" style="padding: 0.75rem;" id="card-pr">
+                                <div class="sim-label mb-2">Ratio de performance mensuel</div>
+                                <div class="chart-wrap"><canvas id="chart-pr" height="180"></canvas></div>
+                            </div>
+                        </div>
+                        <div class="report-kpis" style="grid-template-columns: 1fr 1fr; margin-top: 0.75rem;">
+                            <div class="stat-card" style="padding: 0.75rem;" id="card-sunpath">
+                                <div class="sim-label mb-2">Trajectoire solaire + horizon</div>
+                                <p style="font-size: 0.6rem; color: var(--text-mid); margin-bottom: 0.25rem;">Solstices et équinoxes — 0° = Sud</p>
+                                <div class="chart-wrap" style="height: 300px"><canvas id="chart-sunpath"></canvas></div>
+                            </div>
+                            <div class="stat-card" style="padding: 0.75rem;" id="card-diurnal">
+                                <div class="sim-label mb-2">Profil horaire moyen par saison</div>
+                                <p style="font-size: 0.6rem; color: var(--text-mid); margin-bottom: 0.25rem;">GHI + température par saison</p>
+                                <div class="chart-wrap" style="height: 300px"><canvas id="chart-diurnal"></canvas></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <footer style="border-top: 1px solid var(--border); padding: 1.5rem 3rem; max-width: 1200px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between;">
+        <p style="font-size: 0.75rem; color: var(--text-lo); letter-spacing: 0.03em;">SERA — Solar Energy Resource Analyzer</p>
+        <p style="font-size: 0.75rem; color: var(--text-lo); letter-spacing: 0.03em;">Simulation solaire</p>
+    </footer>
+
+    <div id="toast"></div>
+
+    <!-- ── Rapport complet Overlay ── -->
+    <div id="report-overlay" style="display:none;position:fixed;inset:0;z-index:10000;background:#fff;flex-direction:column;">
+      <div style="display:flex;align-items:center;justify-content:space-between;padding:0.5rem 1.5rem;background:#f8f8f8;border-bottom:1px solid #ddd;flex-shrink:0;">
+        <span style="font-weight:700;font-size:0.85rem;color:#333;">SERA — Rapport complet</span>
+        <div style="display:flex;gap:0.5rem;">
+          <button onclick="document.getElementById('report-iframe').contentWindow.printPdf()" class="btn btn-primary btn-sm" style="font-size:0.75rem;">Imprimer / PDF</button>
+          <button onclick="closeFullReport()" class="btn btn-sm" style="font-size:0.75rem;">Fermer</button>
+        </div>
+      </div>
+      <iframe id="report-iframe" style="flex:1;width:100%;border:none;"></iframe>
+    </div>
+
+    <script src="../pvgis/api/api-pvgis.js"></script>
+    <script src="simulation.js"></script>
+    <script src="report-export.js"></script>
+    <script>
+    function showFullReport() {
+      if (!window.lastSimResult) {
+        showToast("Lancez d'abord une simulation.");
+        return;
+      }
+      try {
+        sessionStorage.setItem('seraSimResult', JSON.stringify(window.lastSimResult));
+      } catch (e) {
+        showToast("Échec d'enregistrement des données du rapport : " + e.message);
+        return;
+      }
+      const overlay = document.getElementById('report-overlay');
+      overlay.style.display = 'flex';
+      const iframe = document.getElementById('report-iframe');
+      iframe.src = 'report-template.html?preview';
+    }
+    function closeFullReport() {
+      document.getElementById('report-overlay').style.display = 'none';
+      document.getElementById('report-iframe').src = '';
+    }
+    </script>
+
+<script src="../shared.js"></script>
+</body>
+
+</html>
